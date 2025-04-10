@@ -32,7 +32,7 @@ public class BookServiceTest {
 
         book = new Book();
         book.setId(1L);
-        book.setTitle("Test Book");
+        book.setName("Test Book");
         book.setAuthor("Test Author");
         book.setPrice(19.99);
         book.setQuantity(10);
@@ -46,7 +46,7 @@ public class BookServiceTest {
 
         assertThat(books).isNotEmpty();
         assertThat(books.size()).isEqualTo(1);
-        assertThat(books.get(0).getTitle()).isEqualTo("Test Book");
+        assertThat(books.get(0).getName()).isEqualTo("Test Book");
 
         verify(bookRepository, times(1)).findAll();
     }
@@ -58,7 +58,7 @@ public class BookServiceTest {
         Book result = bookService.getBookById(1L);
 
         assertThat(result).isNotNull();
-        assertThat(result.getTitle()).isEqualTo("Test Book");
+        assertThat(result.getName()).isEqualTo("Test Book");
 
         verify(bookRepository, times(1)).findById(1L);
     }
@@ -81,7 +81,7 @@ public class BookServiceTest {
         Book result = bookService.saveBook(book);
 
         assertThat(result).isNotNull();
-        assertThat(result.getTitle()).isEqualTo("Test Book");
+        assertThat(result.getName()).isEqualTo("Test Book");
 
         verify(bookRepository, times(1)).save(book);
     }

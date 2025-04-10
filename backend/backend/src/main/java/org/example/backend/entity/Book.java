@@ -1,11 +1,8 @@
 package org.example.backend.entity;
 
+import jakarta.persistence.*;
 import org.example.backend.enums.Genre;
 import org.example.backend.enums.Language;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 
 @Entity
 public class Book extends Item {
@@ -20,11 +17,13 @@ public class Book extends Item {
 
     private double price;
 
+    // Getters and Setters
     public String getAuthor() {
         return author;
     }
 
     public void setAuthor(String author) {
+        this.author = author;
     }
 
     public Genre getGenre() {
@@ -32,6 +31,7 @@ public class Book extends Item {
     }
 
     public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     public Language getLanguage() {
@@ -39,6 +39,7 @@ public class Book extends Item {
     }
 
     public void setLanguage(Language language) {
+        this.language = language;
     }
 
     public double getPrice() {
@@ -46,12 +47,6 @@ public class Book extends Item {
     }
 
     public void setPrice(double price) {
-    }
-
-    public void setTitle(String testBook) {
-    }
-
-    public String getTitle() {
-        return null;
+        this.price = price;
     }
 }
