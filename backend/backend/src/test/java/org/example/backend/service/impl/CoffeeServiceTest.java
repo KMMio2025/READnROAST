@@ -32,7 +32,7 @@ public class CoffeeServiceTest {
         MockitoAnnotations.openMocks(this);
 
         coffee = new Coffee();
-        coffee.setId(1L); // Dodanie ID dla poprawności testów
+        coffee.setId(1L);
         coffee.setOrigin("Colombia");
         coffee.setRoast(Roast.MEDIUM);
         coffee.setFlavour(Flavour.CHOCOLATE);

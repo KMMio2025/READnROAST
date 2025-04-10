@@ -26,8 +26,8 @@ public class RatingServiceTest {
     @Test
     public void addReview_shouldReturnReview_whenValidDataProvided() {
         Review review = new Review();
-        review.setUser(new User()); // Zakładamy, że User jest poprawną encją
-        review.setItem(new Coffee()); // Zakładamy, że Item jest poprawną encją
+        review.setUser(new User());
+        review.setItem(new Coffee());
         review.setContent("Świetny produkt!");
         review.setRating(5);
         review.setDate(LocalDate.now());
