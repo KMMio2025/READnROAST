@@ -1,11 +1,16 @@
 package org.example.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @Entity
+@Getter
+@Setter
 public class Order {
 
     @Id
@@ -24,45 +29,5 @@ public class Order {
     @Column(name = "quantity")
     private Map<Item, Integer> items = new HashMap<>(); // Map<Item, quantity>
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public LocalDateTime getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Map<Item, Integer> getItems() {
-        return items;
-    }
-
-    public void setItems(Map<Item, Integer> items) {
-        this.items = items;
-    }
 
 }

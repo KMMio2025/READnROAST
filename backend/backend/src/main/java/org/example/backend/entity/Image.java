@@ -1,8 +1,12 @@
 package org.example.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Image {
 
     @Id
@@ -12,23 +16,6 @@ public class Image {
     private String url;
 
     private boolean isMain;
-
-    // Getters and Setters
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public boolean isMain() {
         return isMain;

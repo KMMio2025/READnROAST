@@ -42,7 +42,7 @@ public class CartServiceTest {
         coffee.setId(1L);
         coffee.setOrigin("Colombia");
         coffee.setSizes(List.of(250, 500)); // Rozmiary w gramach
-        coffee.setPrice(List.of(5.99, 9.99)); // Ceny w dolarach
+        coffee.setPrice(List.of(5.99, 9.99));
 
         cartService.addItemToCart(coffee, 3);
 

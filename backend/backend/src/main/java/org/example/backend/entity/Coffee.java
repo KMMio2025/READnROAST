@@ -8,44 +8,29 @@ import org.example.backend.enums.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class Coffee extends Item {
 
-    // Getters and Setters
-    @Getter
-    @Setter
     private String origin;
 
-    @Getter
-    @Setter
     @Enumerated(EnumType.STRING)
     private Roast roast;
 
-    @Setter
-    @Getter
     @Enumerated(EnumType.STRING)
     private Flavour flavour;
 
-    @Setter
-    @Getter
     @Enumerated(EnumType.STRING)
     private Aroma aroma;
 
-    @Setter
-    @Getter
     @Enumerated(EnumType.STRING)
     private Acidity acidity;
 
-    @Setter
-    @Getter
     private int numberOfSizes;
 
-    @Setter
-    @Getter
     @ElementCollection
     private List<Integer> sizes;
 
-    @Setter
-    @Getter
     @Enumerated(EnumType.STRING)
     private Mix mix;
 

@@ -1,9 +1,14 @@
 package org.example.backend.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class WishList {
 
     @Id
@@ -16,28 +21,4 @@ public class WishList {
     @OneToMany(mappedBy = "wishList", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WishListItem> items;
 
-    // Gettery i Settery
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<WishListItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<WishListItem> items) {
-        this.items = items;
-    }
 }
