@@ -20,12 +20,10 @@ ProductListPage.test.jsx:
 ProductPage.test.jsx:
 
 - Shows product details (Image, Description, Reviews, etc.)
-- User can add product to cart
 
 ProfilePage.test.jsx:
 
 - renders orders, preferences, account details
-- shows 'not logged in' message when user is logged out
 
 RegisterPage.test.jsx:
 
