@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import WishListPage from "../pages/WishlistPage";
+import WishlistPage from "../pages/WishlistPage";
 
 const mockFetch = (data) => {
   jest.spyOn(global, "fetch").mockResolvedValue({
@@ -29,7 +29,7 @@ describe("Wishlist Page", () => {
     ];
 
     mockFetch({ items: mockWishlistItems });
-    render(<WishListPage />);
+    render(<WishlistPage />);
 
     expect(await screen.findByText(/Ugly men/)).toBeInTheDocument();
     expect(await screen.findByText(/Brazilian Paradise/)).toBeInTheDocument();
