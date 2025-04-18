@@ -18,7 +18,10 @@ const Navbar = () => {
         <i className='bx bxs-coffee-bean bean'></i>
         <a href="#" className="nav-link">Contact</a>
       </div>
-      
+      <div class="search-bar"> 
+        <input type="text" placeholder="Search.." />
+        <i class='bx bx-search' ></i>
+      </div>
       <div className="nav-right">
         <a href="#" className="nav-link login-btn">Login</a>
       </div>
