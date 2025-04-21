@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from './components/Navbar'; 
 import 'boxicons/css/boxicons.min.css';
@@ -15,11 +13,11 @@ function App() {
     <Navbar /> 
     
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+        <a href="#" target="_blank"> 
+          <img src="/images/read.png" className="logo" id="read" alt="READ - go to the books section" />
         </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+        <a href="#" target="_blank"> 
+          <img src="/images/roast.png" className="logo react" id="roast" alt="ROAST - go to the coffee section" />
         </a>
       </div>
       <h1>Your Ultimate Destination for Books, Coffee, and Community</h1>
