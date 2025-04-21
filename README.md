@@ -63,4 +63,4 @@ Join us today and be part of a movement that celebrates literature, coffee, and 
 *Mateusz Jędrkowiak, Karolina Kulas & Mateusz Markiewicz*
 
 *Jagiellonian University, 2025* 
-# READnROAST
+
