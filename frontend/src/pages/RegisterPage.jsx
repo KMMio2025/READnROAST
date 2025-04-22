@@ -1,13 +1,21 @@
 import React from "react";
+import InputBox from "../components/InputBox";
+import "./LogInPageStyle.css";
 
-const RegisterPage = () => {
+export default function RegisterPage() {
   return (
-    <div>
-      <header>
-        <h1>Register Page</h1>
-      </header>
+    <div id="inputs">
+      <div>
+        <InputBox label="First Name" />
+        <InputBox label="Second Name" />
+        <InputBox label="Email" />
+        <InputBox label="Password" />
+        <InputBox label="confirm password" />
+      </div>
+      <div className="logBtns">
+        <button>Already have an account? Log in</button>
+        <button id="logInBtn">Register</button>
+      </div>
     </div>
   );
-};
-
-export default RegisterPage;
+}
