@@ -1,4 +1,4 @@
-import "./InputBoxStyle.css";
+import { Input, Label } from "./InputBoxStyles.js";
 export default function InputBox({
   label,
   invalid,
@@ -13,8 +13,8 @@ export default function InputBox({
   }
   return (
     <p>
-      <label className="inputLabel">{label}</label>
-      <input className="input" onChange={onChange} value={value} {...props} />
+      <Label>{label}</Label>
+      <Input onChange={onChange} value={value} {...props} />
     </p>
   );
 }

@@ -29,6 +29,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   font-family: "Noto Sans Mono", sans-serif;
+  padding-top: 75px;
 }
 
 h1 {

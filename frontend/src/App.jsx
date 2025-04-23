@@ -1,7 +1,7 @@
 import "./App.css";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 //import "boxicons/css/boxicons.min.css";
-import LogInPage from "./pages/LoginPage";
+import LogInPage from "./pages/LogInPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 function App() {
   return (
@@ -40,6 +40,7 @@ function App() {
         Mateusz Jędrkowiak, Karolina Kulas & Mateusz Markiewicz Jagiellonian
         University, 2025
       </p>
+      {/* <RegisterPage /> */}
       {/* <LogInPage /> */}
     </>
   );

@@ -1,10 +1,17 @@
-import React from "react";
-import InputBox from "../components/InputBox";
-import "./LogInPageStyle.css";
+import InputBox from "../components/InputBox/InputBox";
+import {
+  LogInContainer,
+  ButtonsContainer,
+  TextButton,
+  FullButton,
+  HeaderLogoImg,
+} from "./LogInPage/LoginStyles.js";
+import HeaderLogo from "../assets/img/headerLogo.png";
 
 export default function RegisterPage() {
   return (
-    <div id="inputs">
+    <LogInContainer>
+      <HeaderLogoImg src={HeaderLogo} alt="Logo with text 'readnroast' " />
       <div>
         <InputBox label="First Name" />
         <InputBox label="Second Name" />
@@ -12,10 +19,10 @@ export default function RegisterPage() {
         <InputBox label="Password" />
         <InputBox label="confirm password" />
       </div>
-      <div className="logBtns">
-        <button>Already have an account? Log in</button>
-        <button id="logInBtn">Register</button>
-      </div>
-    </div>
+      <ButtonsContainer>
+        <TextButton>Already have an account? Log in</TextButton>
+        <FullButton id="logInBtn">Register</FullButton>
+      </ButtonsContainer>
+    </LogInContainer>
   );
 }

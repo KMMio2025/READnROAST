@@ -1,9 +1,13 @@
-import React from "react";
-import InputBox from "../components/InputBox";
-import "./LogInPageStyle.css";
-import HeaderLogo from "../assets/headerLogo.png";
-
-import { useState, useEffect } from "react";
+import InputBox from "../../components/InputBox/InputBox.jsx";
+import HeaderLogo from "../../assets/img/headerLogo.png";
+import { useState } from "react";
+import {
+  ButtonsContainer,
+  TextButton,
+  HeaderLogoImg,
+  FullButton,
+  LogInContainer,
+} from "./LoginStyles.js";
 
 export default function LogInPage() {
   const [enteredEmail, setEnteredEmail] = useState("");
@@ -52,12 +56,8 @@ export default function LogInPage() {
   return (
     <>
       {error && <p className="errorMsg">{error.message}</p>}
-      <div className="logInPage">
-        <img
-          className="headerLogo"
-          src={HeaderLogo}
-          alt="Logo with text 'readnroast' "
-        />
+      <LogInContainer>
+        <HeaderLogoImg src={HeaderLogo} alt="Logo with text 'readnroast' " />
         <div>
           <div id="inputs">
             <div>
@@ -74,15 +74,13 @@ export default function LogInPage() {
                 value={enteredPassword}
               />
             </div>
-            <div className="logBtns">
-              <button>Create new account</button>
-              <button id="logInBtn" onClick={handleLogInClick}>
-                Log in
-              </button>
-            </div>
+            <ButtonsContainer>
+              <TextButton>Create new account</TextButton>
+              <FullButton onClick={handleLogInClick}>Log in</FullButton>
+            </ButtonsContainer>
           </div>
         </div>
-      </div>
+      </LogInContainer>
     </>
   );
 }
