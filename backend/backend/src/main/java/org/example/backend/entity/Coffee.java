@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 public class Coffee extends Item {
 
+
     private String origin;
 
     @Enumerated(EnumType.STRING)
@@ -36,6 +37,8 @@ public class Coffee extends Item {
 
     @ElementCollection
     private List<Double> prices;
+    @Id
+    private Long id;
 
     public double getPrice(int sizeIndex) {
         return prices.get(sizeIndex);
@@ -43,5 +46,13 @@ public class Coffee extends Item {
 
     public void setPrice(List<Double> prices) {
         this.prices = prices;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
     }
 }

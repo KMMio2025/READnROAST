@@ -1,33 +1,42 @@
 package org.example.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @Entity
-@Getter
-@Setter
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String customerName;
+    private String product;
 
-    private LocalDateTime orderDate;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false) // Nazwa kolumny w tabeli Order
+    private User user;
 
-    private String status; // e.g., "PENDING", "COMPLETED", "CANCELLED"
+    // Gettery i settery
+    public Long getId() {
+        return id;
+    }
 
-    @ElementCollection
-    @CollectionTable(name = "order_items", joinColumns = @JoinColumn(name = "order_id"))
-    @MapKeyJoinColumn(name = "item_id")
-    @Column(name = "quantity")
-    private Map<Item, Integer> items = new HashMap<>(); // Map<Item, quantity>
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public String getProduct() {
+        return product;
+    }
 
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

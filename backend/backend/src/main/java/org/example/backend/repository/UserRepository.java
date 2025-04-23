@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
-    // Możesz dodać dodatkowe metody, np. wyszukiwanie po nazwie użytkownika lub emailu
-    Optional<User> findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email); // Znajdź użytkownika po emailu (np. do logowania)
 }
