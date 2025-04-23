@@ -1,6 +1,4 @@
-import React from "react";
-
-const ProfilePage = () => {
+export default function ProfilePage() {
   return (
     <div>
       <header>
@@ -8,6 +6,4 @@ const ProfilePage = () => {
       </header>
     </div>
   );
-};
-
-export default ProfilePage;
+}

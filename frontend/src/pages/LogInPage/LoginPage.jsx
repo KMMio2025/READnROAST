@@ -1,18 +1,21 @@
 import InputBox from "../../components/InputBox/InputBox.jsx";
 import HeaderLogo from "../../assets/img/headerLogo.png";
-import { useState } from "react";
+import { use, useState } from "react";
 import {
   ButtonsContainer,
   TextButton,
   HeaderLogoImg,
   FullButton,
-  LogInContainer,
 } from "./LoginStyles.js";
+
+import { useNavigate } from "react-router-dom";
 
 export default function LogInPage() {
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [error, setError] = useState();
+
+  const navigate = useNavigate();
 
   //MOCK FUNCTION its just for testing hashing will be added later
   //inputs work correctly and backend gets data as it should
@@ -41,6 +44,10 @@ export default function LogInPage() {
     }
   }
 
+  function handleRegisterClick() {
+    navigate("/register");
+  }
+
   function handleChangeEmail(event) {
     setEnteredEmail(event.target.value);
   }
@@ -56,7 +63,7 @@ export default function LogInPage() {
   return (
     <>
       {error && <p className="errorMsg">{error.message}</p>}
-      <LogInContainer>
+      <div>
         <HeaderLogoImg src={HeaderLogo} alt="Logo with text 'readnroast' " />
         <div>
           <div id="inputs">
@@ -66,21 +73,25 @@ export default function LogInPage() {
                 onChange={handleChangeEmail}
                 value={enteredEmail}
                 invalid={!isValidEmail(enteredEmail)}
+                required
               />
               <InputBox
                 type="password"
                 label="Password"
                 onChange={handleChangePassword}
                 value={enteredPassword}
+                required
               />
             </div>
             <ButtonsContainer>
-              <TextButton>Create new account</TextButton>
+              <TextButton onClick={handleRegisterClick}>
+                Create new account
+              </TextButton>
               <FullButton onClick={handleLogInClick}>Log in</FullButton>
             </ButtonsContainer>
           </div>
         </div>
-      </LogInContainer>
+      </div>
     </>
   );
 }

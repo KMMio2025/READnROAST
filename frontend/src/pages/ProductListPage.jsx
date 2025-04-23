@@ -1,6 +1,4 @@
-import React from "react";
-
-const ProductListPage = () => {
+export default function ProductListPage() {
   return (
     <div>
       <header>
@@ -8,6 +6,4 @@ const ProductListPage = () => {
       </header>
     </div>
   );
-};
-
-export default ProductListPage;
+}

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { styled, keyframes } from "styled-components";
 
 export const NavbarContainer = styled.div`
@@ -51,7 +52,7 @@ const fadeInDown = keyframes`
   }
 `;
 
-export const NavLink = styled.a`
+export const StyledNavLink = styled(Link)`
   position: relative;
   display: inline-block;
   color: #ffbd8d;
@@ -85,7 +86,7 @@ export const NavLink = styled.a`
   }
 `;
 
-export const NavLinkLogIn = styled(NavLink)`
+export const NavLinkLogIn = styled(StyledNavLink)`
   padding: 10px 20px;
   background-color: #6f4e37;
   border-radius: 4px;

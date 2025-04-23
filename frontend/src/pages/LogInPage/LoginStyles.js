@@ -1,6 +1,9 @@
 import styled from "styled-components";
 export const LogInContainer = styled.div`
   background-color: rgb(247, 240, 218);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const HeaderLogoImg = styled.img`

@@ -1,28 +1,35 @@
 import InputBox from "../components/InputBox/InputBox";
 import {
-  LogInContainer,
   ButtonsContainer,
   TextButton,
   FullButton,
   HeaderLogoImg,
 } from "./LogInPage/LoginStyles.js";
 import HeaderLogo from "../assets/img/headerLogo.png";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
+  function handleLogInCLick() {
+    navigate("/login");
+  }
+
   return (
-    <LogInContainer>
+    <div>
       <HeaderLogoImg src={HeaderLogo} alt="Logo with text 'readnroast' " />
       <div>
-        <InputBox label="First Name" />
-        <InputBox label="Second Name" />
-        <InputBox label="Email" />
-        <InputBox label="Password" />
-        <InputBox label="confirm password" />
+        <InputBox label="First Name" required />
+        <InputBox label="Second Name" required />
+        <InputBox label="Email" required />
+        <InputBox label="Password" required />
+        <InputBox label="confirm password" required />
       </div>
       <ButtonsContainer>
-        <TextButton>Already have an account? Log in</TextButton>
-        <FullButton id="logInBtn">Register</FullButton>
+        <TextButton onClick={handleLogInCLick}>
+          Already have an account? Log in
+        </TextButton>
+        <FullButton>Register</FullButton>
       </ButtonsContainer>
-    </LogInContainer>
+    </div>
   );
 }

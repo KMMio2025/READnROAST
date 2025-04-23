@@ -1,13 +1,44 @@
-import React from "react";
-
-const HomePage = () => {
+import { Link } from "react-router-dom";
+import ReadLogoImg from "../assets/img/read.png";
+import RoastLogoImg from "../assets/img/roast.png";
+import {
+  StyledH1,
+  CreditsParagraph,
+  HomeLogoImg,
+  HomePageDescription,
+} from "../AppStyles.js";
+//TO-DO
+//1) change anchor elements to Links andd add valid paths
+export default function HomePage() {
   return (
-    <div>
-      <header>
-        <h1>Home Page</h1>
-      </header>
-    </div>
+    <>
+      <div>
+        <Link to="/booksHomePage">
+          <HomeLogoImg src={ReadLogoImg} alt="READ - go to the books section" />
+        </Link>
+        <Link to="/coffeeHomePage">
+          <HomeLogoImg
+            src={RoastLogoImg}
+            alt="ROAST - go to the coffee section"
+          />
+        </Link>
+      </div>
+      <StyledH1>
+        Your Ultimate Destination for Books, Coffee, and Community
+      </StyledH1>
+      <HomePageDescription>
+        <p>
+          Welcome to an online store that brings together book lovers and coffee
+          enthusiasts in one unique space. Here, you can purchase your favorite
+          books, discover new coffee blends, engage in meaningful discussions
+          with like-minded individuals, and even contribute to a sustainable
+          lifestyle by selling pre-loved items.
+        </p>
+      </HomePageDescription>
+      <CreditsParagraph>
+        Mateusz Jędrkowiak, Karolina Kulas & Mateusz Markiewicz,Jagiellonian
+        University, 2025
+      </CreditsParagraph>
+    </>
   );
-};
-
-export default HomePage;
+}
