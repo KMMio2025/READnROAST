@@ -1,6 +1,4 @@
-import React from "react";
-
-const CheckoutPage = () => {
+export default function CheckoutPage() {
   return (
     <div>
       <header>
@@ -8,6 +6,4 @@ const CheckoutPage = () => {
       </header>
     </div>
   );
-};
-
-export default CheckoutPage;
+}

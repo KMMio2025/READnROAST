@@ -1,6 +1,4 @@
-import React from "react";
-
-const ProductPage = () => {
+export default function ProductPage() {
   return (
     <div>
       <header>
@@ -8,6 +6,4 @@ const ProductPage = () => {
       </header>
     </div>
   );
-};
-
-export default ProductPage;
+}

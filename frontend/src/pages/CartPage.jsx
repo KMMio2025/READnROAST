@@ -1,6 +1,4 @@
-import React from "react";
-
-const CartPage = () => {
+export default function CartPage() {
   return (
     <div>
       <header>
@@ -8,6 +6,4 @@ const CartPage = () => {
       </header>
     </div>
   );
-};
-
-export default CartPage;
+}
