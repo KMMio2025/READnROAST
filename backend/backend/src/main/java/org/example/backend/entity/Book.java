@@ -16,6 +16,8 @@ public class Book extends Item {
     private Language language;
 
     private double price;
+    @Id
+    private Long id;
 
     // Getters and Setters
     public String getAuthor() {
@@ -48,5 +50,13 @@ public class Book extends Item {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
     }
 }
