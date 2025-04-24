@@ -1,5 +1,5 @@
 import React from "react";
-import InputBox from "../components/InputBox/InputBox";
+import InputBox from "../components/InputBox/InputBox.jsx";
 import {
   ButtonsContainer,
   TextButton,
