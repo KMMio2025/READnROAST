@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { styled, keyframes } from "styled-components";
 
-export const NavbarContainer = styled.div`
+export const NavbarContainer = styled.nav`
   position: fixed;
   top: 0;
   left: 0;

@@ -28,7 +28,7 @@ describe("Cart Page", () => {
     ];
     mockFetch({ items: mockCartItems, total: 90 });
 
-    render(<CartPage />);
+    render(<App />);
 
     expect(await screen.findByText(/Ugly men/)).toBeInTheDocument();
     expect(await screen.findByText(/Brazilian Paradise/)).toBeInTheDocument();

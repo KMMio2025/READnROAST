@@ -1,6 +1,6 @@
 import InputBox from "../../components/InputBox/InputBox.jsx";
 import HeaderLogo from "../../assets/img/headerLogo.png";
-import { use, useState } from "react";
+import React, { useState } from "react";
 import {
   ButtonsContainer,
   TextButton,

@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import ReadLogoImg from "../assets/img/read.png";
 import RoastLogoImg from "../assets/img/roast.png";
@@ -7,6 +8,7 @@ import {
   HomeLogoImg,
   HomePageDescription,
 } from "../AppStyles.js";
+
 //TO-DO
 //1) change anchor elements to Links andd add valid paths
 export default function HomePage() {

@@ -34,14 +34,5 @@
     "jest-environment-jsdom": "^29.7.0",
     "vite": "^6.3.2",
     "whatwg-fetch": "^3.6.20"
-  },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/jest.setup.js"
-    ],
-    "transform": {
-      "^.+\\.(js|jsx)$": "babel-jest"
-    },
-    "testEnvironment": "jsdom"
   }
 }
