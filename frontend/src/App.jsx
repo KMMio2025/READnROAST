@@ -8,6 +8,8 @@ import HomePage from "./pages/HomePage.jsx";
 import CategoriesPage from "./pages/CategoriesPage.jsx";
 import BooksPage from "./pages/BooksPage.jsx";
 import CoffeePage from "./pages/CoffeePage.jsx";
+import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
+import WishList from "./pages/WishlistPage.jsx";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -27,6 +29,8 @@ const routesDestinations = createRoutesFromElements(
     <Route path="/categories" element={<CategoriesPage />}></Route>
     <Route path="/booksHomePage" element={<BooksPage />}></Route>
     <Route path="/coffeeHomePage" element={<CoffeePage />}></Route>
+    <Route path="/profile" element={<ProfilePage />}></Route>
+    <Route path="/wishlist" element={<WishList />}></Route>
   </Route>
 );
 const router = createBrowserRouter(routesDestinations);

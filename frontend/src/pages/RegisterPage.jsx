@@ -10,12 +10,13 @@ import { useNavigate } from "react-router-dom";
 import { fetchRegister } from "../http.js";
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext.jsx";
+
 const inputFields = [
-  { name: "name", label: "Username", required: true },
-  { name: "email", label: "Email", required: true },
-  { name: "password", label: "Password", type: "password", required: true },
-  { name: "firstName", label: "First Name", required: true },
-  { name: "lastName", label: "Last Name", required: true },
+  { name: "name", label: "Username*", required: true },
+  { name: "email", label: "Email*", required: true },
+  { name: "password", label: "Password*", type: "password", required: true },
+  { name: "firstName", label: "First Name*", required: true },
+  { name: "lastName", label: "Last Name*", required: true },
   { name: "street", label: "Street" },
   { name: "city", label: "City" },
   { name: "zipCode", label: "Zip Code" },
@@ -24,8 +25,6 @@ const inputFields = [
 ];
 
 export default function RegisterPage() {
-  //using one state because register form is long
-  //using multiple states would lead to code repetition
   const [enteredUserDetails, setEnteredUserDetails] = useState({
     name: "",
     email: "",
@@ -39,6 +38,8 @@ export default function RegisterPage() {
     phone: "",
   });
   const [error, setError] = useState();
+  const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
   const { isLoggedIn, logIn } = useContext(AuthContext);
 
   async function handleRegisterClick() {
@@ -57,19 +58,33 @@ export default function RegisterPage() {
       setError(error.message || "Failed to register, please try again");
     }
   }
+
   function isValidEmail(email) {
-    return email.includes("@");
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   }
+
   function isValidPassword(password) {
     return password.length >= 8;
   }
 
   function handleUserDetailsChange(event) {
     const { name, value } = event.target;
+    
     setEnteredUserDetails((prevDetails) => ({
       ...prevDetails,
       [name]: value,
     }));
+
+    if (name === "email") {
+      const isValid = value === "" || isValidEmail(value);
+      setEmailValid(isValid);
+    }
+    
+    if (name === "password") {
+      const isValid = value === "" || isValidPassword(value);
+      setPasswordValid(isValid);
+    }
   }
 
   const navigate = useNavigate();
@@ -84,17 +99,30 @@ export default function RegisterPage() {
       <HeaderLogoImg src={HeaderLogo} alt="Logo with text 'readnroast' " />
       <div>
         {inputFields.map((field) => (
-          <InputBox
-            key={field.name}
-            label={field.label}
-            value={enteredUserDetails[field.name]}
-            name={field.name}
-            onChange={handleUserDetailsChange}
-            type={field.type || "text"}
-            required={field.required || false}
-          />
+          <div key={field.name}>
+            <InputBox
+              label={field.label}
+              value={enteredUserDetails[field.name]}
+              name={field.name}
+              onChange={handleUserDetailsChange}
+              type={field.type || "text"}
+              required={field.required || false}
+            />
+            {field.name === "email" && !emailValid && (
+              <p style={{ color: "red", fontSize: "0.8rem", marginTop: "4px" }}>
+                Please enter a valid email address
+              </p>
+            )}
+            {field.name === "password" && !passwordValid && (
+              <p style={{ color: "red", fontSize: "0.8rem", marginTop: "4px" }}>
+                Password must be at least 8 characters long
+              </p>
+            )}
+          </div>
         ))}
       </div>
+
+      *-required fields
       <ButtonsContainer>
         <TextButton onClick={handleLogInCLick}>
           Already have an account? Log in

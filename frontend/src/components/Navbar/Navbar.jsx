@@ -10,8 +10,12 @@ import {
   StyledNavLink,
   NavLinkLogIn,
 } from "./NavbarStyles.js";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext.jsx";
 
 export default function Navbar() {
+  const { isLoggedIn } = useContext(AuthContext);
+
   return (
     <NavbarContainer>
       <div>
@@ -32,7 +36,14 @@ export default function Navbar() {
         <i className="bx bx-search"></i>
       </SearchbarContainer>
       <NavbarRightSideContainer>
-        <NavLinkLogIn to="/login">Login</NavLinkLogIn>
+        {isLoggedIn ? (
+          <>
+            <NavLinkLogIn to="/profile"><i class='bx bx-user' ></i></NavLinkLogIn>
+            <NavLinkLogIn to="/wishlist"><i class='bx bx-heart' ></i></NavLinkLogIn>
+          </>
+        ) : (
+          <NavLinkLogIn to="/login">LOGIN</NavLinkLogIn>
+        )}
       </NavbarRightSideContainer>
     </NavbarContainer>
   );
