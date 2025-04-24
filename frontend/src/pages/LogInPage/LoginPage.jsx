@@ -1,42 +1,35 @@
+import React from "react";
 import InputBox from "../../components/InputBox/InputBox.jsx";
 import HeaderLogo from "../../assets/img/headerLogo.png";
-import React, { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext.jsx";
 import {
   ButtonsContainer,
   TextButton,
   HeaderLogoImg,
   FullButton,
 } from "./LoginStyles.js";
-
+import { fetchLogIn } from "../../http.js";
 import { useNavigate } from "react-router-dom";
 
 export default function LogInPage() {
+  //Only two input fields so separate states for each one
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [error, setError] = useState();
-
+  const { isLoggedIn, logIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  //MOCK FUNCTION its just for testing hashing will be added later
-  //inputs work correctly and backend gets data as it should
   async function handleLogInClick() {
     try {
-      const response = await fetch("http://localhost:3000/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: enteredEmail,
-          password: enteredPassword,
-        }),
-      });
-
-      const resData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(resData.message || "Failed to log in");
+      if (!isValidEmail(enteredEmail) || !isValidPassword(enteredPassword)) {
+        setError({ message: "Email or password incorrect, please try again" });
+        return;
       }
+      const message = await fetchLogIn(enteredEmail, enteredPassword);
+
+      navigate("/");
+      logIn();
     } catch (error) {
       setError({
         message: error.message || "Failed to log in, please try again.",
@@ -59,9 +52,13 @@ export default function LogInPage() {
     // add more complex validation....
     return email.includes("@");
   }
+  function isValidPassword(password) {
+    return password.length >= 8;
+  }
 
   return (
     <>
+      {isLoggedIn && <p>U are already logged in</p>}
       {error && <p className="errorMsg">{error.message}</p>}
       <div>
         <HeaderLogoImg src={HeaderLogo} alt="Logo with text 'readnroast' " />
@@ -81,6 +78,7 @@ export default function LogInPage() {
                 onChange={handleChangePassword}
                 value={enteredPassword}
                 required
+                invalid={!isValidPassword(enteredPassword)}
               />
             </div>
             <ButtonsContainer>
@@ -97,6 +95,4 @@ export default function LogInPage() {
 }
 
 //TO-DO :
-// 1. sending input into db and checking if its correct and hashing
-// 2. conditionally output error message or redirect to homepage
-// 3. buttons -> create new account redirects to register page
+// 2. conditionally output error message

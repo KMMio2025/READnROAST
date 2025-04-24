@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import ReadLogoImg from "../assets/img/read.png";
 import RoastLogoImg from "../assets/img/roast.png";
@@ -8,7 +7,7 @@ import {
   HomeLogoImg,
   HomePageDescription,
 } from "../AppStyles.js";
-
+import React from "react";
 //TO-DO
 //1) change anchor elements to Links andd add valid paths
 export default function HomePage() {
@@ -25,9 +24,12 @@ export default function HomePage() {
           />
         </Link>
       </div>
-      <StyledH1>
-        Your Ultimate Destination for Books, Coffee, and Community
-      </StyledH1>
+      <header>
+        <StyledH1>
+          Your Ultimate Destination for Books, Coffee, and Community
+        </StyledH1>
+      </header>
+
       <HomePageDescription>
         <p>
           Welcome to an online store that brings together book lovers and coffee
@@ -37,10 +39,17 @@ export default function HomePage() {
           lifestyle by selling pre-loved items.
         </p>
       </HomePageDescription>
-      <CreditsParagraph>
-        Mateusz Jędrkowiak, Karolina Kulas & Mateusz Markiewicz,Jagiellonian
-        University, 2025
-      </CreditsParagraph>
+
+      <section>
+        <h2>Featured Products</h2>
+        <p>Coming soon...</p>
+      </section>
+      <footer>
+        <CreditsParagraph>
+          Mateusz Jędrkowiak, Karolina Kulas & Mateusz Markiewicz,Jagiellonian
+          University, 2025
+        </CreditsParagraph>
+      </footer>
     </>
   );
 }
