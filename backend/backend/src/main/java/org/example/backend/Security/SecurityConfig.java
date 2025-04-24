@@ -1,5 +1,6 @@
 package org.example.backend.Security;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.backend.entity.User;
 import org.example.backend.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
@@ -33,14 +34,20 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Wyłączenie CSRF dla API
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login", "/api/users/register").permitAll() // Publiczne endpointy
+                        .requestMatchers("/api/users/me").authenticated() // Wymagane uwierzytelnienie dla /me
                         .anyRequest().authenticated() // Wymagane uwierzytelnienie dla innych endpointów
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((req, resp, authException) -> {
+                            // Zwraca 401 Unauthorized zamiast 403 Forbidden, gdy użytkownik nie jest zalogowany
+                            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                        })
                 )
                 .formLogin(form -> form.disable()) // Wyłączenie domyślnego formularza logowania
                 .httpBasic(httpBasic -> httpBasic.disable()); // Wyłączenie uwierzytelniania Basic
 
         return http.build();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {

@@ -1,10 +1,12 @@
 package org.example.backend.service;
 
 import org.example.backend.dtos.RegisterUserDTO;
+import org.example.backend.dtos.UserProfileDTO;
 import org.example.backend.entity.User;
 import org.example.backend.entity.UserDetails;
 import org.example.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +63,25 @@ public class UserService {
     public User findUserByEmail(String username) {
         return userRepository.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika o podanym emailu"));
+    }
+
+
+    public UserProfileDTO getCurrentUserProfile() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Nie znaleziono zalogowanego użytkownika"));
+
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
+        userProfileDTO.setName(user.getName());
+        userProfileDTO.setEmail(user.getEmail());
+        userProfileDTO.setFirstName(user.getUserDetails().getFirstName());
+        userProfileDTO.setLastName(user.getUserDetails().getLastName());
+        userProfileDTO.setStreet(user.getUserDetails().getStreet());
+        userProfileDTO.setCity(user.getUserDetails().getCity());
+        userProfileDTO.setZip(user.getUserDetails().getZip());
+        userProfileDTO.setCountry(user.getUserDetails().getCountry());
+        userProfileDTO.setPhone(user.getUserDetails().getPhone());
+
+        return userProfileDTO;
     }
 }
