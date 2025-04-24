@@ -15,6 +15,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { AppWrapper } from "./AppStyles";
+import AuthProvider from "./contexts/AuthContext.jsx";
 
 const routesDestinations = createRoutesFromElements(
   <Route element={<RootLayout />}>
@@ -31,9 +32,11 @@ const routesDestinations = createRoutesFromElements(
 const router = createBrowserRouter(routesDestinations);
 function App() {
   return (
-    <AppWrapper>
-      <RouterProvider router={router}></RouterProvider>
-    </AppWrapper>
+    <AuthProvider>
+      <AppWrapper>
+        <RouterProvider router={router}></RouterProvider>
+      </AppWrapper>
+    </AuthProvider>
   );
 }
 
