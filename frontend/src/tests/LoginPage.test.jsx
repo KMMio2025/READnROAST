@@ -3,8 +3,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import LogInPage from "../pages/LogInPage/LoginPage.jsx";
 import { MemoryRouter } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext.jsx";
 
-// MOCK FETCH
 beforeEach(() => {
   global.fetch = jest.fn(() =>
     Promise.resolve({
@@ -21,13 +21,21 @@ afterEach(() => {
 const setup = () => {
   const user = userEvent.setup();
 
+  const mockAuth = {
+    isLoggedIn: false,
+    login: jest.fn(),
+    logout: jest.fn(),
+  };
+
   render(
-    <MemoryRouter initialEntries={["/login"]}>
-      <LogInPage />
-    </MemoryRouter>
+    <AuthContext.Provider value={mockAuth}>
+      <MemoryRouter initialEntries={["/login"]}>
+        <LogInPage />
+      </MemoryRouter>
+    </AuthContext.Provider>
   );
 
-  return { user };
+  return { user, mockAuth };
 };
 
 describe("Login Page", () => {

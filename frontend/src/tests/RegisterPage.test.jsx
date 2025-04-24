@@ -1,44 +1,56 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import RootLayout from "../pages/RootLayout.jsx";
-import AuthProvider from "../contexts/AuthContext.jsx";
+import { MemoryRouter } from "react-router-dom";
 import RegisterPage from "../pages/RegisterPage.jsx";
-import {
-  createMemoryRouter,
-  RouterProvider,
-  Route,
-  createRoutesFromElements,
-} from "react-router-dom";
+import AuthProvider from "../contexts/AuthContext.jsx";
 
-const routes = createRoutesFromElements(
-  <Route element={<RootLayout />}>
-    <Route path="/register" element={<RegisterPage />} />
-  </Route>
-);
+beforeEach(() => {
+  // Wyłącz fetch – test nie sprawdza połączenia z backendem
+  global.fetch = jest.fn();
+});
+
+afterEach(() => {
+  global.fetch.mockRestore?.();
+});
 
 const setup = () => {
-  const router = createMemoryRouter(routes, {
-    initialEntries: ["/register"],
-  });
+  const user = userEvent.setup();
 
   render(
     <AuthProvider>
-      <RouterProvider router={router} />
+      <MemoryRouter initialEntries={["/register"]}>
+        <RegisterPage />
+      </MemoryRouter>
     </AuthProvider>
   );
 
-  const user = userEvent.setup();
-  const emailInput = screen.getByLabelText(/email/i);
-  const passwordInput = screen.getByLabelText(/password/i);
-  const confirmPasswordInput = screen.getByLabelText(/confirm password/i);
-  const registerButton = screen.getByRole("button", { name: /register/i });
-
   return {
     user,
-    emailInput,
-    passwordInput,
-    confirmPasswordInput,
-    registerButton,
+    emailInput: screen.getByLabelText(/email/i),
+    passwordInput: screen.getByLabelText(/password/i),
+    registerButton: screen.getByRole("button", { name: /register/i }),
   };
 };
+
+describe("Register Page (basic interactions)", () => {
+  test("renders all inputs and the register button", () => {
+    setup();
+
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /register/i })
+    ).toBeInTheDocument();
+  });
+
+  test("allows user to fill out the form", async () => {
+    const { user, emailInput, passwordInput } = setup();
+
+    await user.type(emailInput, "test@example.com");
+    await user.type(passwordInput, "password123");
+
+    expect(emailInput).toHaveValue("test@example.com");
+    expect(passwordInput).toHaveValue("password123");
+  });
+});
