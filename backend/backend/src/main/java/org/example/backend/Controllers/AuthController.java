@@ -1,6 +1,7 @@
 package org.example.backend.Controllers;
 
 import org.example.backend.dtos.UserProfileDTO;
+import org.example.backend.dtos.UserProfileUpdateDTO;
 import org.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -66,5 +68,11 @@ public class AuthController {
 
         UserProfileDTO userProfileDTO = userService.getCurrentUserProfile();
         return ResponseEntity.ok(userProfileDTO);
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<?> updateCurrentUserProfile(@RequestBody @Validated UserProfileUpdateDTO updateDTO) {
+        userService.updateCurrentUserProfile(updateDTO);
+        return ResponseEntity.ok("Profile updated successfully");
     }
 }

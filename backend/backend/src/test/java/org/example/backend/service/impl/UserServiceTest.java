@@ -1,6 +1,7 @@
 package org.example.backend.service.impl;
 
 import org.example.backend.dtos.RegisterUserDTO;
+import org.example.backend.dtos.UserProfileUpdateDTO;
 import org.example.backend.entity.User;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.service.UserService;
@@ -9,6 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -106,5 +111,38 @@ class UserServiceTest {
 
         // When & Then
         assertThrows(RuntimeException.class, () -> userService.authenticate(email, rawPassword));
+    }
+
+    @Test
+    void shouldUpdateUserName() {
+        // Tworzenie użytkownika bez UserDetails
+        User user = new User();
+        user.setEmail("test@example.com");
+        user.setName("Old Name");
+
+        // Mockowanie repozytorium, aby zwróciło użytkownika
+        when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(user));
+
+        // Mockowanie SecurityContext, aby zwróciło bieżącego zalogowanego użytkownika
+        Authentication authentication = mock(Authentication.class);
+        when(authentication.getName()).thenReturn("test@example.com");
+
+        SecurityContext securityContext = mock(SecurityContext.class);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+
+        SecurityContextHolder.setContext(securityContext);
+
+        // Dane aktualizacji
+        UserProfileUpdateDTO updateDTO = new UserProfileUpdateDTO();
+        updateDTO.setName("Updated Name");
+
+        // Wywołanie metody aktualizującej dane użytkownika
+        userService.updateCurrentUserProfile(updateDTO);
+
+        // Sprawdzanie, czy nazwa użytkownika została zaktualizowana
+        assertEquals("Updated Name", user.getName());
+
+        // Weryfikacja, że metoda save() została wywołana na repozytorium
+        verify(userRepository, times(1)).save(user);
     }
 }
