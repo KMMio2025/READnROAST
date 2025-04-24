@@ -21,15 +21,8 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-
-    private UserService userService;
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserService userService) {
-        this.authenticationManager = authenticationManager;
-        this.userService = userService;
-    }
-
-
+    private UserService userService;
 
     public AuthController(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
