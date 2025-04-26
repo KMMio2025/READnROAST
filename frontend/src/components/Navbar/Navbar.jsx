@@ -42,7 +42,7 @@ export default function Navbar() {
             <NavLinkLogIn to="/wishlist"><i class='bx bx-heart' ></i></NavLinkLogIn>
           </>
         ) : (
-          <NavLinkLogIn to="/login">LOGIN</NavLinkLogIn>
+          <NavLinkLogIn to="/login">LOG IN</NavLinkLogIn>
         )}
       </NavbarRightSideContainer>
     </NavbarContainer>
