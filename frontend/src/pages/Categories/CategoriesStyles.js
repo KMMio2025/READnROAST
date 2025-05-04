@@ -25,6 +25,7 @@ export const Image = styled.img`
   height: 100%;
   object-fit: cover;
   display: block;
+  
 `;
 export const Overlay = styled.div`
   position: absolute;

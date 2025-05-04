@@ -6,10 +6,11 @@ import LogInPage from "./pages/LogInPage/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import CategoriesPage from "./pages/Categories/CategoriesPage.jsx";
-import BooksPage from "./pages/BooksPage.jsx";
+import BooksPage from "./pages/BooksPage/BooksPage.jsx";
 import CoffeePage from "./pages/CoffeePage.jsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
 import WishList from "./pages/WishlistPage.jsx";
+import Cart from "./pages/CartPage/CartPage.jsx";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -33,6 +34,7 @@ const routesDestinations = createRoutesFromElements(
     <Route path="/coffeeHomePage" element={<CoffeePage />}></Route>
     <Route path="/profile" element={<ProfilePage />}></Route>
     <Route path="/wishlist" element={<WishList />}></Route>
+    <Route path="/cart" element={<Cart />}></Route>
     <Route path="*" element={<NotFoundPage />}></Route>
   </Route>
 );
