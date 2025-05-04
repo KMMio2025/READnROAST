@@ -5,7 +5,7 @@ import ServicesPage from "./pages/ServicesPage.jsx";
 import LogInPage from "./pages/LogInPage/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import CategoriesPage from "./pages/CategoriesPage.jsx";
+import CategoriesPage from "./pages/Categories/CategoriesPage.jsx";
 import BooksPage from "./pages/BooksPage.jsx";
 import CoffeePage from "./pages/CoffeePage.jsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
@@ -18,6 +18,8 @@ import {
 } from "react-router-dom";
 import { AppWrapper } from "./AppStyles";
 import AuthProvider from "./contexts/AuthContext.jsx";
+import { GlobalStyle } from "../GlobalStyle.js";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
 
 const routesDestinations = createRoutesFromElements(
   <Route element={<RootLayout />}>
@@ -31,6 +33,7 @@ const routesDestinations = createRoutesFromElements(
     <Route path="/coffeeHomePage" element={<CoffeePage />}></Route>
     <Route path="/profile" element={<ProfilePage />}></Route>
     <Route path="/wishlist" element={<WishList />}></Route>
+    <Route path="*" element={<NotFoundPage />}></Route>
   </Route>
 );
 const router = createBrowserRouter(routesDestinations);
@@ -38,6 +41,7 @@ function App() {
   return (
     <AuthProvider>
       <AppWrapper>
+        <GlobalStyle />
         <RouterProvider router={router}></RouterProvider>
       </AppWrapper>
     </AuthProvider>

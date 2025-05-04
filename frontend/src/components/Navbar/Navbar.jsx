@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../../assets/img/logo.png";
+import { Link } from "react-router-dom";
 import {
   NavbarContainer,
   AppLogoImg,
@@ -19,7 +20,9 @@ export default function Navbar() {
   return (
     <NavbarContainer>
       <div>
-        <AppLogoImg src={Logo} alt="Logo" />
+        <Link to="/">
+          <AppLogoImg src={Logo} alt="Logo" />
+        </Link>
       </div>
 
       <NavbarLeftSideContainer>
@@ -38,8 +41,12 @@ export default function Navbar() {
       <NavbarRightSideContainer>
         {isLoggedIn ? (
           <>
-            <NavLinkLogIn to="/profile"><i class='bx bx-user' ></i></NavLinkLogIn>
-            <NavLinkLogIn to="/wishlist"><i class='bx bx-heart' ></i></NavLinkLogIn>
+            <NavLinkLogIn to="/profile">
+              <i class="bx bx-user"></i>
+            </NavLinkLogIn>
+            <NavLinkLogIn to="/wishlist">
+              <i class="bx bx-heart"></i>
+            </NavLinkLogIn>
           </>
         ) : (
           <NavLinkLogIn to="/login">LOG IN</NavLinkLogIn>
