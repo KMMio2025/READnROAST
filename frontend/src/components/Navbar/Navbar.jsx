@@ -39,6 +39,9 @@ export default function Navbar() {
         <i className="bx bx-search"></i>
       </SearchbarContainer>
       <NavbarRightSideContainer>
+      <NavLinkLogIn to="/cart">
+              <i class="bx bx-cart"></i>
+            </NavLinkLogIn>
         {isLoggedIn ? (
           <>
             <NavLinkLogIn to="/profile">
