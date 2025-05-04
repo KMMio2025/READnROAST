@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import ReadLogoImg from "../assets/img/read.png";
 import RoastLogoImg from "../assets/img/roast.png";
+import ProductSlider from "../components/ProductSlider/ProductSlider.jsx";
 import {
   StyledH1,
   CreditsParagraph,
@@ -42,7 +43,7 @@ export default function HomePage() {
 
       <section>
         <h2>Featured Products</h2>
-        <p>Coming soon...</p>
+        <ProductSlider />
       </section>
       <footer>
         <CreditsParagraph>
