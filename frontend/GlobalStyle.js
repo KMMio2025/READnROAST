@@ -18,12 +18,10 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-      padding-top: 75px;
+    padding-top: 75px;
     margin: 0;
-    display: flex;
-    place-items: center;
-    place-content: center;
     font-family: inherit;
+    overflow-x: hidden; 
   }
 
   h1 {

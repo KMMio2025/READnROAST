@@ -1,13 +1,17 @@
 import { styled } from "styled-components";
 
 export const NoPaddingWrapper = styled.div`
-  padding: 0;
-  margin: 0;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 75px);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 75px;
+  left: 0;
 `;
-
 export const CategoryContainer = styled.div`
+  height: 100vh;
   display: flex;
   flex-direction: row;
 `;
