@@ -1,4 +1,4 @@
-// frontend/src/components/ShopFilters/index.tsx
+
 import { useState, useEffect } from 'react';
 import { ShopItem } from '../../types/shopTypes';
 import React from 'react';
@@ -22,14 +22,14 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
   const [sortBy, setSortBy] = useState<string>('default');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Filtry kawy
+  // coffeee
   const [selectedRoast, setSelectedRoast] = useState<string>('all');
   const [selectedFlavour, setSelectedFlavour] = useState<string>('all');
   const [selectedAroma, setSelectedAroma] = useState<string>('all');
   const [selectedAcidity, setSelectedAcidity] = useState<string>('all');
   const [selectedMix, setSelectedMix] = useState<string>('all');
 
-  // Filtry książek
+  // books
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
   const [selectedLanguage, setSelectedLanguage] = useState<string>('all');
 
@@ -46,12 +46,12 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
   const applyFilters = () => {
     let filtered = [...items];
 
-    // Filtrowanie po typie
+    //filtrowanie po typach np ksiazka kawa
     if (activeType !== 'all') {
       filtered = filtered.filter(item => item.type === activeType);
     }
 
-    // Filtry dla kawy
+    // kawka fitry
     if (activeType === 'coffee' || activeType === 'all') {
       if (selectedRoast !== 'all') {
         filtered = filtered.filter(item => item.type === 'coffee' && item.roast === selectedRoast);
@@ -70,7 +70,7 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
       }
     }
 
-    // Filtry dla książek
+    // ksiazki filtry
     if (activeType === 'book' || activeType === 'all') {
       if (selectedGenre !== 'all') {
         filtered = filtered.filter(item => item.type === 'book' && item.genre === selectedGenre);
@@ -80,16 +80,15 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
       }
     }
 
-    // Wyszukiwanie
+    // wyszukiwanie po tytule/nazwie opisie i autorze
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(item => 
         item.name.toLowerCase().includes(query) || 
-        item.description.toLowerCase().includes(query)
+        item.description.toLowerCase().includes(query) || (item.type === 'book' && item.author.toLowerCase().includes(query))
       );
     }
 
-    // Sortowanie
     switch (sortBy) {
       case 'name-asc':
         filtered.sort((a, b) => a.name.localeCompare(b.name));

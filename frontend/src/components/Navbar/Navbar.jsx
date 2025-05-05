@@ -32,7 +32,7 @@ export default function Navbar() {
         <i className="bx bxs-coffee-bean bean"></i>
         <StyledNavLink to="/about">About</StyledNavLink>
         <i className="bx bxs-coffee-bean bean"></i>
-        <StyledNavLink to="/services">Services</StyledNavLink>
+        <StyledNavLink to="/explore">Explore...</StyledNavLink>
       </NavbarLeftSideContainer>
       <SearchbarContainer>
         <SearchInput type="text" placeholder="Search..." />
