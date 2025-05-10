@@ -25,10 +25,9 @@ public class UserConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.securityMatcher("/**")
-                .csrf(csrf -> csrf.disable()) // Wyłączenie CSRF (opcjonalne, zależy od wymagań)
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login", "/api/auth/register").permitAll() // Pozwól na dostęp do logowania i rejestracji
-                        .anyRequest().authenticated() // Wymagaj uwierzytelnienia dla pozostałych endpointów
+                        .requestMatchers("/api/auth/login", "/api/users/register").permitAll()
                 );
         return http.build();
     }
