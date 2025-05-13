@@ -1,8 +1,8 @@
 package org.example.backend.entity;
 
 public enum Code {
-    SUCCESS("Operation end success");
-
+    SUCCESS("Operation end success"),
+    ERROR("Operation end with error");
 
     public final String label;
 

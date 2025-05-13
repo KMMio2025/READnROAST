@@ -26,4 +26,12 @@ public class AuthResponse {
         this.message = message;
         this.code = code;
     }
+
+    // Konstruktor z trzema argumentami
+    public AuthResponse(Code code, String message) {
+        this.message = message;
+        this.code = code;
+        this.timestamp = String.valueOf(new Timestamp(System.currentTimeMillis()));
+    }
+
 }

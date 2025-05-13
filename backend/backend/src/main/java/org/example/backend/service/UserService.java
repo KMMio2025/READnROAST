@@ -63,20 +63,23 @@ public class UserService {
     }
 
     public ResponseEntity<AuthResponse> login(HttpServletResponse response, LoginDTO loginDTO) {
-        User user = userRepository.findByEmail(loginDTO.getEmail())
-                .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika o podanym emailu"));
+        // Znajdź użytkownika po emailu
+        var user = userRepository.findByEmail(loginDTO.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Zweryfikuj hasło
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Błędne hasło");
+            throw new RuntimeException("Invalid credentials");
         }
 
+        // Wygeneruj token JWT
         String token = jwtService.generateToken(user.getEmail());
 
-        Cookie jwtCookie = cookiService.generateCookie("jwt", token, 60 * 60 * 24); // 1 dzień
+        // Ustaw token w nagłówku odpowiedzi (opcjonalnie)
+        response.setHeader("Authorization", "Bearer " + token);
 
-        response.addCookie(jwtCookie);
-
-        return ResponseEntity.ok(new AuthResponse(Code.SUCCESS));
+        // Zwróć token w odpowiedzi
+        return ResponseEntity.ok(new AuthResponse(Code.SUCCESS, token));
     }
 
 

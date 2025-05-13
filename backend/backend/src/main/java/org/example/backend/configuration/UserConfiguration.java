@@ -23,12 +23,15 @@ public class UserConfiguration {
     private final UserRepository userRepository;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.securityMatcher("/**")
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+        http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login", "/api/users/register").permitAll()
-                );
+                        .requestMatchers("/api/auth/login", "/api/users/register").permitAll() // Publiczne endpointy
+                        .requestMatchers("/api/auth/logout").authenticated() // Wylogowanie tylko dla zalogowanych
+                        .anyRequest().authenticated() // Wszystkie inne wymagają uwierzytelnienia
+                )
+                .addFilterBefore(jwtAuthenticationFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class); // Dodaj filtr JWT
         return http.build();
     }
 
@@ -56,5 +59,16 @@ public class UserConfiguration {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public org.springframework.security.core.userdetails.UserDetailsService userDetailsService(UserRepository userRepository) {
+        return username -> userRepository.findByEmail(username)
+                .map(user -> new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getPassword(),
+                        new ArrayList<>() // Możesz tutaj dodać role/authority użytkownika
+                ))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 }
