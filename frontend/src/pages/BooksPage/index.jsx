@@ -37,7 +37,6 @@ export default function BooksPage() {
 
   return (
     <BooksPageContainer>
-      <PageTitle>Books home page</PageTitle>
       <ShopFilters items={sampleBooks} onFilteredItems={setFilteredBooks} />
       
       <BooksGrid>

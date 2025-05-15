@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Genre, Language } from '../../types/enums';
 
+import {
+  FiltersContainer,
+  SearchbarContainer,
+  FiltersGrid,
+  FilterSelect,
+  SortContainer
+} from './filtersStyles';  // Adjust import path as needed
+
 const ShopFilters = ({ items, onFilteredItems }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('default');
@@ -62,8 +70,7 @@ const ShopFilters = ({ items, onFilteredItems }) => {
     enumValues,
     placeholder
   ) => (
-    <select
-      className="p-2 border border-gray-300 rounded text-sm"
+    <FilterSelect
       value={value}
       onChange={(e) => onChange(e.target.value)}
     >
@@ -73,32 +80,29 @@ const ShopFilters = ({ items, onFilteredItems }) => {
           {val.replace(/_/g, ' ')}
         </option>
       ))}
-    </select>
+    </FilterSelect>
   );
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-      <div className="mb-4">
+    <FiltersContainer>
+      <SearchbarContainer>
         <input
           type="text"
           placeholder="Search books..."
-          className="w-full p-2 border border-gray-300 rounded"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-      </div>
+      </SearchbarContainer>
 
-      <div className="mb-4">
-        <h3 className="font-medium mb-2">Book Filters:</h3>
-        <div className="grid grid-cols-2 gap-3">
+      <div>
+        <FiltersGrid>
           {renderSelect(selectedGenre, setSelectedGenre, Genre, 'Select genre')}
           {renderSelect(selectedLanguage, setSelectedLanguage, Language, 'Select language')}
-        </div>
+        </FiltersGrid>
       </div>
 
-      <div className="flex justify-end">
+      <SortContainer>
         <select
-          className="p-2 border border-gray-300 rounded"
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
         >
@@ -108,8 +112,8 @@ const ShopFilters = ({ items, onFilteredItems }) => {
           <option value="price-asc">Price (Low to High)</option>
           <option value="price-desc">Price (High to Low)</option>
         </select>
-      </div>
-    </div>
+      </SortContainer>
+    </FiltersContainer>
   );
 };
 

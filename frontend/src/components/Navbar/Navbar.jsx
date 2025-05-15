@@ -1,4 +1,4 @@
-import React from "react";
+
 import Logo from "../../assets/img/logo.png";
 import { Link } from "react-router-dom";
 import {
@@ -11,11 +11,12 @@ import {
   StyledNavLink,
   NavLinkLogIn,
 } from "./NavbarStyles.js";
-import { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 
 export default function Navbar() {
   const { isLoggedIn } = useContext(AuthContext);
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <NavbarContainer>
@@ -33,7 +34,11 @@ export default function Navbar() {
         <StyledNavLink to="/explore">Explore</StyledNavLink>
       </NavbarLeftSideContainer>
       <SearchbarContainer>
-        <SearchInput type="text" placeholder="Search..." />
+        <SearchInput
+          type="text"
+          placeholder="Search..."
+          value={searchQuery}
+        />
         <i className="bx bx-search"></i>
       </SearchbarContainer>
       <NavbarRightSideContainer>

@@ -1,22 +1,22 @@
-
 import { useState, useEffect } from 'react';
-import { ShopItem } from '../../types/shopTypes';
 import React from 'react';
+import { ShopItem } from '../../types/shopTypes';
+
 import { 
-    FiltersContainer,
-    SearchbarContainer,
-    FiltersGrid,
-    FilterSelect,
-    SortContainer
-  } from './filtersStyles'; 
-  
+  FiltersContainer,
+  SearchbarContainer,
+  FiltersGrid,
+  FilterSelect,
+  SortContainer
+} from './filtersStyles';
+
 import {
-    Acidity,
-    Aroma,
-    Flavour,
-    Mix,
-    Roast
-  } from '../../types/enums';
+  Acidity,
+  Aroma,
+  Flavour,
+  Mix,
+  Roast
+} from '../../types/enums';
 
 interface CoffeeFiltersProps {
   items: ShopItem[];
@@ -28,14 +28,11 @@ const CoffeeFilters = ({ items, onFilteredItems }: CoffeeFiltersProps) => {
   const [sortBy, setSortBy] = useState<string>('default');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // coffeee
   const [selectedRoast, setSelectedRoast] = useState<string>('all');
   const [selectedFlavour, setSelectedFlavour] = useState<string>('all');
   const [selectedAroma, setSelectedAroma] = useState<string>('all');
   const [selectedAcidity, setSelectedAcidity] = useState<string>('all');
   const [selectedMix, setSelectedMix] = useState<string>('all');
-
-
 
   useEffect(() => {
     applyFilters();
@@ -69,7 +66,6 @@ const CoffeeFilters = ({ items, onFilteredItems }: CoffeeFiltersProps) => {
       }
     }
 
-    
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(item => 
@@ -90,13 +86,6 @@ const CoffeeFilters = ({ items, onFilteredItems }: CoffeeFiltersProps) => {
     }
 
     onFilteredItems(filtered);
-  };
-
-  const getPrice = (item: ShopItem): number => {
-    if (item.type === 'coffee') {
-      return item.prices?.[0] || 0;
-    }
-    return (item as any).price || 0;
   };
 
   const translateEnumValue = (value: string, enumType: string): string => {
@@ -124,28 +113,8 @@ const CoffeeFilters = ({ items, onFilteredItems }: CoffeeFiltersProps) => {
       Mix: {
         'ARABICA': 'ARABICA',
         'ROBUSTA': 'ROBUSTA'
-      },
-      Language: {
-        'POLISH': 'POLISH',
-        'SPANISH': 'SPANISH',
-        'FRENCH': 'FRENCH',
-        'ENGLISH': 'ENGLISH'
-      },
-      Genre: {
-        'FANTASY': 'FANTASY',
-        'SCIENCE_FICTION': 'SCIENCE_FICTION',
-        'THRILLER': 'THRILLER',
-        'ROMANCE': 'ROMANCE',
-        'MYSTERY': 'MYSTERY',
-        'ACTION_ADVENTURE': 'ACTION_ADVENTURE',
-        'HORROR': 'HORROR',
-        'HISTORICAL_FICTION': 'HISTORICAL_FICTION',
-        'BIOGRAPHY': 'BIOGRAPHY',
-        'CRIME': 'CRIME',
-        'CLASSICS': 'CLASSICS'
       }
     };
-
     return translations[enumType]?.[value] || value;
   };
 
@@ -156,56 +125,45 @@ const CoffeeFilters = ({ items, onFilteredItems }: CoffeeFiltersProps) => {
     enumType: string,
     placeholder: string
   ) => (
-    <select
-      className="p-2 border border-gray-300 rounded text-sm"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-    >
+    <FilterSelect value={value} onChange={(e) => onChange(e.target.value)}>
       <option value="all">{placeholder}</option>
       {Object.values(enumValues).map((val: any) => (
         <option key={val} value={val}>
           {translateEnumValue(val, enumType)}
         </option>
       ))}
-    </select>
+    </FilterSelect>
   );
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-      <div className="mb-4">
+    <FiltersContainer>
+      <SearchbarContainer>
         <input
           type="text"
           placeholder="Search..."
-          className="w-full p-2 border border-gray-300 rounded"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-      </div>
+      </SearchbarContainer>
+
       {(activeType === 'coffee' || activeType === 'all') && (
-        <div className="mb-4">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-            {renderSelect(selectedRoast, setSelectedRoast, Roast, 'Roast', 'Roast')}
-            {renderSelect(selectedFlavour, setSelectedFlavour, Flavour, 'Flavour', 'Flavour')}
-            {renderSelect(selectedAroma, setSelectedAroma, Aroma, 'Aroma', 'Aroma')}
-            {renderSelect(selectedAcidity, setSelectedAcidity, Acidity, 'Acidity', 'Acidity')}
-            {renderSelect(selectedMix, setSelectedMix, Mix, 'Mix', 'Mix')}
-          </div>
-        </div>
+        <FiltersGrid>
+          {renderSelect(selectedRoast, setSelectedRoast, Roast, 'Roast', 'Roast')}
+          {renderSelect(selectedFlavour, setSelectedFlavour, Flavour, 'Flavour', 'Flavour')}
+          {renderSelect(selectedAroma, setSelectedAroma, Aroma, 'Aroma', 'Aroma')}
+          {renderSelect(selectedAcidity, setSelectedAcidity, Acidity, 'Acidity', 'Acidity')}
+          {renderSelect(selectedMix, setSelectedMix, Mix, 'Mix', 'Mix')}
+        </FiltersGrid>
       )}
 
-
-      <div className="flex justify-end">
-        <select
-          className="p-2 border border-gray-300 rounded"
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-        >
-          <option value="default">...</option>
+      <SortContainer>
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="default">Sort...</option>
           <option value="name-asc">Name (A-Z)</option>
           <option value="name-desc">Name (Z-A)</option>
         </select>
-      </div>
-    </div>
+      </SortContainer>
+    </FiltersContainer>
   );
 };
 

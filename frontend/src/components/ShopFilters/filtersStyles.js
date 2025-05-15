@@ -4,7 +4,7 @@ export const FiltersContainer = styled.div`
   background-color: #f5f5f5;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px #6f4e37;
   margin-bottom: 20px;
 `;
 

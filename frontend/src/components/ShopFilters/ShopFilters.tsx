@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ShopItem } from '../../types/shopTypes';
+import React from 'react';
 import {
   Acidity,
   Aroma,
@@ -7,27 +8,36 @@ import {
   Genre,
   Language,
   Mix,
-  Roast,
+  Roast
 } from '../../types/enums';
+
+import {
+  FiltersContainer,
+  SearchbarContainer,
+  FiltersGrid,
+  FilterSelect,
+  SortContainer
+} from './filtersStyles.js';  
 
 interface ShopFiltersProps {
   items: ShopItem[];
   onFilteredItems: (filteredItems: ShopItem[]) => void;
 }
 
+
 const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
   const [activeType, setActiveType] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('default');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Coffee filters
+  // coffee filters
   const [selectedRoast, setSelectedRoast] = useState<string>('all');
   const [selectedFlavour, setSelectedFlavour] = useState<string>('all');
   const [selectedAroma, setSelectedAroma] = useState<string>('all');
   const [selectedAcidity, setSelectedAcidity] = useState<string>('all');
   const [selectedMix, setSelectedMix] = useState<string>('all');
 
-  // Book filters
+  // book filters
   const [selectedGenre, setSelectedGenre] = useState<string>('all');
   const [selectedLanguage, setSelectedLanguage] = useState<string>('all');
 
@@ -38,12 +48,13 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
   }, [
     activeType, sortBy, searchQuery,
     selectedRoast, selectedFlavour, selectedAroma, selectedAcidity, selectedMix,
-    selectedGenre, selectedLanguage,
+    selectedGenre, selectedLanguage
   ]);
 
   const applyFilters = () => {
     let filtered = [...items];
 
+    // Filtering by type (coffee or book)
     if (activeType !== 'all') {
       filtered = filtered.filter(item => item.type === activeType);
     }
@@ -77,15 +88,16 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
       }
     }
 
+    // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(item =>
-        item.name.toLowerCase().includes(query) ||
-        item.description.toLowerCase().includes(query) ||
-        (item.type === 'book' && item.author?.toLowerCase().includes(query))
+      filtered = filtered.filter(item => 
+        item.name.toLowerCase().includes(query) || 
+        item.description.toLowerCase().includes(query) || (item.type === 'book' && item.author.toLowerCase().includes(query))
       );
     }
 
+    // Sorting
     switch (sortBy) {
       case 'name-asc':
         filtered.sort((a, b) => a.name.localeCompare(b.name));
@@ -118,32 +130,32 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
       Roast: {
         'LIGHT': 'Light',
         'MEDIUM': 'Medium',
-        'DARK': 'Dark',
+        'DARK': 'Dark'
       },
       Flavour: {
         'FRUITY': 'Fruity',
         'CHOCOLATE': 'Chocolate',
-        'NUTTY': 'Nutty',
+        'NUTTY': 'Nutty'
       },
       Aroma: {
         'FLORAL': 'Floral',
         'SPICY': 'Spicy',
-        'SWEET': 'Sweet',
+        'SWEET': 'Sweet'
       },
       Acidity: {
         'LOW': 'Low',
         'MEDIUM': 'Medium',
-        'HIGH': 'High',
+        'HIGH': 'High'
       },
       Mix: {
         'ARABICA': 'Arabica',
-        'ROBUSTA': 'Robusta',
+        'ROBUSTA': 'Robusta'
       },
       Language: {
         'POLISH': 'Polish',
         'SPANISH': 'Spanish',
         'FRENCH': 'French',
-        'ENGLISH': 'English',
+        'ENGLISH': 'English'
       },
       Genre: {
         'FANTASY': 'Fantasy',
@@ -156,7 +168,7 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
         'HISTORICAL_FICTION': 'Historical Fiction',
         'BIOGRAPHY': 'Biography',
         'CRIME': 'Crime',
-        'CLASSICS': 'Classics',
+        'CLASSICS': 'Classics'
       }
     };
 
@@ -170,8 +182,7 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
     enumType: string,
     placeholder: string
   ) => (
-    <select
-      className="p-2 border border-gray-300 rounded text-sm"
+    <FilterSelect
       value={value}
       onChange={(e) => onChange(e.target.value)}
     >
@@ -181,28 +192,27 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
           {translateEnumValue(val, enumType)}
         </option>
       ))}
-    </select>
+    </FilterSelect>
   );
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md mb-6">
-      <div className="mb-4">
+    <FiltersContainer>
+      <SearchbarContainer>
         <input
           type="text"
           placeholder="Search products..."
-          className="w-full p-2 border border-gray-300 rounded"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-      </div>
+      </SearchbarContainer>
 
       <div className="flex flex-wrap gap-2 mb-4">
         {itemTypes.map(type => (
           <button
             key={type}
             className={`px-4 py-2 rounded-full text-sm ${
-              activeType === type 
-                ? 'bg-blue-500 text-white' 
+              activeType === type
+                ? 'bg-blue-500 text-white'
                 : 'bg-gray-200 text-gray-800'
             }`}
             onClick={() => setActiveType(type)}
@@ -215,40 +225,39 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
       {(activeType === 'coffee' || activeType === 'all') && (
         <div className="mb-4">
           <h3 className="font-medium mb-2">Coffee Filters:</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-            {renderSelect(selectedRoast, setSelectedRoast, Roast, 'Roast', 'Roast')}
+          <FiltersGrid>
+            {renderSelect(selectedRoast, setSelectedRoast, Roast, 'Roast', 'Roast Type')}
             {renderSelect(selectedFlavour, setSelectedFlavour, Flavour, 'Flavour', 'Flavour')}
             {renderSelect(selectedAroma, setSelectedAroma, Aroma, 'Aroma', 'Aroma')}
             {renderSelect(selectedAcidity, setSelectedAcidity, Acidity, 'Acidity', 'Acidity')}
-            {renderSelect(selectedMix, setSelectedMix, Mix, 'Mix', 'Mix')}
-          </div>
+            {renderSelect(selectedMix, setSelectedMix, Mix, 'Mix', 'Coffee Mix')}
+          </FiltersGrid>
         </div>
       )}
 
       {(activeType === 'book' || activeType === 'all') && (
         <div className="mb-4">
           <h3 className="font-medium mb-2">Book Filters:</h3>
-          <div className="grid grid-cols-2 gap-3">
+          <FiltersGrid>
             {renderSelect(selectedGenre, setSelectedGenre, Genre, 'Genre', 'Genre')}
             {renderSelect(selectedLanguage, setSelectedLanguage, Language, 'Language', 'Language')}
-          </div>
+          </FiltersGrid>
         </div>
       )}
 
-      <div className="flex justify-end">
+      <SortContainer>
         <select
-          className="p-2 border border-gray-300 rounded"
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
         >
-          <option value="default">Default</option>
-          <option value="name-asc">Name (A–Z)</option>
-          <option value="name-desc">Name (Z–A)</option>
+          <option value="default">Sort By Default</option>
+          <option value="name-asc">Name (A-Z)</option>
+          <option value="name-desc">Name (Z-A)</option>
           <option value="price-asc">Price (Low to High)</option>
           <option value="price-desc">Price (High to Low)</option>
         </select>
-      </div>
-    </div>
+      </SortContainer>
+    </FiltersContainer>
   );
 };
 
