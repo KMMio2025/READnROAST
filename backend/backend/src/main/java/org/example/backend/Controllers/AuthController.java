@@ -6,11 +6,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.example.backend.dtos.LoginDTO;
 import org.example.backend.dtos.RegisterUserDTO;
+import org.example.backend.dtos.UserProfileDTO;
 import org.example.backend.entity.AuthResponse;
 import org.example.backend.entity.Code;
 import org.example.backend.service.JwtService;
 import org.example.backend.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -44,6 +46,14 @@ public class AuthController {
         String token = authorizationHeader.substring(7); // Usuń "Bearer "
         jwtService.invalidateToken(token); // Dodaj token do czarnej listy
         return ResponseEntity.ok(new AuthResponse(Code.SUCCESS));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserProfileDTO> getCurrentUserProfile() {
+        // Pobierz email aktualnie zalogowanego użytkownika
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserProfileDTO userProfile = userService.getCurrentUserProfile(email);
+        return ResponseEntity.ok(userProfile);
     }
 
 }

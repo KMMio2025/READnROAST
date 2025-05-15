@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.backend.dtos.LoginDTO;
 import org.example.backend.dtos.RegisterUserDTO;
+import org.example.backend.dtos.UserProfileDTO;
 import org.example.backend.entity.AuthResponse;
 import org.example.backend.entity.Code;
 import org.example.backend.entity.User;
@@ -80,6 +81,28 @@ public class UserService {
 
         // Zwróć token w odpowiedzi
         return ResponseEntity.ok(new AuthResponse(Code.SUCCESS, token));
+    }
+
+
+    public UserProfileDTO getCurrentUserProfile(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika o podanym emailu"));
+
+        // Tworzenie obiektu UserProfileDTO
+        UserProfileDTO userProfile = new UserProfileDTO();
+        userProfile.setName(user.getName());
+        userProfile.setEmail(user.getEmail());
+
+        if (user.getUserDetails() != null) {
+            userProfile.setFirstName(user.getUserDetails().getFirstName());
+            userProfile.setLastName(user.getUserDetails().getLastName());
+            userProfile.setStreet(user.getUserDetails().getStreet());
+            userProfile.setCity(user.getUserDetails().getCity());
+            userProfile.setZip(user.getUserDetails().getZip());
+            userProfile.setCountry(user.getUserDetails().getCountry());
+            userProfile.setPhone(user.getUserDetails().getPhone());
+        }
+        return userProfile;
     }
 
 

@@ -28,7 +28,7 @@ public class UserConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login", "/api/users/register").permitAll() // Publiczne endpointy
-                        .requestMatchers("/api/auth/logout").authenticated() // Wylogowanie tylko dla zalogowanych
+                        .requestMatchers("/api/auth/logout", "/api/auth/me").authenticated() // Wylogowanie tylko dla zalogowanych
                         .anyRequest().authenticated() // Wszystkie inne wymagają uwierzytelnienia
                 )
                 .addFilterBefore(jwtAuthenticationFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class); // Dodaj filtr JWT
