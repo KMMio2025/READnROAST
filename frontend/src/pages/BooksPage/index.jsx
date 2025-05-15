@@ -1,5 +1,5 @@
-import { StyledH1 } from "../../AppStyles";
-import ShopFilters from "../../components/ShopFilters/ShopFilters";
+
+import ShopFilters from "../../components/ShopFilters/BooksFilters";
 import BookCard from "../../components/BookCard/BookCard";
 import React, { useState } from "react";
 import styled from 'styled-components';
@@ -37,7 +37,6 @@ export default function BooksPage() {
 
   return (
     <BooksPageContainer>
-      <PageTitle>Books home page</PageTitle>
       <ShopFilters items={sampleBooks} onFilteredItems={setFilteredBooks} />
       
       <BooksGrid>

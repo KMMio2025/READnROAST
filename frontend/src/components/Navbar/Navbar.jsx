@@ -1,4 +1,4 @@
-import React from "react";
+
 import Logo from "../../assets/img/logo.png";
 import { Link } from "react-router-dom";
 import {
@@ -11,11 +11,12 @@ import {
   StyledNavLink,
   NavLinkLogIn,
 } from "./NavbarStyles.js";
-import { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 
 export default function Navbar() {
   const { isLoggedIn } = useContext(AuthContext);
+  const [searchQuery, setSearchQuery] = useState('');
 
   return (
     <NavbarContainer>
@@ -30,25 +31,27 @@ export default function Navbar() {
         <i className="bx bxs-coffee-bean bean"></i>
         <StyledNavLink to="/categories">Categories</StyledNavLink>
         <i className="bx bxs-coffee-bean bean"></i>
-        <StyledNavLink to="/about">About</StyledNavLink>
-        <i className="bx bxs-coffee-bean bean"></i>
-        <StyledNavLink to="/explore">Explore...</StyledNavLink>
+        <StyledNavLink to="/explore">Explore</StyledNavLink>
       </NavbarLeftSideContainer>
       <SearchbarContainer>
-        <SearchInput type="text" placeholder="Search..." />
+        <SearchInput
+          type="text"
+          placeholder="Search..."
+          value={searchQuery}
+        />
         <i className="bx bx-search"></i>
       </SearchbarContainer>
       <NavbarRightSideContainer>
       <NavLinkLogIn to="/cart">
-              <i class="bx bx-cart"></i>
+              <i className="bx bx-cart"></i>
             </NavLinkLogIn>
         {isLoggedIn ? (
           <>
             <NavLinkLogIn to="/profile">
-              <i class="bx bx-user"></i>
+              <i className="bx bx-user"></i>
             </NavLinkLogIn>
             <NavLinkLogIn to="/wishlist">
-              <i class="bx bx-heart"></i>
+              <i className="bx bx-heart"></i>
             </NavLinkLogIn>
           </>
         ) : (

@@ -66,7 +66,7 @@ export default function coffeeCard({ coffee }) {
           src={coffee.images[0].url} 
           alt={coffee.name}
           onError={(e) => {
-            e.target.src = 'https://via.placeholder.com/300x450?text=Brak+obrazka';
+            e.target.src = 'https://via.placeholder.com/300x450?text=No+Image';
           }}
         />
       ) : (
@@ -77,8 +77,10 @@ export default function coffeeCard({ coffee }) {
       )}
       <Details>
         <Title>{coffee.name}</Title>
-        <Price>{coffee.price} zł</Price>
-        <Origin>{coffee.orgin}</Origin>
+        <Price>
+          {coffee.sizes[coffee.sizes.length - 1]} g - {coffee.prices[coffee.prices.length - 1]} zł
+        </Price>
+        <Origin>{coffee.origin}</Origin>
       </Details>
     </Card>
   );
