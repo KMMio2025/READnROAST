@@ -1,8 +1,8 @@
-import { StyledH1 } from "../../AppStyles";
-import ShopFilters from "../../components/ShopFilters/ShopFilters";
+import ShopFilters from "../../components/ShopFilters/CoffeeFilters";
 import CoffeeCard from "../../components/CoffeeCard/CoffeeCard";
 import React, { useState } from "react";
 import styled from 'styled-components';
+
 
 const CoffeePageContainer = styled.div`
   max-width: 1200px;
@@ -37,7 +37,6 @@ export default function CoffeePage() {
 
   return (
     <CoffeePageContainer>
-      <PageTitle>Coffee home page</PageTitle>
       <ShopFilters items={sampleCoffee} onFilteredItems={setFilteredCoffee} />
       
       <CoffeeGrid>

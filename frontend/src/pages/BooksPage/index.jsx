@@ -1,5 +1,5 @@
-import { StyledH1 } from "../../AppStyles";
-import ShopFilters from "../../components/ShopFilters/ShopFilters";
+
+import ShopFilters from "../../components/ShopFilters/BooksFilters";
 import BookCard from "../../components/BookCard/BookCard";
 import React, { useState } from "react";
 import styled from 'styled-components';

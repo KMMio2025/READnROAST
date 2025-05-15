@@ -1,44 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { ShopItem } from '../../types/shopTypes';
-import {
-  Acidity,
-  Aroma,
-  Flavour,
-  Genre,
-  Language,
-  Mix,
-  Roast,
-} from '../../types/enums';
 
-interface ShopFiltersProps {
+import { useState, useEffect } from 'react';
+import { ShopItem } from '../../types/shopTypes';
+import React from 'react';
+import { 
+    FiltersContainer,
+    SearchbarContainer,
+    FiltersGrid,
+    FilterSelect,
+    SortContainer
+  } from './filtersStyles'; 
+  
+import {
+    Acidity,
+    Aroma,
+    Flavour,
+    Mix,
+    Roast
+  } from '../../types/enums';
+
+interface CoffeeFiltersProps {
   items: ShopItem[];
   onFilteredItems: (filteredItems: ShopItem[]) => void;
 }
 
-const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
+const CoffeeFilters = ({ items, onFilteredItems }: CoffeeFiltersProps) => {
   const [activeType, setActiveType] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('default');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Coffee filters
+  // coffeee
   const [selectedRoast, setSelectedRoast] = useState<string>('all');
   const [selectedFlavour, setSelectedFlavour] = useState<string>('all');
   const [selectedAroma, setSelectedAroma] = useState<string>('all');
   const [selectedAcidity, setSelectedAcidity] = useState<string>('all');
   const [selectedMix, setSelectedMix] = useState<string>('all');
 
-  // Book filters
-  const [selectedGenre, setSelectedGenre] = useState<string>('all');
-  const [selectedLanguage, setSelectedLanguage] = useState<string>('all');
 
-  const itemTypes = ['all', 'coffee', 'book'];
 
   useEffect(() => {
     applyFilters();
   }, [
     activeType, sortBy, searchQuery,
     selectedRoast, selectedFlavour, selectedAroma, selectedAcidity, selectedMix,
-    selectedGenre, selectedLanguage,
   ]);
 
   const applyFilters = () => {
@@ -48,7 +51,6 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
       filtered = filtered.filter(item => item.type === activeType);
     }
 
-    // Coffee filters
     if (activeType === 'coffee' || activeType === 'all') {
       if (selectedRoast !== 'all') {
         filtered = filtered.filter(item => item.type === 'coffee' && item.roast === selectedRoast);
@@ -67,22 +69,12 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
       }
     }
 
-    // Book filters
-    if (activeType === 'book' || activeType === 'all') {
-      if (selectedGenre !== 'all') {
-        filtered = filtered.filter(item => item.type === 'book' && item.genre === selectedGenre);
-      }
-      if (selectedLanguage !== 'all') {
-        filtered = filtered.filter(item => item.type === 'book' && item.language === selectedLanguage);
-      }
-    }
-
+    
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(item =>
-        item.name.toLowerCase().includes(query) ||
-        item.description.toLowerCase().includes(query) ||
-        (item.type === 'book' && item.author?.toLowerCase().includes(query))
+      filtered = filtered.filter(item => 
+        item.name.toLowerCase().includes(query) || 
+        item.description.toLowerCase().includes(query) 
       );
     }
 
@@ -92,12 +84,6 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
         break;
       case 'name-desc':
         filtered.sort((a, b) => b.name.localeCompare(a.name));
-        break;
-      case 'price-asc':
-        filtered.sort((a, b) => getPrice(a) - getPrice(b));
-        break;
-      case 'price-desc':
-        filtered.sort((a, b) => getPrice(b) - getPrice(a));
         break;
       default:
         filtered.sort((a, b) => a.id - b.id);
@@ -116,47 +102,47 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
   const translateEnumValue = (value: string, enumType: string): string => {
     const translations: Record<string, Record<string, string>> = {
       Roast: {
-        'LIGHT': 'Light',
-        'MEDIUM': 'Medium',
-        'DARK': 'Dark',
+        'LIGHT': 'LIGHT',
+        'MEDIUM': 'MEDIUM',
+        'DARK': 'DARK'
       },
       Flavour: {
-        'FRUITY': 'Fruity',
-        'CHOCOLATE': 'Chocolate',
-        'NUTTY': 'Nutty',
+        'FRUITY': 'FRUITY',
+        'CHOCOLATE': 'CHOCOLATE',
+        'NUTTY': 'NUTTY'
       },
       Aroma: {
-        'FLORAL': 'Floral',
-        'SPICY': 'Spicy',
-        'SWEET': 'Sweet',
+        'FLORAL': 'FLORAL',
+        'SPICY': 'SPICY',
+        'SWEET': 'SWEET'
       },
       Acidity: {
-        'LOW': 'Low',
-        'MEDIUM': 'Medium',
-        'HIGH': 'High',
+        'LOW': 'LOW',
+        'MEDIUM': 'MEDIUM',
+        'HIGH': 'HIGH'
       },
       Mix: {
-        'ARABICA': 'Arabica',
-        'ROBUSTA': 'Robusta',
+        'ARABICA': 'ARABICA',
+        'ROBUSTA': 'ROBUSTA'
       },
       Language: {
-        'POLISH': 'Polish',
-        'SPANISH': 'Spanish',
-        'FRENCH': 'French',
-        'ENGLISH': 'English',
+        'POLISH': 'POLISH',
+        'SPANISH': 'SPANISH',
+        'FRENCH': 'FRENCH',
+        'ENGLISH': 'ENGLISH'
       },
       Genre: {
-        'FANTASY': 'Fantasy',
-        'SCIENCE_FICTION': 'Science Fiction',
-        'THRILLER': 'Thriller',
-        'ROMANCE': 'Romance',
-        'MYSTERY': 'Mystery',
-        'ACTION_ADVENTURE': 'Action/Adventure',
-        'HORROR': 'Horror',
-        'HISTORICAL_FICTION': 'Historical Fiction',
-        'BIOGRAPHY': 'Biography',
-        'CRIME': 'Crime',
-        'CLASSICS': 'Classics',
+        'FANTASY': 'FANTASY',
+        'SCIENCE_FICTION': 'SCIENCE_FICTION',
+        'THRILLER': 'THRILLER',
+        'ROMANCE': 'ROMANCE',
+        'MYSTERY': 'MYSTERY',
+        'ACTION_ADVENTURE': 'ACTION_ADVENTURE',
+        'HORROR': 'HORROR',
+        'HISTORICAL_FICTION': 'HISTORICAL_FICTION',
+        'BIOGRAPHY': 'BIOGRAPHY',
+        'CRIME': 'CRIME',
+        'CLASSICS': 'CLASSICS'
       }
     };
 
@@ -189,32 +175,14 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search products..."
+          placeholder="Search..."
           className="w-full p-2 border border-gray-300 rounded"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
-
-      <div className="flex flex-wrap gap-2 mb-4">
-        {itemTypes.map(type => (
-          <button
-            key={type}
-            className={`px-4 py-2 rounded-full text-sm ${
-              activeType === type 
-                ? 'bg-blue-500 text-white' 
-                : 'bg-gray-200 text-gray-800'
-            }`}
-            onClick={() => setActiveType(type)}
-          >
-            {type === 'all' ? 'All' : type === 'coffee' ? 'Coffee' : 'Books'}
-          </button>
-        ))}
-      </div>
-
       {(activeType === 'coffee' || activeType === 'all') && (
         <div className="mb-4">
-          <h3 className="font-medium mb-2">Coffee Filters:</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
             {renderSelect(selectedRoast, setSelectedRoast, Roast, 'Roast', 'Roast')}
             {renderSelect(selectedFlavour, setSelectedFlavour, Flavour, 'Flavour', 'Flavour')}
@@ -225,15 +193,6 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
         </div>
       )}
 
-      {(activeType === 'book' || activeType === 'all') && (
-        <div className="mb-4">
-          <h3 className="font-medium mb-2">Book Filters:</h3>
-          <div className="grid grid-cols-2 gap-3">
-            {renderSelect(selectedGenre, setSelectedGenre, Genre, 'Genre', 'Genre')}
-            {renderSelect(selectedLanguage, setSelectedLanguage, Language, 'Language', 'Language')}
-          </div>
-        </div>
-      )}
 
       <div className="flex justify-end">
         <select
@@ -241,15 +200,13 @@ const ShopFilters = ({ items, onFilteredItems }: ShopFiltersProps) => {
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
         >
-          <option value="default">Default</option>
-          <option value="name-asc">Name (A–Z)</option>
-          <option value="name-desc">Name (Z–A)</option>
-          <option value="price-asc">Price (Low to High)</option>
-          <option value="price-desc">Price (High to Low)</option>
+          <option value="default">...</option>
+          <option value="name-asc">Name (A-Z)</option>
+          <option value="name-desc">Name (Z-A)</option>
         </select>
       </div>
     </div>
   );
 };
 
-export default ShopFilters;
+export default CoffeeFilters;
