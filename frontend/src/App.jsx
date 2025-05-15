@@ -1,6 +1,5 @@
 import React from "react";
 import RootLayout from "./pages/RootLayout.jsx";
-import AboutPage from "./pages/AboutPage.jsx";
 import ServicesPage from "./pages/ServicesPage.jsx";
 import LogInPage from "./pages/LogInPage/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
@@ -12,6 +11,7 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
 import WishList from "./pages/WishlistPage.jsx";
 import ExplorePage from "./pages/ExplorePage/index.jsx";
 import Cart from "./pages/CartPage/CartPage.jsx";
+import AboutPage from "./pages/AboutPage/AboutPage.jsx";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -26,7 +26,6 @@ import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
 const routesDestinations = createRoutesFromElements(
   <Route element={<RootLayout />}>
     <Route path="/" element={<HomePage />}></Route>
-    <Route path="/about" element={<AboutPage />}></Route>
     <Route path="/register" element={<RegisterPage />}></Route>
     <Route path="/login" element={<LogInPage />}></Route>
     <Route path="/services" element={<ServicesPage />}></Route>
@@ -37,6 +36,7 @@ const routesDestinations = createRoutesFromElements(
     <Route path="/wishlist" element={<WishList />}></Route>
     <Route path="/cart" element={<Cart />}></Route>
     <Route path="/explore" element={<ExplorePage />}></Route>
+    <Route path="/aboutUs" element={<AboutPage />}></Route>
     <Route path="*" element={<NotFoundPage />}></Route>
   </Route>
 );

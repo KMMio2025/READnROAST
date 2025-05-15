@@ -30,9 +30,7 @@ export default function Navbar() {
         <i className="bx bxs-coffee-bean bean"></i>
         <StyledNavLink to="/categories">Categories</StyledNavLink>
         <i className="bx bxs-coffee-bean bean"></i>
-        <StyledNavLink to="/about">About</StyledNavLink>
-        <i className="bx bxs-coffee-bean bean"></i>
-        <StyledNavLink to="/explore">Explore...</StyledNavLink>
+        <StyledNavLink to="/explore">Explore</StyledNavLink>
       </NavbarLeftSideContainer>
       <SearchbarContainer>
         <SearchInput type="text" placeholder="Search..." />
@@ -40,15 +38,15 @@ export default function Navbar() {
       </SearchbarContainer>
       <NavbarRightSideContainer>
       <NavLinkLogIn to="/cart">
-              <i class="bx bx-cart"></i>
+              <i className="bx bx-cart"></i>
             </NavLinkLogIn>
         {isLoggedIn ? (
           <>
             <NavLinkLogIn to="/profile">
-              <i class="bx bx-user"></i>
+              <i className="bx bx-user"></i>
             </NavLinkLogIn>
             <NavLinkLogIn to="/wishlist">
-              <i class="bx bx-heart"></i>
+              <i className="bx bx-heart"></i>
             </NavLinkLogIn>
           </>
         ) : (
