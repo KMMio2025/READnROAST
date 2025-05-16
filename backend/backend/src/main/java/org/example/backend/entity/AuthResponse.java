@@ -34,4 +34,7 @@ public class AuthResponse {
         this.timestamp = String.valueOf(new Timestamp(System.currentTimeMillis()));
     }
 
+    public String getToken() {
+        return message;
+    }
 }
