@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Roast from '../../assets/img/roast.png';
 
 const Card = styled.div`
@@ -11,6 +12,7 @@ const Card = styled.div`
   overflow: hidden;
   margin: 16px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
   
   &:hover {
     transform: translateY(-4px);
@@ -51,16 +53,22 @@ const Price = styled.p`
   margin: 0 0 8px 0;
 `;
 
-const Genre = styled.p`
+const Flavor = styled.p`
   font-size: 12px;
   color: #888;
   text-transform: uppercase;
   margin: 8px 0 0 0;
 `;
 
-export default function coffeeCard({ coffee }) {
+export default function CoffeeCard({ coffee }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/product/${coffee.id}`, { state: { product: coffee } });
+  };
+
   return (
-    <Card>
+    <Card onClick={handleClick}>
       {coffee.images?.length > 0 ? (
         <Image 
           src={coffee.images[0].url} 
@@ -78,9 +86,10 @@ export default function coffeeCard({ coffee }) {
       <Details>
         <Title>{coffee.name}</Title>
         <Price>
-          {coffee.sizes[coffee.sizes.length - 1]} g - {coffee.prices[coffee.prices.length - 1]} zł
+          {coffee.sizes[coffee.sizes.length - 1]} g - {coffee.prices[coffee.prices.length - 1].toFixed(2)} zł
         </Price>
         <Origin>{coffee.origin}</Origin>
+        <Flavor>{coffee.flavour}</Flavor>
       </Details>
     </Card>
   );
