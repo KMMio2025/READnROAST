@@ -1,11 +1,12 @@
 package org.example.backend.service;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
+
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import org.example.backend.dtos.LoginDTO;
 import org.example.backend.dtos.RegisterUserDTO;
 import org.example.backend.dtos.UserProfileDTO;
+import org.example.backend.dtos.UserProfileUpdateDTO;
 import org.example.backend.entity.AuthResponse;
 import org.example.backend.entity.Code;
 import org.example.backend.entity.User;
@@ -103,6 +104,29 @@ public class UserService {
             userProfile.setPhone(user.getUserDetails().getPhone());
         }
         return userProfile;
+    }
+
+    @Transactional
+    public void updateCurrentUserProfile(UserProfileUpdateDTO updateDTO, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+
+        if (updateDTO.getName() != null) user.setName(updateDTO.getName());
+        if (updateDTO.getEmail() != null) user.setEmail(updateDTO.getEmail());
+
+        UserDetails userDetails = user.getUserDetails();
+        if (userDetails != null) {
+            if (updateDTO.getFirstName() != null) userDetails.setFirstName(updateDTO.getFirstName());
+            if (updateDTO.getLastName() != null) userDetails.setLastName(updateDTO.getLastName());
+            if (updateDTO.getStreet() != null) userDetails.setStreet(updateDTO.getStreet());
+            if (updateDTO.getCity() != null) userDetails.setCity(updateDTO.getCity());
+            if (updateDTO.getZip() != null) userDetails.setZip(updateDTO.getZip());
+            if (updateDTO.getCountry() != null) userDetails.setCountry(updateDTO.getCountry());
+            if (updateDTO.getPhone() != null) userDetails.setPhone(updateDTO.getPhone());
+        }
+
+        userRepository.save(user);
     }
 
 
