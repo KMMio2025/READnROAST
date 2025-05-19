@@ -22,6 +22,7 @@ import { AppWrapper } from "./AppStyles";
 import AuthProvider from "./contexts/AuthContext.jsx";
 import { GlobalStyle } from "../GlobalStyle.js";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
+import ProductPage from "./pages/ProductPage/ProductPage.jsx";
 
 const routesDestinations = createRoutesFromElements(
   <Route element={<RootLayout />}>
@@ -37,6 +38,7 @@ const routesDestinations = createRoutesFromElements(
     <Route path="/cart" element={<Cart />}></Route>
     <Route path="/explore" element={<ExplorePage />}></Route>
     <Route path="/aboutUs" element={<AboutPage />}></Route>
+    <Route path="/product/:id" element={<ProductPage />}></Route>
     <Route path="*" element={<NotFoundPage />}></Route>
   </Route>
 );

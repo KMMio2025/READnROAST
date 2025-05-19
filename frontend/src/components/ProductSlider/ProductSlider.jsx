@@ -13,7 +13,6 @@ import coffee4 from "../../assets/img/productImg/coffee/summerMix.png";
 import coffee5 from "../../assets/img/productImg/coffee/winterBlend.png";
 
 const productImages = [
-  book1,
   book2,
   book3,
   coffee1,

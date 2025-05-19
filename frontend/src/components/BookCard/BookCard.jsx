@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Read from '../../assets/img/read.png';
 
 const Card = styled.div`
@@ -11,6 +12,7 @@ const Card = styled.div`
   overflow: hidden;
   margin: 16px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
   
   &:hover {
     transform: translateY(-4px);
@@ -59,8 +61,14 @@ const Genre = styled.p`
 `;
 
 export default function BookCard({ book }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/product/${book.id}`, { state: { product: book } });
+  };
+
   return (
-    <Card>
+    <Card onClick={handleClick}>
       {book.images?.length > 0 ? (
         <Image 
           src={book.images[0].url} 

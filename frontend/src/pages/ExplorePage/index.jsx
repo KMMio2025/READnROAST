@@ -1,12 +1,11 @@
-import { StyledH1 } from "../../AppStyles";
+
 import ShopFilters from "../../components/ShopFilters/ShopFilters";
 import BookCard from "../../components/BookCard/BookCard";
-
 import CoffeeCard from "../../components/CoffeeCard/CoffeeCard";
 import React, { useState } from "react";
 import styled from "styled-components";
 
-// Styled Components
+
 const BooksPageContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
@@ -35,7 +34,7 @@ const PageTitle = styled.h1`
   margin-bottom: 30px;
 `;
 
-// Sample Data
+// Sample Data (same as before)
 const sampleBooks = [
   {
     id: 1,
@@ -253,19 +252,31 @@ const sampleCoffee = [
 const sampleItems = [...sampleBooks, ...sampleCoffee];
 
 // Component
-export default function BooksPage() {
+export default function ExplorePage() {
   const [filteredBooks, setFilteredBooks] = useState(sampleBooks);
+
+  const handleProductClick = (product) => {
+    navigate(`/product/${product.id}`, { state: { product } });
+  };
 
   return (
     <BooksPageContainer>
       <PageTitle>Explore..</PageTitle>
       <ShopFilters items={sampleItems} onFilteredItems={setFilteredBooks} />
       <BooksGrid>
-        {filteredBooks.map((book) =>
-          book.type === "book" ? (
-            <BookCard key={book.id} book={book} />
-          ) : book.type === "coffee" ? (
-            <CoffeeCard key={book.id} coffee={book} />
+        {filteredBooks.map((item) =>
+          item.type === "book" ? (
+            <BookCard 
+              key={item.id} 
+              book={item} 
+              onClick={() => handleProductClick(item)}
+            />
+          ) : item.type === "coffee" ? (
+            <CoffeeCard 
+              key={item.id} 
+              coffee={item} 
+              onClick={() => handleProductClick(item)}
+            />
           ) : null
         )}
       </BooksGrid>
