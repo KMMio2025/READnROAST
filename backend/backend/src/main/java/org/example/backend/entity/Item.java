@@ -27,4 +27,7 @@ public abstract class Item {
     @JoinColumn(name = "item_id")
     private List<Image> images;
 
+    public Long getId() {
+        return id;
+    }
 }

@@ -30,7 +30,11 @@ public class UserConfiguration {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/login", "/api/auth/register").permitAll() // Publiczne endpointy
+                        .requestMatchers(
+                                "/api/auth/login",
+                                "/api/auth/register",
+                                "/api/products/**"
+                        ).permitAll() // Publiczne endpointy
                         .requestMatchers("/api/auth/logout", "/api/auth/me").authenticated() // Wylogowanie tylko dla zalogowanych
                         .anyRequest().authenticated() // Wszystkie inne wymagają uwierzytelnienia
                 )

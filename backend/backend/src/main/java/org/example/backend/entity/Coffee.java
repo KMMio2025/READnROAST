@@ -52,7 +52,7 @@ public class Coffee extends Item {
         this.id = id;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 }

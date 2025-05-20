@@ -56,7 +56,7 @@ public class Book extends Item {
         this.id = id;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 }
