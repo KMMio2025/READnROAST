@@ -1,6 +1,8 @@
 package org.example.backend.dtos;
 
 import lombok.Data;
+import org.example.backend.entity.Image;
+
 import java.util.List;
 
 @Data
@@ -15,5 +17,5 @@ public class CoffeeListDTO {
     private String mix;
     private List<Integer> sizes;
     private List<Double> prices;
-    private List<String> images;
+    private List<Image> images;
 }

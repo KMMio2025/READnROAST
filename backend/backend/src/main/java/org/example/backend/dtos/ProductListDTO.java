@@ -1,6 +1,8 @@
 package org.example.backend.dtos;
 
 import lombok.Data;
+import org.example.backend.entity.Image;
+
 import java.util.List;
 
 @Data
@@ -10,7 +12,7 @@ public class ProductListDTO {
     private String type; // "coffee" lub "book"
     // Pola wspólne
     private Double price;
-    private List<String> images;
+    private List<Image> images;
 
     // Pola dla kawy
     private String origin;

@@ -1,6 +1,8 @@
 package org.example.backend.dtos;
 
 import lombok.Data;
+import org.example.backend.entity.Image;
+
 import java.util.List;
 
 @Data
@@ -11,5 +13,5 @@ public class BookListDTO {
     private String genre;
     private String language;
     private Double price;
-    private List<String> images;
+    private List<Image> images;
 }
