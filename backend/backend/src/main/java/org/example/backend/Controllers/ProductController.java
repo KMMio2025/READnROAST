@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.backend.dtos.BookListDTO;
 import org.example.backend.dtos.CoffeeListDTO;
 import org.example.backend.dtos.ProductListDTO;
+import org.example.backend.dtos.ProductPageDTO;
 import org.example.backend.entity.Book;
 import org.example.backend.entity.Coffee;
 import org.example.backend.service.BookService;
@@ -69,5 +70,13 @@ public class ProductController {
         return productService.getProductsFiltered(
                 type, genre, language, roast, flavour, aroma, acidity, mix, author, origin, search, pageable
         );
+    }
+
+
+    //przykladowe wywolanie endpontu: /api/products/book/1/page
+    @GetMapping("/{type}/{id}/page")
+    public ProductPageDTO getProductPage(@PathVariable String type, @PathVariable Long id) {
+        // type: "book" lub "coffee"
+        return productService.getProductPageById(id, type);
     }
 }

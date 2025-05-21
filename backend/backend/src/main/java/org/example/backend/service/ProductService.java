@@ -2,6 +2,7 @@ package org.example.backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.backend.dtos.ProductListDTO;
+import org.example.backend.dtos.ProductPageDTO;
 import org.example.backend.entity.Book;
 import org.example.backend.entity.Coffee;
 import org.example.backend.repository.BookRepository;
@@ -11,6 +12,7 @@ import org.example.backend.spec.CoffeeSpecification;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -125,4 +127,58 @@ public class ProductService {
         dto.setImages(book.getImages());
         return dto;
     }
+
+
+    @Transactional(readOnly = true)
+    public ProductPageDTO getProductPageById(Long id, String type) {
+        if ("book".equalsIgnoreCase(type)) {
+            Book book = bookRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Book not found"));
+            return mapBookToPageDto(book);
+        } else if ("coffee".equalsIgnoreCase(type)) {
+            Coffee coffee = coffeeRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Coffee not found"));
+            return mapCoffeeToPageDto(coffee);
+        } else {
+            throw new IllegalArgumentException("Invalid product type: " + type);
+        }
+    }
+
+    private ProductPageDTO mapBookToPageDto(Book book) {
+        ProductPageDTO dto = new ProductPageDTO();
+        dto.setId(book.getId());
+        dto.setName(book.getName());
+        dto.setDescription(book.getDescription());
+        dto.setQuantity(book.getQuantity());
+        dto.setImages(book.getImages());
+        dto.setAuthor(book.getAuthor());
+        dto.setGenre(book.getGenre());
+        dto.setLanguage(book.getLanguage());
+        dto.setPrice(book.getPrice());
+        dto.setType("book");
+        return dto;
+    }
+
+    private ProductPageDTO mapCoffeeToPageDto(Coffee coffee) {
+        ProductPageDTO dto = new ProductPageDTO();
+        dto.setId(coffee.getId());
+        dto.setName(coffee.getName());
+        dto.setDescription(coffee.getDescription());
+        dto.setQuantity(coffee.getQuantity());
+        dto.setImages(coffee.getImages());
+        dto.setOrigin(coffee.getOrigin());
+        dto.setRoast(coffee.getRoast());
+        dto.setFlavour(coffee.getFlavour());
+        dto.setAroma(coffee.getAroma());
+        dto.setAcidity(coffee.getAcidity());
+        dto.setNumberOfSizes(coffee.getNumberOfSizes());
+        dto.setSizes(coffee.getSizes());
+        dto.setMix(coffee.getMix());
+        dto.setPrices(coffee.getPrices());
+        dto.setPrice(coffee.getPrices() != null && !coffee.getPrices().isEmpty() ? coffee.getPrices().get(0) : null);
+        dto.setType("coffee");
+        return dto;
+    }
+
+
 }

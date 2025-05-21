@@ -20,8 +20,10 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
@@ -96,6 +98,52 @@ class ProductServiceImplTest {
         assertThat(result.getContent()).allMatch(p -> p.getName() != null); // DODATKOWA OCHRONA
         verify(coffeeRepository, never()).findAll((Specification<Coffee>) any());
         verify(bookRepository).findAll(argThat((Specification<Book> spec) -> true));
+    }
+
+    @Test
+    void getProductPageById_shouldReturnBookDto_whenTypeIsBook() {
+        when(bookRepository.findById(book1.getId())).thenReturn(Optional.of(book1));
+
+        var dto = productService.getProductPageById(book1.getId(), "book");
+
+        assertThat(dto.getId()).isEqualTo(book1.getId());
+        assertThat(dto.getName()).isEqualTo(book1.getName());
+        assertThat(dto.getType()).isEqualTo("book");
+        assertThat(dto.getAuthor()).isEqualTo(book1.getAuthor());
+        assertThat(dto.getGenre()).isEqualTo(book1.getGenre());
+        verify(bookRepository).findById(book1.getId());
+        verifyNoInteractions(coffeeRepository);
+    }
+
+    @Test
+    void getProductPageById_shouldReturnCoffeeDto_whenTypeIsCoffee() {
+        when(coffeeRepository.findById(coffee1.getId())).thenReturn(Optional.of(coffee1));
+
+        var dto = productService.getProductPageById(coffee1.getId(), "coffee");
+
+        assertThat(dto.getId()).isEqualTo(coffee1.getId());
+        assertThat(dto.getName()).isEqualTo(coffee1.getName());
+        assertThat(dto.getType()).isEqualTo("coffee");
+        assertThat(dto.getOrigin()).isEqualTo(coffee1.getOrigin());
+        assertThat(dto.getPrices()).isEqualTo(coffee1.getPrices());
+        verify(coffeeRepository).findById(coffee1.getId());
+        verifyNoInteractions(bookRepository);
+    }
+    @Test
+    void getProductPageById_shouldThrow_whenBookNotFound() {
+        when(bookRepository.findById(999L)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> productService.getProductPageById(999L, "book"));
+    }
+
+    @Test
+    void getProductPageById_shouldThrow_whenCoffeeNotFound() {
+        when(coffeeRepository.findById(999L)).thenReturn(Optional.empty());
+        assertThrows(RuntimeException.class, () -> productService.getProductPageById(999L, "coffee"));
+    }
+
+    @Test
+    void getProductPageById_shouldThrow_whenTypeUnknown() {
+        assertThrows(IllegalArgumentException.class, () -> productService.getProductPageById(1L, "tea"));
     }
 
 
