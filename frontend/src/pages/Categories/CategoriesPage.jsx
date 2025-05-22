@@ -1,5 +1,5 @@
-import CoffeeImg from "../../assets/img/coffee-1.png";
-import BooksImg from "../../assets/img/books-1.png";
+import CoffeeImg from "../../assets/img/coffee2.png";
+import BooksImg from "../../assets/img/2.png";
 import { StyledNavLink } from "../../components/Navbar/NavbarStyles.js";
 
 import {

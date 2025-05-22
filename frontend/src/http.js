@@ -13,7 +13,7 @@ export async function fetchUserIsLoggedIn() {
 }
 
 export async function fetchRegister(enteredUserDetails) {
-  const response = await fetch("http://localhost:8080/api/users/register", {
+  const response = await fetch("http://localhost:8080/api/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
