@@ -7,10 +7,8 @@ import org.example.backend.dtos.LoginDTO;
 import org.example.backend.dtos.RegisterUserDTO;
 import org.example.backend.dtos.UserProfileDTO;
 import org.example.backend.dtos.UserProfileUpdateDTO;
-import org.example.backend.entity.AuthResponse;
-import org.example.backend.entity.Code;
-import org.example.backend.entity.User;
-import org.example.backend.entity.UserDetails;
+import org.example.backend.entity.*;
+import org.example.backend.repository.CartRepository;
 import org.example.backend.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,12 +21,14 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final CookiService cookiService;
+    private final CartRepository cartRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, CookiService cookiService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, CookiService cookiService, CartRepository cartRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.cookiService = cookiService;
+        this.cartRepository = cartRepository;
     }
     public String generateToken(String email) {
         return jwtService.generateToken(email);
@@ -38,26 +38,35 @@ public class UserService {
         jwtService.validateToken(token);
     }
 
-    public void registerUser(RegisterUserDTO registerUserDTO) {
-        UserDetails userDetails = new UserDetails();
-        userDetails.setFirstName(registerUserDTO.getFirstName());
-        userDetails.setLastName(registerUserDTO.getLastName());
-        userDetails.setStreet(registerUserDTO.getStreet());
-        userDetails.setCity(registerUserDTO.getCity());
-        userDetails.setZip(registerUserDTO.getZip());
-        userDetails.setCountry(registerUserDTO.getCountry());
-        userDetails.setPhone(registerUserDTO.getPhone());
+public void registerUser(RegisterUserDTO registerUserDTO) {
+    UserDetails userDetails = new UserDetails();
+    userDetails.setFirstName(registerUserDTO.getFirstName());
+    userDetails.setLastName(registerUserDTO.getLastName());
+    userDetails.setStreet(registerUserDTO.getStreet());
+    userDetails.setCity(registerUserDTO.getCity());
+    userDetails.setZip(registerUserDTO.getZip());
+    userDetails.setCountry(registerUserDTO.getCountry());
+    userDetails.setPhone(registerUserDTO.getPhone());
 
-        User user = new User();
-        user.setName(registerUserDTO.getName());
-        user.setEmail(registerUserDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(registerUserDTO.getPassword())); // Kodowanie hasła
-        user.setUserDetails(userDetails);
+    User user = new User();
+    user.setName(registerUserDTO.getName());
+    user.setEmail(registerUserDTO.getEmail());
+    user.setPassword(passwordEncoder.encode(registerUserDTO.getPassword())); // Kodowanie hasła
+    user.setUserDetails(userDetails);
 
-        userDetails.setUser(user);
+    userDetails.setUser(user);
 
-        userRepository.save(user);
-    }
+    Cart cart = new Cart();
+    cart.setUser(user);
+    cartRepository.save(cart);
+
+    user.setCart(cart);
+    userRepository.save(user);
+
+    userRepository.save(user);
+
+    userDetails.setUserId(user.getId());
+}
 
     public User findUserByEmail(String username) {
         return userRepository.findByEmail(username)

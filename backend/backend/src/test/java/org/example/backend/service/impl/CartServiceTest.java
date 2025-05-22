@@ -1,120 +1,114 @@
 package org.example.backend.service.impl;
 
-import org.example.backend.entity.Book;
-import org.example.backend.entity.Coffee;
+import org.example.backend.entity.Cart;
 import org.example.backend.entity.CartItem;
+import org.example.backend.entity.Item;
+import org.example.backend.repository.CartItemRepository;
+import org.example.backend.repository.CartRepository;
 import org.example.backend.service.CartService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.*;
 
-public class CartServiceTest {
+class CartServiceTest {
 
+    private CartRepository cartRepository;
+    private CartItemRepository cartItemRepository;
     private CartService cartService;
 
     @BeforeEach
-    public void setUp() {
-        cartService = new CartService();
+    void setUp() {
+        cartRepository = mock(CartRepository.class);
+        cartItemRepository = mock(CartItemRepository.class);
+        cartService = new CartService(cartRepository, cartItemRepository);
     }
 
     @Test
-    public void addItemToCart_shouldAddBookToCart() {
-        Book book = new Book();
-        book.setId(1L);
-        book.setName("Test Book");
-        book.setPrice(19.99);
+    void shouldReturnCartItemsForUser() {
+        Cart cart = new Cart();
+        List<CartItem> items = new ArrayList<>();
+        cart.setItems(items);
+        when(cartRepository.findByUserId(1L)).thenReturn(cart);
 
-        cartService.addItemToCart(book, 2);
+        List<CartItem> result = cartService.getCartItems(1L);
 
-        List<CartItem> items = cartService.getCartItems();
-        assertThat(items).hasSize(1);
-        assertThat(items.get(0).getItem()).isEqualTo(book);
-        assertThat(items.get(0).getQuantity()).isEqualTo(2);
+        assertThat(result).isSameAs(items);
     }
 
     @Test
-    public void addItemToCart_shouldAddCoffeeToCart() {
-        Coffee coffee = new Coffee();
-        coffee.setId(1L);
-        coffee.setOrigin("Colombia");
-        coffee.setSizes(List.of(250, 500)); // Rozmiary w gramach
-        coffee.setPrice(List.of(5.99, 9.99));
+    void shouldAddNewItemToCart() {
+        Cart cart = new Cart();
+        cart.setItems(new ArrayList<>());
+        when(cartRepository.findByUserId(1L)).thenReturn(cart);
 
-        cartService.addItemToCart(coffee, 3);
+        Item item = mock(Item.class);
+        when(item.getId()).thenReturn(2L);
 
-        List<CartItem> items = cartService.getCartItems();
-        assertThat(items).hasSize(1);
-        assertThat(items.get(0).getItem()).isEqualTo(coffee);
-        assertThat(items.get(0).getQuantity()).isEqualTo(3);
+        cartService.addItemToCart(1L, item, 3);
+
+        ArgumentCaptor<CartItem> captor = ArgumentCaptor.forClass(CartItem.class);
+        verify(cartItemRepository).save(captor.capture());
+        CartItem saved = captor.getValue();
+
+        assertThat(saved.getItem()).isEqualTo(item);
+        assertThat(saved.getQuantity()).isEqualTo(3);
+        assertThat(saved.getCart()).isEqualTo(cart);
+        assertThat(cart.getItems()).contains(saved);
+        verify(cartRepository, times(1)).save(cart);
     }
 
     @Test
-    public void addItemToCart_shouldIncreaseQuantityIfItemAlreadyInCart() {
-        Book book = new Book();
-        book.setId(1L);
-        book.setName("Test Book");
-        book.setPrice(19.99);
+    void shouldIncreaseQuantityIfItemAlreadyExists() {
+        // Arrange
+        Cart cart = new Cart();
+        CartItem cartItem = new CartItem();
+        Item item = mock(Item.class);
+        when(item.getId()).thenReturn(2L);
+        cartItem.setItem(item);
+        cartItem.setQuantity(5);
+        cart.setItems(new ArrayList<>(List.of(cartItem)));
+        when(cartRepository.findByUserId(1L)).thenReturn(cart);
 
-        cartService.addItemToCart(book, 2);
-        cartService.addItemToCart(book, 3);
+        // Act
+        cartService.addItemToCart(1L, item, 2);
 
-        List<CartItem> items = cartService.getCartItems();
-        assertThat(items).hasSize(1);
-        assertThat(items.get(0).getQuantity()).isEqualTo(5);
+        // Assert
+        assertThat(cartItem.getQuantity()).isEqualTo(7);
+        verify(cartItemRepository).save(cartItem);
     }
 
     @Test
-    public void removeItemFromCart_shouldRemoveItemById() {
-        Book book = new Book();
-        book.setId(1L);
-        book.setName("Test Book");
-        book.setPrice(19.99);
+    void shouldRemoveItemFromCart() {
+        Cart cart = new Cart();
+        CartItem cartItem = new CartItem();
+        cartItem.setId(10L);
+        cart.setItems(new ArrayList<>(List.of(cartItem)));
+        when(cartRepository.findByUserId(1L)).thenReturn(cart);
 
-        cartService.addItemToCart(book, 2);
-        cartService.removeItemFromCart(1L);
+        cartService.removeItemFromCart(1L, 10L);
 
-        assertThat(cartService.getCartItems()).isEmpty();
+        assertThat(cart.getItems()).doesNotContain(cartItem);
+        verify(cartItemRepository).delete(cartItem);
+        verify(cartRepository).save(cart);
     }
 
     @Test
-    public void clearCart_shouldRemoveAllItems() {
-        Book book = new Book();
-        Coffee coffee = new Coffee();
-        coffee.setId(1L);
-        coffee.setOrigin("Colombia");
-        coffee.setSizes(List.of(250, 500)); // Rozmiary w gramach
-        coffee.setPrice(List.of(5.99, 9.99)); // Ceny w dolarach
+    void shouldClearCart() {
+        Cart cart = new Cart();
+        CartItem cartItem1 = new CartItem();
+        CartItem cartItem2 = new CartItem();
+        cart.setItems(new ArrayList<>(List.of(cartItem1, cartItem2)));
+        when(cartRepository.findByUserId(1L)).thenReturn(cart);
 
-        cartService.addItemToCart(book, 2);
-        cartService.addItemToCart(coffee, 3);
+        cartService.clearCart(1L);
 
-        cartService.clearCart();
-
-        assertThat(cartService.getCartItems()).isEmpty();
+        assertThat(cart.getItems()).isEmpty();
+        verify(cartRepository).save(cart);
     }
-
-    @Test
-    public void calculateTotalPrice_shouldReturnCorrectTotal() {
-        Book book = new Book();
-        book.setId(1L);
-        book.setName("Test Book");
-        book.setPrice(19.99);
-
-        Coffee coffee = new Coffee();
-        coffee.setId(1L);
-        coffee.setOrigin("Colombia");
-        coffee.setSizes(List.of(250, 500)); // Rozmiary w gramach
-        coffee.setPrice(List.of(5.99, 9.99));
-
-        cartService.addItemToCart(book, 2);
-        cartService.addItemToCart(coffee, 3);
-
-        double total = cartService.calculateTotalPrice();
-        assertThat(total).isEqualTo((19.99 * 2) + (5.99 * 3));
-    }
-
 }

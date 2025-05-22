@@ -35,4 +35,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "details_id", referencedColumnName = "id")
     private UserDetails userDetails;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
 }
