@@ -38,36 +38,42 @@ public class UserService {
         jwtService.validateToken(token);
     }
 
-public void registerUser(RegisterUserDTO registerUserDTO) {
-    UserDetails userDetails = new UserDetails();
-    userDetails.setFirstName(registerUserDTO.getFirstName());
-    userDetails.setLastName(registerUserDTO.getLastName());
-    userDetails.setStreet(registerUserDTO.getStreet());
-    userDetails.setCity(registerUserDTO.getCity());
-    userDetails.setZip(registerUserDTO.getZip());
-    userDetails.setCountry(registerUserDTO.getCountry());
-    userDetails.setPhone(registerUserDTO.getPhone());
+    public void registerUser(RegisterUserDTO registerUserDTO) {
+        // Tworzenie encji UserDetails i ustawianie pól
+        UserDetails userDetails = new UserDetails();
+        userDetails.setFirstName(registerUserDTO.getFirstName());
+        userDetails.setLastName(registerUserDTO.getLastName());
+        userDetails.setStreet(registerUserDTO.getStreet());
+        userDetails.setCity(registerUserDTO.getCity());
+        userDetails.setZip(registerUserDTO.getZip());
+        userDetails.setCountry(registerUserDTO.getCountry());
+        userDetails.setPhone(registerUserDTO.getPhone());
 
-    User user = new User();
-    user.setName(registerUserDTO.getName());
-    user.setEmail(registerUserDTO.getEmail());
-    user.setPassword(passwordEncoder.encode(registerUserDTO.getPassword())); // Kodowanie hasła
-    user.setUserDetails(userDetails);
+        // Tworzenie encji User i ustawianie pól
+        User user = new User();
+        user.setName(registerUserDTO.getName());
+        user.setEmail(registerUserDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
+        user.setUserDetails(userDetails);
+        userDetails.setUser(user);
 
-    userDetails.setUser(user);
+        // 1. Najpierw zapisujemy usera (wraz z userDetails jeśli jest cascadujące)
+        user = userRepository.save(user);
 
-    Cart cart = new Cart();
-    cart.setUser(user);
-    cartRepository.save(cart);
+        // 2. Tworzymy Cart i przypisujemy usera
+        Cart cart = new Cart();
+        cart.setUser(user);
 
-    user.setCart(cart);
-    userRepository.save(user);
+        // 3. Zapisujemy Cart
+        cart = cartRepository.save(cart);
 
-    userRepository.save(user);
+        // 4. Przypisujemy cart do usera i aktualizujemy usera
+        user.setCart(cart);
+        userRepository.save(user);
 
-    userDetails.setUserId(user.getId());
-}
-
+        // 5. Ustaw id usera w userDetails (jeśli potrzebne gdzieś indziej)
+        userDetails.setUserId(user.getId());
+    }
     public User findUserByEmail(String username) {
         return userRepository.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika o podanym emailu"));

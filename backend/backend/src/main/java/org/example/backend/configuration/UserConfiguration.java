@@ -37,7 +37,7 @@ public class UserConfiguration {
                                 "/api/auth/register",
                                 "/api/products/**")
                         .permitAll()
-                        .requestMatchers("/api/auth/logout", "/api/auth/me").authenticated() // Wylogowanie tylko dla
+                        .requestMatchers("/api/auth/logout", "/api/auth/me", "/cart/**").authenticated() // Wylogowanie tylko dla
                                                                                              // zalogowanych
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter,

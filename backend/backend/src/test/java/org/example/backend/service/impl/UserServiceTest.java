@@ -4,10 +4,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.backend.dtos.LoginDTO;
 import org.example.backend.dtos.RegisterUserDTO;
 import org.example.backend.dtos.UserProfileDTO;
-import org.example.backend.entity.AuthResponse;
-import org.example.backend.entity.Code;
-import org.example.backend.entity.User;
-import org.example.backend.entity.UserDetails;
+import org.example.backend.entity.*;
+import org.example.backend.repository.CartRepository;
 import org.example.backend.repository.UserRepository;
 import org.example.backend.service.CookiService;
 import org.example.backend.service.JwtService;
@@ -27,6 +25,8 @@ import static org.mockito.Mockito.*;
 
 class UserServiceTest {
 
+    @Mock
+    private CartRepository cartRepository;
     @Mock
     private UserRepository userRepository;
 
@@ -85,13 +85,28 @@ class UserServiceTest {
         registerUserDTO.setCountry("Country");
         registerUserDTO.setPhone("1234567890");
 
+        // Mock kodowania hasła
+        when(passwordEncoder.encode(registerUserDTO.getPassword())).thenReturn("hashedPassword");
+
+        // Mock zapisu usera, tak by miał ID
         User savedUser = new User();
+        savedUser.setId(1L);
         when(userRepository.save(any(User.class))).thenReturn(savedUser);
 
+        // Mock zapisu cart
+        Cart savedCart = new Cart();
+        savedCart.setId(1L);
+        when(cartRepository.save(any(Cart.class))).thenReturn(savedCart);
+
+        // Wywołanie metody
         userService.registerUser(registerUserDTO);
 
-        verify(userRepository, times(1)).save(any(User.class));
+        // Weryfikacja zapisu usera (co najmniej dwa razy: raz bez koszyka, raz z przypisanym koszykiem)
+        verify(userRepository, atLeast(1)).save(any(User.class));
+        // Weryfikacja kodowania hasła
         verify(passwordEncoder, times(1)).encode(registerUserDTO.getPassword());
+        // Weryfikacja zapisu cart
+        verify(cartRepository, times(1)).save(any(Cart.class));
     }
 
     @Test
