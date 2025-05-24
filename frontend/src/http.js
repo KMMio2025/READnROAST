@@ -33,25 +33,30 @@ export async function fetchRegister(enteredUserDetails) {
 }
 
 export async function fetchLogIn(enteredEmail, enteredPassword) {
-  const params = new URLSearchParams();
-  params.append("username", enteredEmail); // lub enteredUsername
-  params.append("password", enteredPassword);
+  const loginData = {
+    email: enteredEmail,
+    password: enteredPassword,
+  };
 
   const response = await fetch("http://localhost:8080/api/auth/login", {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/json",
     },
-    body: params.toString(),
+    body: JSON.stringify(loginData),
     credentials: "include",
   });
-  //Backend returns String not JSON -- thats why using response.text()
-  const resData = await response.text();
 
-  if (!response.ok) {
-    throw new Error(resData || "Failed to log in");
+  let resData = null;
+  try {
+    resData = await response.json();
+  } catch (e) {
+    resData = {};
   }
 
-  console.log("Successfully logged in!!!!");
+  if (!response.ok) {
+    throw new Error(resData.message || "Failed to log in");
+  }
+
   return resData;
 }

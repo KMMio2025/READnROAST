@@ -93,6 +93,3 @@ export default function LogInPage() {
     </>
   );
 }
-
-//TO-DO :
-// 2. conditionally output error message
