@@ -73,9 +73,6 @@ export default function BookCard({ book }) {
         <Image 
           src={book.images[0].url} 
           alt={book.name}
-          onError={(e) => {
-            e.target.src = 'https://via.placeholder.com/300x450?text=Brak+obrazka';
-          }}
         />
       ) : (
         <Image 
