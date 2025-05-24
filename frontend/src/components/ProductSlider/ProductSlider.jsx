@@ -1,9 +1,13 @@
+
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { SlideWrapper, SliderContainer } from "./ProductSliderStyles.js";
+import { SliderContainer } from "./ProductSliderStyles.js";
 import BookCard from "../BookCard/BookCard.jsx";
 import CoffeeCard from "../CoffeeCard/CoffeeCard.jsx";
+
+// ... sampleBooks, sampleCoffee, sampleItems ...
 
 import book2 from "../../assets/img/productImg/books/unknown.png";
 import book3 from "../../assets/img/productImg/books/night.png";
@@ -34,10 +38,6 @@ const sampleBooks = [
     language: "POLISH",
     price: 39.99,
     images: [
-      {
-        id: 1,
-        url: "https://m.media-amazon.com/images/I/71jLBXtWJVL._AC_UF1000,1000_QL80_.jpg",
-      },
     ],
   },
   {
@@ -153,7 +153,6 @@ const sampleCoffee = [
 const sampleItems = [...sampleBooks, ...sampleCoffee];
 
 
-
 export default function ProductSlider() {
   const settings = {
     dots: true,
@@ -163,47 +162,36 @@ export default function ProductSlider() {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
-    centerMode: true, 
-    centerPadding: "0",  
+    centerMode: true,
+    centerPadding: "0",
     responsive: [
       {
         breakpoint: 1024,
-        settings: { 
+        settings: {
           slidesToShow: 3,
-          centerMode: false 
+          centerMode: false,
         },
       },
       {
         breakpoint: 768,
-        settings: { 
+        settings: {
           slidesToShow: 1,
-          centerMode: false  
+          centerMode: false,
         },
       },
     ],
   };
 
-
   return (
     <SliderContainer>
       <Slider {...settings}>
-        {sampleItems.map((item) => (
-          <SlideWrapper key={item.id}>
-           { item.type === "book" ? (
-                        <BookCard 
-                          key={item.id} 
-                          book={item} 
-                          onClick={() => handleProductClick(item)}
-                        />
-                      ) : item.type === "coffee" ? (
-                        <CoffeeCard 
-                          key={item.id} 
-                          coffee={item} 
-                          onClick={() => handleProductClick(item)}
-                        />
-                      ) : null }
-          </SlideWrapper>
-        ))}
+        {sampleItems.map((item) =>
+          item.type === "book" ? (
+            <BookCard key={item.id} book={item} />
+          ) : item.type === "coffee" ? (
+            <CoffeeCard key={item.id} coffee={item} />
+          ) : null
+        )}
       </Slider>
     </SliderContainer>
   );

@@ -20,6 +20,16 @@ const Card = styled.div`
   }
 `;
 
+/* Center the image using a flex wrapper */
+const ImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 220px;
+  width: 100%;
+  background: #f7f4ef;
+`;
+
 const Image = styled.img`
   max-width: 200px;
   min-width: 200px;
@@ -69,20 +79,22 @@ export default function CoffeeCard({ coffee }) {
 
   return (
     <Card onClick={handleClick}>
-      {coffee.images?.length > 0 ? (
-        <Image 
-          src={coffee.images[0].url} 
-          alt={coffee.name}
-          onError={(e) => {
-            e.target.src = 'https://via.placeholder.com/300x450?text=No+Image';
-          }}
-        />
-      ) : (
-        <Image 
-          src={Roast}
-          alt="Placeholder"
-        />
-      )}
+      <ImageWrapper>
+        {coffee.images?.length > 0 ? (
+          <Image 
+            src={coffee.images[0].url} 
+            alt={coffee.name}
+            onError={(e) => {
+              e.target.src = 'https://via.placeholder.com/300x450?text=No+Image';
+            }}
+          />
+        ) : (
+          <Image 
+            src={Roast}
+            alt="Placeholder"
+          />
+        )}
+      </ImageWrapper>
       <Details>
         <Title>{coffee.name}</Title>
         <Price>

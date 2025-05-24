@@ -20,15 +20,14 @@ export async function fetchRegister(enteredUserDetails) {
     },
     body: JSON.stringify(enteredUserDetails),
   });
+  // Expecting text response for registration status
   const registerStatus = await response.text();
 
   if (!response.ok) {
-    throw new Error(
-      registerStatus.message || "Failed to register, please try again"
-    );
+    throw new Error(registerStatus || "Failed to register, please try again");
   }
 
-  console.log("Acc registered");
+  console.log("Account registered");
   return registerStatus;
 }
 
@@ -55,6 +54,7 @@ export async function fetchLogIn(enteredEmail, enteredPassword) {
   }
 
   if (!response.ok) {
+    // Surface backend error messages if present
     throw new Error(resData.message || "Failed to log in");
   }
 

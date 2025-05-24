@@ -20,6 +20,16 @@ const Card = styled.div`
   }
 `;
 
+/* NEW: Add an image wrapper to center the image */
+const ImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 220px;      /* slightly bigger than image height for padding */
+  width: 100%;
+  background: #f7f4ef; /* optional: subtle background */
+`;
+
 const Image = styled.img`
   max-width: 200px;
   min-width: 200px;
@@ -69,17 +79,19 @@ export default function BookCard({ book }) {
 
   return (
     <Card onClick={handleClick}>
-      {book.images?.length > 0 ? (
-        <Image 
-          src={book.images[0].url} 
-          alt={book.name}
-        />
-      ) : (
-        <Image 
-          src={Read}
-          alt="Placeholder"
-        />
-      )}
+      <ImageWrapper>
+        {book.images?.length > 0 ? (
+          <Image 
+            src={book.images[0].url} 
+            alt={book.name}
+          />
+        ) : (
+          <Image 
+            src={Read}
+            alt="Placeholder"
+          />
+        )}
+      </ImageWrapper>
       <Details>
         <Title>{book.name}</Title>
         <Author>{book.author}</Author>

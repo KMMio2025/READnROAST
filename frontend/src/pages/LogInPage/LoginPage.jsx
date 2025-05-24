@@ -27,9 +27,10 @@ export default function LogInPage() {
         return;
       }
       const message = await fetchLogIn(enteredEmail, enteredPassword);
-
-      navigate("/");
+  
       logIn();
+      console.log("User successfully logged in!"); // <-- ADD THIS LINE
+      navigate("/");
     } catch (error) {
       setError({
         message: error.message || "Failed to log in, please try again.",
@@ -49,8 +50,8 @@ export default function LogInPage() {
   }
 
   function isValidEmail(email) {
-    // add more complex validation....
-    return email.includes("@");
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   }
   function isValidPassword(password) {
     return password.length >= 8;
