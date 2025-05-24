@@ -5,6 +5,7 @@ import Roast from '../../assets/img/roast.png';
 
 const Card = styled.div`
   width: 300px;
+  height: 420px;
   background-color: #fff;
   border-radius: 20px;
   border-color: #6f4e37;
@@ -13,14 +14,15 @@ const Card = styled.div`
   margin: 16px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
-  
+  display: flex;
+  flex-direction: column;
+
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
 `;
 
-/* Center the image using a flex wrapper */
 const ImageWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -40,7 +42,11 @@ const Image = styled.img`
 `;
 
 const Details = styled.div`
+  flex: 1;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
 
 const Title = styled.h3`

@@ -1,222 +1,259 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "../../contexts/AuthContext.jsx";
-import {
-    ProfileContainer,
-    Section,
-    SectionTitle,
-    InfoBox,
-    EditButton,
-    ListItem,
-} from "./ProfileStyles.js";
+import React, { useEffect, useState } from "react";
 
 export default function ProfilePage() {
-    const { userData, updateUserData } = useContext(AuthContext);
-    const [editUserMode, setEditUserMode] = useState(false);
-    const [editShippingMode, setEditShippingMode] = useState(false);
-    const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const [form, setForm] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
-    const [formData, setFormData] = useState({
-        name: userData?.name || "",
-        email: userData?.email || "",
-        firstName: userData?.firstName || "",
-        lastName: userData?.lastName || "",
-        phone: userData?.phone || "",
-        street: userData?.street || "",
-        city: userData?.city || "",
-        zipCode: userData?.zipCode || "",
-        country: userData?.country || "",
-    });
+  // Get JWT from localStorage (or sessionStorage, as appropriate)
+  const getToken = () => localStorage.getItem("jwt_token");
 
-    const dummyOrders = ["Order #1234 - Coffee Beans", "Order #1235 - French Press"];
-    const dummyFavorites = ["Colombian Medium Roast", "Kenyan Espresso", "A Man Called Ove - Fredrik Backman"];
+  const PROFILE_ENDPOINT = "/api/auth/me";
 
-    function handleInputChange(e) {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
-
-    function isValidEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
-
-    async function handleSaveChanges() {
-        if (!isValidEmail(formData.email)) {
-            alert("Please provide a valid email.");
-            return;
+  // Fetch user profile
+  useEffect(() => {
+    async function fetchUser() {
+      setLoading(true);
+      setError("");
+      const token = getToken();
+      if (!token) {
+        setError("No JWT token found. Please log in.");
+        setLoading(false);
+        return;
+      }
+      try {
+        const res = await fetch(PROFILE_ENDPOINT, {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+        });
+        const contentType = res.headers.get("content-type") || "";
+        if (!res.ok) {
+          // Try to get error message from JSON, else fallback to text
+          if (contentType.includes("application/json")) {
+            const errData = await res.json();
+            throw new Error(errData.message || "Could not fetch profile data.");
+          } else {
+            const text = await res.text();
+            throw new Error("Could not fetch profile data. " + text.slice(0, 100));
+          }
         }
-        try {
-            setLoading(true);
-
-            const response = await fetch("/api/users/profile", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) {
-                let errorData = {};
-                const errorText = await response.text();
-                if (errorText) {
-                    errorData = JSON.parse(errorText);
-                }
-                throw new Error(errorData.message || "Failed to update profile.");
-            }
-
-            // --- HERE IS THE IMPORTANT FIX ---
-            let updatedUser = {};
-            const text = await response.text();
-            if (text) {
-                updatedUser = JSON.parse(text);
-            }
-
-            console.log("Profile updated successfully:", updatedUser);
-
-            if (updateUserData && updatedUser) {
-                updateUserData(updatedUser);
-            }
-
-            setEditUserMode(false);
-            setEditShippingMode(false);
-
-            alert("Profile updated successfully! ✅");
-
-        } catch (error) {
-            console.error("Error updating profile:", error);
-            alert(error.message);
-        } finally {
-            setLoading(false);
+        if (!contentType.includes("application/json")) {
+          const text = await res.text();
+          throw new Error(
+            "Unexpected server response. Are you logged in? " +
+            text.slice(0, 100)
+          );
         }
+        const data = await res.json();
+        setUser(data);
+        setForm({
+          name: data.name || "",
+          email: data.email || "",
+          phone: data.phone || "",
+          address: data.address || "",
+        });
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     }
+    fetchUser();
+  }, []);
 
+  // Handle form input
+  const handleChange = (e) => {
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  // Handle form submit (update user info)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    setError("");
+    setSuccess(false);
+    const token = getToken();
+    if (!token) {
+      setError("No JWT token found. Please log in.");
+      setSaving(false);
+      return;
+    }
+    try {
+      const res = await fetch(PROFILE_ENDPOINT, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify(form),
+      });
+      const contentType = res.headers.get("content-type") || "";
+      if (!res.ok) {
+        if (contentType.includes("application/json")) {
+          const errData = await res.json();
+          throw new Error(errData.message || "Failed to update profile.");
+        } else {
+          const text = await res.text();
+          throw new Error("Failed to update profile. " + text.slice(0, 100));
+        }
+      }
+      if (!contentType.includes("application/json")) {
+        const text = await res.text();
+        throw new Error(
+          "Unexpected server response. " + text.slice(0, 100)
+        );
+      }
+      const data = await res.json();
+      setUser(data);
+      setSuccess(true);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) return <div>Loading profile...</div>;
+  if (error)
     return (
-        <ProfileContainer>
-            <Section>
-                <SectionTitle>User info</SectionTitle>
-                {!editUserMode ? (
-                    <InfoBox>
-                        <li>Username: {formData.name}</li>
-                        <li>Email: {formData.email}</li>
-                        <li>First Name: {formData.firstName}</li>
-                        <li>Last Name: {formData.lastName}</li>
-                        <li>Phone: {formData.phone}</li>
-                        <EditButton onClick={() => setEditUserMode(true)}>Edit</EditButton>
-                    </InfoBox>
-                ) : (
-                    <InfoBox>
-                        <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            placeholder="Name"
-                        />
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            placeholder="Email"
-                        />
-                        {!isValidEmail(formData.email) && (
-                            <p style={{ color: "red", fontSize: "0.8rem", marginTop: "4px" }}>
-                                Please enter a valid email address
-                            </p>
-                        )}
-                        <input
-                            type="text"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleInputChange}
-                            placeholder="First Name"
-                        />
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleInputChange}
-                            placeholder="Last Name"
-                        />
-                        <input
-                            type="text"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            placeholder="Phone"
-                        />
-                        <EditButton onClick={handleSaveChanges} disabled={loading}>
-                            {loading ? "Saving..." : "Save"}
-                        </EditButton>
-                    </InfoBox>
-                )}
-            </Section>
-
-            <Section>
-                <SectionTitle>Shipping info</SectionTitle>
-                {!editShippingMode ? (
-                    <InfoBox>
-                        <li>Street: {formData.street}</li>
-                        <li>City: {formData.city}</li>
-                        <li>Zip Code: {formData.zipCode}</li>
-                        <li>Country: {formData.country}</li>
-                        <EditButton onClick={() => setEditShippingMode(true)}>Edit</EditButton>
-                    </InfoBox>
-                ) : (
-                    <InfoBox>
-                        <input
-                            type="text"
-                            name="street"
-                            value={formData.street}
-                            onChange={handleInputChange}
-                            placeholder="Street"
-                        />
-                        <input
-                            type="text"
-                            name="city"
-                            value={formData.city}
-                            onChange={handleInputChange}
-                            placeholder="City"
-                        />
-                        <input
-                            type="text"
-                            name="zipCode"
-                            value={formData.zipCode}
-                            onChange={handleInputChange}
-                            placeholder="Zip Code"
-                        />
-                        <input
-                            type="text"
-                            name="country"
-                            value={formData.country}
-                            onChange={handleInputChange}
-                            placeholder="Country"
-                        />
-                        <EditButton onClick={handleSaveChanges} disabled={loading}>
-                            {loading ? "Saving..." : "Save"}
-                        </EditButton>
-                    </InfoBox>
-                )}
-            </Section>
-
-            <Section>
-                <SectionTitle>Order History</SectionTitle>
-                {dummyOrders.map((order, idx) => (
-                    <ListItem key={idx}>{order}</ListItem>
-                ))}
-            </Section>
-
-            <Section>
-                <SectionTitle>Favorite Items</SectionTitle>
-                {dummyFavorites.map((item, idx) => (
-                    <ListItem key={idx}>{item}</ListItem>
-                ))}
-            </Section>
-
-            <Section>
-                <SectionTitle>Change Your Data</SectionTitle>
-                <p>You can edit your personal data above in the Info section.</p>
-            </Section>
-        </ProfileContainer>
+      <div style={{ color: "red", maxWidth: 500, margin: "2rem auto" }}>
+        Error: {error}
+        {(error.includes("logged in") || error.includes("token")) && (
+          <div>
+            <button
+              onClick={() => (window.location = "/login")}
+              style={{
+                marginTop: 16,
+                padding: "10px 20px",
+                background: "#6f4e37",
+                color: "#fff",
+                border: "none",
+                borderRadius: 5,
+                cursor: "pointer",
+              }}
+            >
+              Go to Login
+            </button>
+          </div>
+        )}
+      </div>
     );
+
+  return (
+    <div
+      style={{
+        maxWidth: 500,
+        margin: "2rem auto",
+        padding: "2rem",
+        background: "#fff",
+        borderRadius: 12,
+        boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+      }}
+    >
+      <h2>My Profile</h2>
+      <form onSubmit={handleSubmit} autoComplete="off">
+        <div style={{ marginBottom: 16 }}>
+          <label>
+            Name:<br />
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              disabled={saving}
+              style={{
+                marginTop: 4,
+                width: "100%",
+                padding: 8,
+                borderRadius: 5,
+                border: "1px solid #ccc",
+              }}
+            />
+          </label>
+        </div>
+        <div style={{ marginBottom: 16 }}>
+          <label>
+            Email:<br />
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              disabled={saving}
+              style={{
+                marginTop: 4,
+                width: "100%",
+                padding: 8,
+                borderRadius: 5,
+                border: "1px solid #ccc",
+              }}
+            />
+          </label>
+        </div>
+        <div style={{ marginBottom: 16 }}>
+          <label>
+            Phone:<br />
+            <input
+              type="tel"
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              disabled={saving}
+              style={{
+                marginTop: 4,
+                width: "100%",
+                padding: 8,
+                borderRadius: 5,
+                border: "1px solid #ccc",
+              }}
+            />
+          </label>
+        </div>
+        <div style={{ marginBottom: 16 }}>
+          <label>
+            Address:<br />
+            <input
+              type="text"
+              name="address"
+              value={form.address}
+              onChange={handleChange}
+              disabled={saving}
+              style={{
+                marginTop: 4,
+                width: "100%",
+                padding: 8,
+                borderRadius: 5,
+                border: "1px solid #ccc",
+              }}
+            />
+          </label>
+        </div>
+        <button
+          type="submit"
+          disabled={saving}
+          style={{
+            padding: "10px 20px",
+            background: "#6f4e37",
+            color: "#fff",
+            border: "none",
+            borderRadius: 5,
+            cursor: "pointer",
+          }}
+        >
+          {saving ? "Saving..." : "Save Changes"}
+        </button>
+      </form>
+      {success && (
+        <div style={{ color: "green", marginTop: 12 }}>Profile updated!</div>
+      )}
+    </div>
+  );
 }
