@@ -1,33 +1,37 @@
+const API_BASE_URL = "http://localhost:8080";
+
 export async function fetchUserIsLoggedIn() {
-  const response = await fetch("http://localhost:8080/api/users/me", {
-    credentials: "include",
+  const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
+
   if (response.ok) {
     const user = await response.json();
-    console.log("User is logged in");
     return { isLoggedIn: true, user };
   } else {
-    console.log("User isn't logged in");
     return { isLoggedIn: false };
   }
 }
 
 export async function fetchRegister(enteredUserDetails) {
-  const response = await fetch("http://localhost:8080/api/auth/register", {
+  const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(enteredUserDetails),
+    credentials: 'include',
   });
-  // Expecting text response for registration status
+
   const registerStatus = await response.text();
 
   if (!response.ok) {
     throw new Error(registerStatus || "Failed to register, please try again");
   }
 
-  console.log("Account registered");
   return registerStatus;
 }
 
@@ -37,26 +41,44 @@ export async function fetchLogIn(enteredEmail, enteredPassword) {
     password: enteredPassword,
   };
 
-  const response = await fetch("http://localhost:8080/api/auth/login", {
+  const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(loginData),
-    credentials: "include",
+   credentials: 'include',
   });
 
-  let resData = null;
-  try {
-    resData = await response.json();
-  } catch (e) {
-    resData = {};
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to log in");
   }
+
+  const resData = await response.json();
+  if(resData.email) {
+    loginData.email = resData.email;
+  }
+  if(resData.password) {
+    loginData.password = resData.password;
+  }
+  if (resData.token) {
+    localStorage.setItem("token", resData.token);
+  } else {
+    throw new Error("No token received from server");
+  }
+
+  return loginData;
+}
+
+
+export async function fetchLogOut() {
+  const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+    method: "POST",
+    credentials: 'include',
+  });
 
   if (!response.ok) {
-    // Surface backend error messages if present
-    throw new Error(resData.message || "Failed to log in");
+    throw new Error("Failed to log out");
   }
-
-  return resData;
 }

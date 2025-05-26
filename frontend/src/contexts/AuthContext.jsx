@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import { fetchUserIsLoggedIn } from "../http.js";
+import { fetchUserIsLoggedIn, fetchLogOut } from "../http.js";
 
 export const AuthContext = createContext();
 
@@ -9,18 +9,26 @@ export default function AuthContextProvider({ children }) {
   const [error, setError] = useState();
   const [user, setUser] = useState();
 
-  // Called after login to update state
-  function logIn(userData) {
+  async function logIn(userData) {
     setIsLoggedIn(true);
-    if (userData) setUser(userData);
+    if (userData) {
+      setUser(userData);
+    }
+  }
+  
+
+  async function logOut() {
+    try {
+      await fetchLogOut();
+      setIsLoggedIn(false);
+      setUser(undefined);
+    } catch (error) {
+      setError({
+        message: error.message || "Failed to log out, please try again.",
+      });
+    }
   }
 
-  function logOut() {
-    setIsLoggedIn(false);
-    setUser(undefined);
-  }
-
-  // On mount, check if user is logged in (session/cookie)
   useEffect(() => {
     async function fetchIsLoggedIn() {
       setIsFetching(true);
@@ -32,9 +40,6 @@ export default function AuthContextProvider({ children }) {
         } else {
           setIsLoggedIn(false);
           setUser(undefined);
-        }
-        if (result.error) {
-          setError({ message: result.error.message });
         }
       } catch (error) {
         setError({
