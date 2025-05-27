@@ -70,11 +70,11 @@ export const SizeOptions = styled.div`
 
 export const SizeOption = styled.div`
   padding: 0.5rem 1rem;
-  border: 1px solid ${props => props.active ? '#2a6496' : '#ddd'};
+  border: 1px solid ${props => props.active ? '#6f4e37;' : '#ddd'};
   border-radius: 4px;
   cursor: pointer;
-  background-color: ${props => props.active ? '#f0f7ff' : 'white'};
-  color: ${props => props.active ? '#2a6496' : '#333'};
+  background-color: ${props => props.active ? '#c6946f' : 'white'};
+  color: ${props => props.active ? '#6f4e37;' : '#333'};
   font-weight: ${props => props.active ? 'bold' : 'normal'};
 
   &:hover {

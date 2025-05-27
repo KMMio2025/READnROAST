@@ -1,6 +1,5 @@
-
 import Logo from "../../assets/img/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   NavbarContainer,
   AppLogoImg,
@@ -17,6 +16,21 @@ import { AuthContext } from "../../contexts/AuthContext.jsx";
 export default function Navbar() {
   const { isLoggedIn } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery && searchQuery.trim()) {
+      navigate(`/explore?search=${encodeURIComponent(searchQuery)}`);
+      setSearchQuery('');
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch(e);
+    }
+  };
 
   return (
     <NavbarContainer>
@@ -33,18 +47,22 @@ export default function Navbar() {
         <i className="bx bxs-coffee-bean bean"></i>
         <StyledNavLink to="/explore">Explore</StyledNavLink>
       </NavbarLeftSideContainer>
-      <SearchbarContainer>
+      
+      <SearchbarContainer onSubmit={handleSearch}>
         <SearchInput
           type="text"
           placeholder="Search..."
           value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
         <i className="bx bx-search"></i>
       </SearchbarContainer>
+      
       <NavbarRightSideContainer>
-      <NavLinkLogIn to="/cart">
-              <i className="bx bx-cart"></i>
-            </NavLinkLogIn>
+        <NavLinkLogIn to="/cart">
+          <i className="bx bx-cart"></i>
+        </NavLinkLogIn>
         {isLoggedIn ? (
           <>
             <NavLinkLogIn to="/profile">
