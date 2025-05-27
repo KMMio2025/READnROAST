@@ -82,3 +82,25 @@ export async function fetchLogOut() {
     throw new Error("Failed to log out");
   }
 }
+export async function fetchProducts(filters = {}) {
+  const params = new URLSearchParams();
+
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      params.append(key, value);
+    }
+  });
+
+  const response = await fetch(`${API_BASE_URL}/api/products/all?${params.toString()}`, {
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
+
+  return response.json();
+}

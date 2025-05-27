@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 export const ProfileContainer = styled.div`
   max-width: 600px;
   margin: 0 auto;
@@ -39,3 +40,5 @@ export const ListItem = styled.div`
   padding: 0.5rem 0;
   color: #555;
 `;
+
+

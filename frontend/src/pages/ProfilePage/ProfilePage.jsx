@@ -133,7 +133,31 @@ export default function ProfilePage() {
       setSaving(false);
     }
   };
-
+  const handleLogout = async () => {
+    const token = localStorage.getItem("token");
+    setError("");
+    
+    try {
+      const response = await fetch("http://localhost:8080/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Logout failed. Please try again.");
+      }
+  
+      localStorage.removeItem("token");
+      logOut();
+      navigate("/login");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+  
   if (loading) {
     return (
       <div className="profile-loading">
@@ -365,6 +389,15 @@ export default function ProfilePage() {
           </div>
         )}
       </form>
+      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "1rem" }}>
+      <div className="logout-container">
+  <button onClick={handleLogout} className="logout-button">
+    Log Out
+  </button>
+</div>
+
+  
+</div>
 
       <style jsx>{`
         .profile-container {
@@ -480,8 +513,8 @@ export default function ProfilePage() {
         .success-message {
           margin-top: 12px;
           padding: 10px;
-          background: #4caf50;
-          color: white;
+          background: rgb(247, 240, 218);
+          color:  #6f4e37;
           border-radius: 4px;
           text-align: center;
           animation: fadeIn 0.3s;
@@ -496,6 +529,26 @@ export default function ProfilePage() {
           from { opacity: 0; transform: translateY(-10px); }
           to { opacity: 1; transform: translateY(0); }
         }
+          .logout-container {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.logout-button {
+  display: center;
+  background: rgb(247, 240, 218);
+  color: #6f4e37;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.logout-button:hover {
+  background: rgb(249, 234, 183);
+}
+
       `}</style>
     </div>
   );

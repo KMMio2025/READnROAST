@@ -4,6 +4,7 @@ export default function CartPage() {
     <div>
       <header>
         <h1>Cart Page</h1>
+        to do :DD
       </header>
     </div>
   );

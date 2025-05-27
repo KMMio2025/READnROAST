@@ -133,3 +133,20 @@ export const AddToCartButton = styled.button`
     cursor: not-allowed;
   }
 `;
+export const AddToWishlistButton = styled.button`
+  color: white;
+  border: none;
+  border-color: transparent;
+  cursor: pointer;
+  color: #6f4e37;
+  background-color: transparent;
+  font-size: 2.1rem;
+  &:hover {
+    color: red;
+  }
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+`;

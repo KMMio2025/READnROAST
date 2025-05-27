@@ -1,8 +1,8 @@
 import ShopFilters from "../../components/ShopFilters/CoffeeFilters";
 import CoffeeCard from "../../components/CoffeeCard/CoffeeCard";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
-
+import { fetchProducts } from "../../http.js";
 
 const CoffeePageContainer = styled.div`
   max-width: 1200px;
@@ -33,14 +33,28 @@ const PageTitle = styled.h1`
 `;
 
 export default function CoffeePage() {
-  const [filteredCoffee, setFilteredCoffee] = useState(sampleCoffee);
-
+  const [coffeeProducts, setCoffeeProducts] = useState([]);
+  const [filteredCoffeeProducts, setFilteredCoffeeProducts] = useState([]);
+    useEffect(() => {
+      async function loadProducts() {
+        try {
+          //fetching products from database
+          const data = await fetchProducts({type: "coffee"});
+          setCoffeeProducts(data.content);
+          setFilteredCoffeeProducts(data.content);
+        } catch (err) {
+          console.error("Błąd przy pobieraniu produktów:", err);
+        }
+      }
+  
+      loadProducts();
+    }, []);
   return (
     <CoffeePageContainer>
-      <ShopFilters items={sampleCoffee} onFilteredItems={setFilteredCoffee} />
+      <ShopFilters items={coffeeProducts} onFilteredItems={setFilteredCoffeeProducts} />
       
       <CoffeeGrid>
-        {filteredCoffee.map(coffee => (
+        {filteredCoffeeProducts.map(coffee => (
           <CoffeeCard key={coffee.id} coffee={coffee} />
         ))}
       </CoffeeGrid>
@@ -49,111 +63,111 @@ export default function CoffeePage() {
 }
 
 
-const sampleCoffee = [
-  {
-    id: 101,
-    type: 'coffee',
-    name: 'Arabica Etiopia Yirgacheffe',
-    description: 'Kwiatowo-owocowa kawa o delikatnej kwasowości',
-    quantity: 15,
-    origin: 'Etiopia',
-    roast: 'LIGHT',
-    flavour: 'FRUITY',
-    aroma: 'FLORAL',
-    acidity: 'HIGH',
-    mix: 'ARABICA',
-    numberOfSizes: 3,
-    sizes: [250, 500, 1000],
-    prices: [25.99, 45.99, 79.99],
-    images: [
-    ]
-  },
-  {
-    id: 102,
-    type: 'coffee',
-    name: 'Colombia Supremo',
-    description: 'Zbalansowana kawa o orzechowo-czekoladowym smaku',
-    quantity: 20,
-    origin: 'Kolumbia',
-    roast: 'MEDIUM',
-    flavour: 'CHOCOLATE',
-    aroma: 'SWEET',
-    acidity: 'MEDIUM',
-    mix: 'ARABICA',
-    numberOfSizes: 2,
-    sizes: [250, 500],
-    prices: [22.50, 39.99],
-    images: [
-    ]
-  },
-  {
-    id: 103,
-    type: 'coffee',
-    name: 'Brazil Santos',
-    description: 'Mocna kawa o ziemistym charakterze',
-    quantity: 18,
-    origin: 'Brazylia',
-    roast: 'DARK',
-    flavour: 'NUTTY',
-    aroma: 'SPICY',
-    acidity: 'LOW',
-    mix: 'ARABICA',
-    numberOfSizes: 3,
-    sizes: [250, 500, 1000],
-    prices: [19.99, 35.99, 65.99],
-    images: []
-  },
-  {
-    id: 104,
-    type: 'coffee',
-    name: 'Mieszanka Poranna',
-    description: 'Mocna mieszanka na pobudzenie',
-    quantity: 12,
-    origin: 'Mieszanka',
-    roast: 'DARK',
-    flavour: 'CHOCOLATE',
-    aroma: 'SPICY',
-    acidity: 'LOW',
-    mix: 'ROBUSTA',
-    numberOfSizes: 2,
-    sizes: [250, 500],
-    prices: [27.50, 49.99],
-    images: [
-    ]
-  },
-  {
-    id: 105,
-    type: 'coffee',
-    name: 'Kenya AA',
-    description: 'Wyrazista kawa o winno-owocowych nutach',
-    quantity: 10,
-    origin: 'Kenia',
-    roast: 'MEDIUM',
-    flavour: 'FRUITY',
-    aroma: 'FLORAL',
-    acidity: 'HIGH',
-    mix: 'ARABICA',
-    numberOfSizes: 2,
-    sizes: [250, 500],
-    prices: [29.99, 54.99],
-    images: [
-    ]
-  },
-  {
-    id: 106,
-    type: 'coffee',
-    name: 'Decaf Colombia',
-    description: 'Bezkofeinowa wersja klasycznej kolumbijskiej',
-    quantity: 8,
-    origin: 'Kolumbia',
-    roast: 'MEDIUM',
-    flavour: 'CHOCOLATE',
-    aroma: 'SWEET',
-    acidity: 'MEDIUM',
-    mix: 'ARABICA',
-    numberOfSizes: 1,
-    sizes: [250],
-    prices: [24.99],
-    images: []
-  }
-];
+// const sampleCoffee = [
+//   {
+//     id: 101,
+//     type: 'coffee',
+//     name: 'Arabica Etiopia Yirgacheffe',
+//     description: 'Kwiatowo-owocowa kawa o delikatnej kwasowości',
+//     quantity: 15,
+//     origin: 'Etiopia',
+//     roast: 'LIGHT',
+//     flavour: 'FRUITY',
+//     aroma: 'FLORAL',
+//     acidity: 'HIGH',
+//     mix: 'ARABICA',
+//     numberOfSizes: 3,
+//     sizes: [250, 500, 1000],
+//     prices: [25.99, 45.99, 79.99],
+//     images: [
+//     ]
+//   },
+//   {
+//     id: 102,
+//     type: 'coffee',
+//     name: 'Colombia Supremo',
+//     description: 'Zbalansowana kawa o orzechowo-czekoladowym smaku',
+//     quantity: 20,
+//     origin: 'Kolumbia',
+//     roast: 'MEDIUM',
+//     flavour: 'CHOCOLATE',
+//     aroma: 'SWEET',
+//     acidity: 'MEDIUM',
+//     mix: 'ARABICA',
+//     numberOfSizes: 2,
+//     sizes: [250, 500],
+//     prices: [22.50, 39.99],
+//     images: [
+//     ]
+//   },
+//   {
+//     id: 103,
+//     type: 'coffee',
+//     name: 'Brazil Santos',
+//     description: 'Mocna kawa o ziemistym charakterze',
+//     quantity: 18,
+//     origin: 'Brazylia',
+//     roast: 'DARK',
+//     flavour: 'NUTTY',
+//     aroma: 'SPICY',
+//     acidity: 'LOW',
+//     mix: 'ARABICA',
+//     numberOfSizes: 3,
+//     sizes: [250, 500, 1000],
+//     prices: [19.99, 35.99, 65.99],
+//     images: []
+//   },
+//   {
+//     id: 104,
+//     type: 'coffee',
+//     name: 'Mieszanka Poranna',
+//     description: 'Mocna mieszanka na pobudzenie',
+//     quantity: 12,
+//     origin: 'Mieszanka',
+//     roast: 'DARK',
+//     flavour: 'CHOCOLATE',
+//     aroma: 'SPICY',
+//     acidity: 'LOW',
+//     mix: 'ROBUSTA',
+//     numberOfSizes: 2,
+//     sizes: [250, 500],
+//     prices: [27.50, 49.99],
+//     images: [
+//     ]
+//   },
+//   {
+//     id: 105,
+//     type: 'coffee',
+//     name: 'Kenya AA',
+//     description: 'Wyrazista kawa o winno-owocowych nutach',
+//     quantity: 10,
+//     origin: 'Kenia',
+//     roast: 'MEDIUM',
+//     flavour: 'FRUITY',
+//     aroma: 'FLORAL',
+//     acidity: 'HIGH',
+//     mix: 'ARABICA',
+//     numberOfSizes: 2,
+//     sizes: [250, 500],
+//     prices: [29.99, 54.99],
+//     images: [
+//     ]
+//   },
+//   {
+//     id: 106,
+//     type: 'coffee',
+//     name: 'Decaf Colombia',
+//     description: 'Bezkofeinowa wersja klasycznej kolumbijskiej',
+//     quantity: 8,
+//     origin: 'Kolumbia',
+//     roast: 'MEDIUM',
+//     flavour: 'CHOCOLATE',
+//     aroma: 'SWEET',
+//     acidity: 'MEDIUM',
+//     mix: 'ARABICA',
+//     numberOfSizes: 1,
+//     sizes: [250],
+//     prices: [24.99],
+//     images: []
+//   }
+// ];
