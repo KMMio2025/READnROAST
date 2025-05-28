@@ -68,9 +68,9 @@ const CoffeeFilters = ({ items, onFilteredItems }: CoffeeFiltersProps) => {
 
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(item => 
-        item.name.toLowerCase().includes(query) || 
-        item.description.toLowerCase().includes(query) 
+      filtered = filtered.filter(item =>
+        (item.name && item.name.toLowerCase().includes(query)) ||
+        (item.description && item.description.toLowerCase().includes(query)) 
       );
     }
 
