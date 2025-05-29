@@ -1,41 +1,47 @@
 package org.example.backend.Controllers;
 
-import org.example.backend.entity.CartItem;
+import lombok.RequiredArgsConstructor;
+import org.example.backend.dtos.AddCartItemDTO;
+import org.example.backend.dtos.CartDTO;
+import org.example.backend.entity.AuthResponse;
+import org.example.backend.entity.Code;
 import org.example.backend.service.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/api/cart")
+@RequiredArgsConstructor
 public class CartController {
 
     private final CartService cartService;
 
-    @Autowired
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
+    @GetMapping
+    public ResponseEntity<CartDTO> getCart() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        CartDTO cartDTO = cartService.getCartForUser(email);
+        return ResponseEntity.ok(cartDTO);
     }
 
-    // Endpoint: GET /cart/{userId}
-    @GetMapping("/{userId}")
-    public List<CartItem> getCartItemsByUser(@PathVariable Long userId) {
-        return cartService.getCartItems(userId);
-    }
-
-    // POST /cart/add?itemId=123&quantity=2
     @PostMapping("/add")
-    public void addToCart(
-            @RequestParam Long itemId,
-            @RequestParam(defaultValue = "1") int quantity
-    ) {
-        cartService.addItemToCart(itemId, quantity);
+    public ResponseEntity<AuthResponse> addItem(@RequestBody AddCartItemDTO dto) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        cartService.addItem(email, dto.getItemId(), dto.getQuantity());
+        return ResponseEntity.ok(new AuthResponse(Code.SUCCESS));
     }
 
-    // DELETE /cart/remove?itemId=123
-    @DeleteMapping("/remove")
-    public void removeFromCart(@RequestParam Long itemId) {
-        cartService.removeItemFromCart(itemId);
+    @PostMapping("/remove")
+    public ResponseEntity<AuthResponse> removeItem(@RequestBody AddCartItemDTO dto) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        cartService.removeItem(email, dto.getItemId());
+        return ResponseEntity.ok(new AuthResponse(Code.SUCCESS));
+    }
+
+    @PostMapping("/clear")
+    public ResponseEntity<AuthResponse> clearCart() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        cartService.clearCart(email);
+        return ResponseEntity.ok(new AuthResponse(Code.SUCCESS));
     }
 }
