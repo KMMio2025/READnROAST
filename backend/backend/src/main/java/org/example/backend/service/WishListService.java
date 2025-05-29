@@ -39,7 +39,7 @@ public class WishListService {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono itemu"));
         WishList wishList = user.getWishList();
-
+        //
         boolean alreadyExists = wishList.getItems().stream()
                 .anyMatch(wi -> wi.getItem().getId().equals(item.getId()));
         if (!alreadyExists) {

@@ -50,6 +50,20 @@ public class CartService {
     }
 
     @Transactional
+    public void updateItem(String email, Long itemId, int quantity) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Item not found"));
+        Cart cart = user.getCart();
+
+        CartItem cartItem = cartItemRepository.findByCartAndItem(cart, item)
+                .orElseThrow(() -> new RuntimeException("Cart item not found"));
+        cartItem.setQuantity(quantity);
+        cartItemRepository.save(cartItem);
+    }
+
+    @Transactional
     public void removeItem(String email, Long itemId) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika o podanym emailu"));

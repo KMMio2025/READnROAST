@@ -38,6 +38,13 @@ public class CartController {
         return ResponseEntity.ok(new AuthResponse(Code.SUCCESS));
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<AuthResponse> updateItem(@RequestBody AddCartItemDTO dto) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        cartService.updateItem(email, dto.getItemId(), dto.getQuantity());
+        return ResponseEntity.ok(new AuthResponse(Code.SUCCESS));
+    }
+
     @PostMapping("/clear")
     public ResponseEntity<AuthResponse> clearCart() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();

@@ -20,5 +20,6 @@ public class CartItem {
     @JoinColumn(name = "item_id", nullable = false)
     private Item item;
 
+    private double price;
     private int quantity;
 }

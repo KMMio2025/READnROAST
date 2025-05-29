@@ -1,294 +1,262 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext.jsx";
-import * as S from "./cartPageStyles";
+// src/pages/CartPage/CartPage.jsx
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthContext.jsx';
+
+// Import styled components
+import {
+  CartContainer,
+  CartTitle,
+  Message,
+  LoginRedirectButton,
+  EmptyCartMessage,
+  CartContent,
+  CartItemsList,
+  CartItem,
+  ItemDetails,
+  ItemName,
+  ItemPricePerUnit, // Adjusted for consistent price
+  ItemControls,
+  QuantityButton,
+  QuantityInput,
+  ItemTotalPrice,
+  RemoveItemButton,
+  CartSummary,
+  SummaryTitle,
+  SummaryRow,
+  TotalPrice,
+  ClearCartButton,
+  CheckoutButton
+} from './CartPage.js'; 
 
 export default function CartPage() {
-  const [cart, setCart] = useState({ items: [], total: 0 });
+  const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const { isLoggedIn } = useContext(AuthContext);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const { isLoggedIn, logOut } = useContext(AuthContext);
 
-  const CART_ENDPOINT = "http://localhost:8080/api/cart";
+  const CART_API_URL = 'http://localhost:8080/api/cart';
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate("/login");
+      setError('You need to be logged in to view your cart.');
+      setLoading(false);
       return;
     }
     fetchCart();
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn]);
 
-  const fetchCart = async () => {
-    const token = localStorage.getItem("token");
+  const makeAuthenticatedRequest = async (url, method = 'GET', body = null) => {
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    const token = localStorage.getItem('token');
     if (!token) {
-      navigate("/login");
-      return;
+      console.error('No JWT token found, redirecting to login.');
+      navigate('/login');
+      return null;
     }
 
-    setLoading(true);
-    setError("");
     try {
-      const response = await fetch(CART_ENDPOINT, {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      };
 
-      if (response.status === 401 || response.status === 403) {
-        localStorage.removeItem("token");
-        navigate("/login");
-        return;
+      const options = {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : null,
+      };
+
+      const response = await fetch(url, options);
+
+      if (response.status === 403) {
+        console.error('API Error: 403 Forbidden - Session expired or invalid token.');
+        setError('Session expired. Please log in again.');
+        localStorage.removeItem('token');
+        logOut();
+        navigate('/login');
+        return null;
       }
 
       if (!response.ok) {
-        throw new Error("Could not fetch cart data");
+        const errorData = await response.json();
+        console.error(`API Error: ${response.status} -`, errorData);
+        // Display a more user-friendly message if the backend sends one
+        throw new Error(errorData.message || `API request failed with status: ${response.status}`);
       }
 
-      const data = await response.json();
-      setCart({
-        items: data.items?.map(item => ({
-          id: item.id || item.itemId,
-          name: item.name || item.itemName,
-          price: item.price || item.selectedPrice || 0,
-          quantity: item.quantity || 1,
-          imageUrl: item.imageUrl || "/placeholder-product.jpg"
-        })) || [],
-        total: data.total || 0
-      });
+      const text = await response.text();
+      return text ? JSON.parse(text) : {};
     } catch (err) {
+      console.error('Error during authenticated request:', err);
       setError(err.message);
-      setCart({ items: [], total: 0 });
+      return null;
     } finally {
       setLoading(false);
     }
   };
 
-  const removeItem = async (itemId) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
+  const fetchCart = async () => {
+    console.log("Fetching cart...");
+    const data = await makeAuthenticatedRequest(CART_API_URL, 'GET');
+    if (data) {
+      setCart(data);
+      console.log("Cart fetched:", data);
+    } else {
+      setCart(null);
+    }
+  };
+
+  const handleUpdateQuantity = async (itemId, newQuantity) => {
+    if (newQuantity < 1) {
+      handleRemoveItem(itemId);
       return;
     }
 
-    setError("");
-    setSuccess("");
-
-    try {
-      const response = await fetch(`${CART_ENDPOINT}/remove`, {
-        method: "POST",
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ itemId: itemId }), // Ensure field name matches backend expectation
-      });
-
-      if (response.status === 401 || response.status === 403) {
-        localStorage.removeItem("token");
-        navigate("/login");
-        return;
-      }
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to remove item");
-      }
-
-      setSuccess("Item removed successfully");
-      setTimeout(() => setSuccess(""), 3000);
-      await fetchCart(); // Refresh cart after removal
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const updateQuantity = async (itemId, newQuantity) => {
-    if (newQuantity < 1) return;
-    
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
-    setError("");
-    setSuccess("");
-
-    try {
-      const response = await fetch(`${CART_ENDPOINT}/update`, {
-        method: "POST",
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ 
-          itemId: itemId, 
-          quantity: newQuantity 
-        }),
-      });
-
-      if (response.status === 401 || response.status === 403) {
-        localStorage.removeItem("token");
-        navigate("/login");
-        return;
-      }
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to update quantity");
-      }
-
-      setSuccess("Quantity updated successfully");
-      setTimeout(() => setSuccess(""), 3000);
-      await fetchCart(); // Refresh cart after update
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  const clearCart = async () => {
-    if (!window.confirm("Are you sure you want to clear your cart?")) return;
-    
-    const token = localStorage.getItem("token");
-    setError("");
-    setSuccess("");
-
-    try {
-      const response = await fetch(`${CART_ENDPOINT}/clear`, {
-        method: "POST",
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to clear cart");
-      }
-
-      setSuccess("Cart cleared successfully");
-      setTimeout(() => setSuccess(""), 3000);
-      setCart({ items: [], total: 0 });
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  if (loading) {
-    return (
-      <S.CartLoading>
-        <S.Spinner />
-        <p>Loading your cart...</p>
-      </S.CartLoading>
+    console.log(`Updating item ${itemId} to quantity ${newQuantity}`);
+    const result = await makeAuthenticatedRequest(
+      `${CART_API_URL}/update`,
+      'POST',
+      { itemId, quantity: newQuantity }
     );
+    if (result) {
+      setSuccess('Item quantity updated!');
+      fetchCart();
+      setTimeout(() => setSuccess(''), 3000);
+    }
+  };
+
+  const handleRemoveItem = async (itemId) => {
+    console.log(`Removing item ${itemId}`);
+    const result = await makeAuthenticatedRequest(
+      `${CART_API_URL}/remove`,
+      'POST',
+      { itemId }
+    );
+    if (result) {
+      setSuccess('Item removed from cart!');
+      fetchCart();
+      setTimeout(() => setSuccess(''), 3000);
+    }
+  };
+
+  const handleClearCart = async () => {
+    console.log("Clearing cart...");
+    const result = await makeAuthenticatedRequest(
+      `${CART_API_URL}/clear`,
+      'POST'
+    );
+    if (result) {
+      setSuccess('Cart cleared successfully!');
+      fetchCart();
+      setTimeout(() => setSuccess(''), 3000);
+    }
+  };
+
+  if (!isLoggedIn) {
+      return (
+          <CartContainer>
+              <CartTitle>Shopping Cart</CartTitle>
+              <Message type="error">
+                  {error || 'You must be logged in to view your cart.'}
+                  <LoginRedirectButton onClick={() => navigate('/login')}>Go to Login</LoginRedirectButton>
+              </Message>
+          </CartContainer>
+      );
   }
 
-  if (error) {
+  if (loading && !cart) {
     return (
-      <S.CartError>
-        <h3>Error</h3>
-        <p>{error}</p>
-        <S.ErrorButton onClick={() => window.location.reload()}>
-          Try Again
-        </S.ErrorButton>
-      </S.CartError>
+      <CartContainer>
+        <CartTitle>Shopping Cart</CartTitle>
+        <Message type="info">Loading cart...</Message>
+      </CartContainer>
     );
   }
 
   return (
-    <S.CartContainer>
-      <S.CartTitle>Your Shopping Cart</S.CartTitle>
-      
-      {cart.items.length === 0 ? (
-        <S.EmptyCart>
-          <p>Your cart is empty</p>
-          <S.ShopButton onClick={() => navigate("/products")}>
-            Continue Shopping
-          </S.ShopButton>
-        </S.EmptyCart>
+    <CartContainer>
+      <CartTitle>Shopping Cart</CartTitle>
+
+      {error && <Message type="error">{error}</Message>}
+      {success && <Message type="success">{success}</Message>}
+
+      {!cart || !cart.items || cart.items.length === 0 ? (
+        <EmptyCartMessage>Your cart is empty.</EmptyCartMessage>
       ) : (
-        <>
-          <S.CartItems>
-            {cart.items.map(item => (
-              <S.CartItem key={item.id}>
-                <S.ItemImage>
-                  <img src={item.imageUrl} alt={item.name} />
-                </S.ItemImage>
-                <S.ItemDetails>
-                  <S.ItemName>{item.name}</S.ItemName>
-                  
-                  {/* Updated Price Display */}
-                  <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-                    <S.ItemPrice>
-                      ${item.price.toFixed(2)} × {item.quantity}
-                    </S.ItemPrice>
-                    <S.ItemPrice style={{ fontWeight: 'bold' }}>
-                      Total: ${(item.price * item.quantity).toFixed(2)}
-                    </S.ItemPrice>
-                  </div>
-                  
-                  <S.QuantityControls>
-                    <S.QuantityButton 
-                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      disabled={item.quantity <= 1}
-                    >
-                      -
-                    </S.QuantityButton>
-                    <S.Quantity>{item.quantity}</S.Quantity>
-                    <S.QuantityButton 
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    >
-                      +
-                    </S.QuantityButton>
-                  </S.QuantityControls>
-                  
-                  <S.RemoveButton onClick={() => removeItem(item.id)}>
+        <CartContent>
+          <CartItemsList>
+            {cart.items.map(cartItem => (
+              <CartItem key={cartItem.itemId}> 
+              <ItemDetails>
+                <ItemName>{cartItem.itemName}</ItemName> 
+                <ItemPricePerUnit>${(cartItem.itemPrice || 0)} / unit</ItemPricePerUnit> 
+              </ItemDetails>
+                <ItemControls>
+                  <QuantityButton
+                    onClick={() => handleUpdateQuantity(cartItem.itemId, cartItem.quantity - 1)}
+                    disabled={loading || cartItem.quantity <= 1}
+                  >
+                    -
+                  </QuantityButton>
+                  <QuantityInput
+                    type="number"
+                    value={cartItem.quantity}
+                    min="1"
+                    onChange={(e) => handleUpdateQuantity(cartItem.itemId, parseInt(e.target.value) || 1)}
+                    disabled={loading}
+                  />
+                  <QuantityButton
+                    onClick={() => handleUpdateQuantity(cartItem.itemId, cartItem.quantity + 1)}
+                    disabled={loading}
+                  >
+                    +
+                  </QuantityButton>
+                  {/* Calculate total per item: (price from ItemDTO) * (quantity) */}
+                  <ItemTotalPrice>${((cartItem.itemPrice || 0) * cartItem.quantity)}</ItemTotalPrice>
+                  <RemoveItemButton
+                    onClick={() => handleRemoveItem(cartItem.itemId)}
+                    disabled={loading}
+                  >
                     Remove
-                  </S.RemoveButton>
-                </S.ItemDetails>
-              </S.CartItem>
+                  </RemoveItemButton>
+                </ItemControls>
+              </CartItem>
             ))}
-          </S.CartItems>
-          
-          <S.CartSummary>
-            <S.SummaryRow>
-              <span>Subtotal</span>
-              <span>${(cart.total || 0).toFixed(2)}</span>
-            </S.SummaryRow>
-            <S.SummaryRow>
-              <span>Shipping</span>
-              <span>Free</span>
-            </S.SummaryRow>
-            <S.SummaryRow className="total">
-              <span>Total</span>
-              <span>${(cart.total || 0).toFixed(2)}</span>
-            </S.SummaryRow>
-            
-            <S.CartActions>
-              <S.ClearButton onClick={clearCart}>
-                Clear Cart
-              </S.ClearButton>
-              <S.CheckoutButton onClick={() => navigate("/checkout")}>
-                Proceed to Checkout
-              </S.CheckoutButton>
-            </S.CartActions>
-          </S.CartSummary>
-          
-          {success && (
-            <S.SuccessMessage>
-              {success}
-            </S.SuccessMessage>
-          )}
-        </>
+          </CartItemsList>
+
+          <CartSummary>
+            <SummaryTitle>Cart Summary</SummaryTitle>
+            <SummaryRow>
+              <span>Total Items:</span>
+              <span>{cart.items.reduce((acc, item) => acc + item.quantity, 0)}</span>
+            </SummaryRow>
+            <SummaryRow>
+              <span>Total Price:</span>
+              <TotalPrice>${(cart.totalPrice || 0)}</TotalPrice>
+            </SummaryRow>
+            <ClearCartButton
+              onClick={handleClearCart}
+              disabled={loading || cart.items.length === 0}
+              mt="15px"
+            >
+              Clear Cart
+            </ClearCartButton>
+            <CheckoutButton
+              onClick={() => alert('Proceeding to checkout (not implemented)')}
+              disabled={loading || cart.items.length === 0}
+              mt="10px"
+            >
+              Proceed to Checkout
+            </CheckoutButton>
+          </CartSummary>
+        </CartContent>
       )}
-    </S.CartContainer>
+    </CartContainer>
   );
 }
