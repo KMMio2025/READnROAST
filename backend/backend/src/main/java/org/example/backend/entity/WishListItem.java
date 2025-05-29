@@ -8,18 +8,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WishListItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "wishlist_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wishlist_id")
     private WishList wishList;
 
-    @ManyToOne
-    @JoinColumn(name = "item_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
     private Item item;
-
-    private int quantity;
 }

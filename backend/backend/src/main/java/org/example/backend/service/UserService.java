@@ -10,6 +10,7 @@ import org.example.backend.dtos.UserProfileUpdateDTO;
 import org.example.backend.entity.*;
 import org.example.backend.repository.CartRepository;
 import org.example.backend.repository.UserRepository;
+import org.example.backend.repository.WishListRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,17 @@ public class UserService {
     private final JwtService jwtService;
     private final CookiService cookiService;
     private final CartRepository cartRepository;
+    private final WishListRepository wishListRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, CookiService cookiService, CartRepository cartRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService, CookiService cookiService, CartRepository cartRepository, WishListRepository wishListRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.cookiService = cookiService;
         this.cartRepository = cartRepository;
+        this.wishListRepository = wishListRepository;
     }
+
     public String generateToken(String email) {
         return jwtService.generateToken(email);
     }
@@ -69,11 +73,18 @@ public class UserService {
 
         // 4. Przypisujemy cart do usera i aktualizujemy usera
         user.setCart(cart);
+//        userRepository.save(user);
+        WishList wishList = new WishList();
+        wishList.setUser(user);
+//        wishList = wishListRepository.save(wishList);
+
+        user.setWishList(wishList);
         userRepository.save(user);
 
         // 5. Ustaw id usera w userDetails (jeśli potrzebne gdzieś indziej)
         userDetails.setUserId(user.getId());
     }
+
     public User findUserByEmail(String username) {
         return userRepository.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika o podanym emailu"));
@@ -143,70 +154,4 @@ public class UserService {
 
         userRepository.save(user);
     }
-
-
-//
-//
-//    public User authenticate(String email, String rawPassword) {
-//        // Znajdź użytkownika po emailu
-//        User user = userRepository.findByEmail(email)
-//                .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika o podanym emailu"));
-//
-//        // Porównaj hasła
-//        if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
-//            throw new RuntimeException("Błędne hasło");
-//        }
-//
-//        return user;
-//    }
-//
-
-//
-//
-//    public UserProfileDTO getCurrentUserProfile() {
-//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-//        User user = userRepository.findByEmail(email)
-//                .orElseThrow(() -> new RuntimeException("Nie znaleziono zalogowanego użytkownika"));
-//
-//        UserProfileDTO userProfileDTO = new UserProfileDTO();
-//        userProfileDTO.setName(user.getName());
-//        userProfileDTO.setEmail(user.getEmail());
-//        userProfileDTO.setFirstName(user.getUserDetails().getFirstName());
-//        userProfileDTO.setLastName(user.getUserDetails().getLastName());
-//        userProfileDTO.setStreet(user.getUserDetails().getStreet());
-//        userProfileDTO.setCity(user.getUserDetails().getCity());
-//        userProfileDTO.setZip(user.getUserDetails().getZip());
-//        userProfileDTO.setCountry(user.getUserDetails().getCountry());
-//        userProfileDTO.setPhone(user.getUserDetails().getPhone());
-//
-//        return userProfileDTO;
-//    }
-//
-//
-//    @Transactional
-//    public void updateCurrentUserProfile(UserProfileUpdateDTO updateDTO) {
-//        // Pobranie zalogowanego użytkownika
-//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-//        User user = userRepository.findByEmail(email)
-//                .orElseThrow(() -> new RuntimeException("User not found"));
-//
-//        // Aktualizacja danych użytkownika
-//        if (updateDTO.getName() != null) user.setName(updateDTO.getName());
-//        if (updateDTO.getEmail() != null) user.setEmail(updateDTO.getEmail());
-//
-//        // Aktualizacja danych szczegółowych (UserDetails)
-//        UserDetails userDetails = user.getUserDetails();
-//        if (userDetails != null) {
-//            if (updateDTO.getFirstName() != null) userDetails.setFirstName(updateDTO.getFirstName());
-//            if (updateDTO.getLastName() != null) userDetails.setLastName(updateDTO.getLastName());
-//            if (updateDTO.getStreet() != null) userDetails.setStreet(updateDTO.getStreet());
-//            if (updateDTO.getCity() != null) userDetails.setCity(updateDTO.getCity());
-//            if (updateDTO.getZip() != null) userDetails.setZip(updateDTO.getZip());
-//            if (updateDTO.getCountry() != null) userDetails.setCountry(updateDTO.getCountry());
-//            if (updateDTO.getPhone() != null) userDetails.setPhone(updateDTO.getPhone());
-//        }
-//
-//        // Zapis do bazy danych
-//        userRepository.save(user);
-//    }
 }

@@ -1,102 +1,94 @@
-//package org.example.backend.service.impl;
-//
-//import org.example.backend.entity.WishList;
-//import org.example.backend.repository.WishListRepository;
-//import org.example.backend.service.WishListService;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
-//
-//import java.util.Optional;
-//
-//import static org.assertj.core.api.Assertions.assertThat;
-//import static org.mockito.Mockito.*;
-//
-//public class WishListServiceTest {
-//
-//    @Mock
-//    private WishListRepository wishListRepository;
-//
-//    @InjectMocks
-//    private WishListService wishListService;
-//
-//    @BeforeEach
-//    public void setUp() {
-//        MockitoAnnotations.openMocks(this);
-//    }
-//
-//    @Test
-//    public void createWishList_shouldReturnCreatedWishList_whenValidDataProvided() {
-//        WishList wishList = new WishList();
-//        wishList.setId(1);
-//
-//        when(wishListRepository.save(wishList)).thenReturn(wishList);
-//
-//        WishList createdWishList = wishListService.createWishList(wishList);
-//
-//        assertThat(createdWishList).isNotNull();
-//        assertThat(createdWishList.getId()).isEqualTo(1);
-//
-//        verify(wishListRepository, times(1)).save(wishList);
-//    }
-//
-//    @Test
-//    public void getWishListById_shouldReturnWishList_whenWishListExists() {
-//        WishList wishList = new WishList();
-//        wishList.setId(1);
-//
-//        when(wishListRepository.findById(1)).thenReturn(Optional.of(wishList));
-//
-//        Optional<WishList> retrievedWishList = wishListService.getWishListById(1);
-//
-//        assertThat(retrievedWishList).isPresent();
-//        assertThat(retrievedWishList.get().getId()).isEqualTo(1);
-//
-//        verify(wishListRepository, times(1)).findById(1);
-//    }
-//
-//    @Test
-//    public void updateWishList_shouldReturnUpdatedWishList_whenValidDataProvided() {
-//        WishList existingWishList = new WishList();
-//        existingWishList.setId(1);
-//
-//        WishList updatedWishList = new WishList();
-//        updatedWishList.setId(1);
-//
-//        when(wishListRepository.findById(1)).thenReturn(Optional.of(existingWishList));
-//        when(wishListRepository.save(existingWishList)).thenReturn(existingWishList);
-//
-//        WishList result = wishListService.updateWishList(1, updatedWishList);
-//
-//        assertThat(result).isNotNull();
-//        assertThat(result.getId()).isEqualTo(1);
-//
-//        verify(wishListRepository, times(1)).findById(1);
-//        verify(wishListRepository, times(1)).save(existingWishList);
-//    }
-//
-//    @Test
-//    public void deleteWishList_shouldCallRepositoryDelete_whenWishListExists() {
-//        WishList wishList = new WishList();
-//        wishList.setId(1);
-//
-//        when(wishListRepository.findById(1)).thenReturn(Optional.of(wishList));
-//
-//        wishListService.deleteWishList(1);
-//
-//        verify(wishListRepository, times(1)).findById(1);
-//        verify(wishListRepository, times(1)).delete(wishList);
-//    }
-//
-//    @Test
-//    public void addItemToWishList_shouldNotThrowException_whenValidDataProvided() {
-//        wishListService.addItemToWishList(1, 100);
-//    }
-////
-////    @Test
-////    public void removeItemFromWishList_shouldNotThrowException_whenValidDataProvided() {
-////        wishListService.removeItemFromWishList(1, 100);
-////    }
-//}
+package org.example.backend.service.impl;
+
+import org.example.backend.entity.*;
+import org.example.backend.repository.*;
+import org.example.backend.service.WishListService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+
+import java.util.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
+
+class WishListServiceTest {
+
+    private UserRepository userRepository;
+    private ItemRepository itemRepository;
+    private WishListRepository wishListRepository;
+    private WishListItemRepository wishListItemRepository;
+    private WishListService wishListService;
+
+    @BeforeEach
+    void setup() {
+        userRepository = mock(UserRepository.class);
+        itemRepository = mock(ItemRepository.class);
+        wishListRepository = mock(WishListRepository.class);
+        wishListItemRepository = mock(WishListItemRepository.class);
+
+        wishListService = new WishListService(
+                userRepository, itemRepository, wishListRepository, wishListItemRepository
+        );
+    }
+
+    @Test
+    void addItem_addsItemToWishList() {
+        // Arrange
+        String email = "test@example.com";
+        Long itemId = 2L;
+        User user = new User();
+        user.setEmail(email);
+        WishList wishList = new WishList();
+        wishList.setItems(new ArrayList<>());
+        user.setWishList(wishList);
+
+        Item item = mock(Item.class);
+        when(item.getId()).thenReturn(itemId);
+
+        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(itemRepository.findById(itemId)).thenReturn(Optional.of(item));
+
+        // Act
+        wishListService.addItem(email, itemId);
+
+        // Assert
+        ArgumentCaptor<WishListItem> captor = ArgumentCaptor.forClass(WishListItem.class);
+        verify(wishListItemRepository).save(captor.capture());
+        WishListItem saved = captor.getValue();
+        assertThat(saved.getItem()).isEqualTo(item);
+        assertThat(saved.getWishList()).isEqualTo(wishList);
+    }
+
+    @Test
+    void removeItem_removesItemFromWishList() {
+        // Arrange
+        String email = "test@example.com";
+        Long itemId = 2L;
+        User user = new User();
+        user.setEmail(email);
+        WishList wishList = new WishList();
+        user.setWishList(wishList);
+
+        Item item = mock(Item.class);
+        when(item.getId()).thenReturn(itemId);
+
+        WishListItem wishListItem = new WishListItem();
+        wishListItem.setWishList(wishList);
+        wishListItem.setItem(item);
+
+        List<WishListItem> items = new ArrayList<>();
+        items.add(wishListItem);
+        wishList.setItems(items);
+
+        when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        when(itemRepository.findById(itemId)).thenReturn(Optional.of(item));
+
+        // Act
+        wishListService.removeItem(email, itemId);
+
+        // Assert
+        verify(wishListItemRepository).delete(wishListItem);
+        assertThat(wishList.getItems()).doesNotContain(wishListItem);
+    }
+}
