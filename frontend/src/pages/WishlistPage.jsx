@@ -4,6 +4,7 @@ export default function WishlistPage() {
     <div>
       <header>
         <h1>Wishlist Page</h1>
+        to do :DD
       </header>
     </div>
   );

@@ -32,11 +32,10 @@ const ShopFilters = ({ items, onFilteredItems }) => {
 
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        item =>
-          item.name.toLowerCase().includes(query) ||
-          item.description.toLowerCase().includes(query) ||
-          (item.author && item.author.toLowerCase().includes(query))
+      filtered = filtered.filter(item =>
+        (item.name && item.name.toLowerCase().includes(query)) ||
+        (item.description && item.description.toLowerCase().includes(query)) ||
+        (item.type === 'book' && item.author && item.author.toLowerCase().includes(query))
       );
     }
 

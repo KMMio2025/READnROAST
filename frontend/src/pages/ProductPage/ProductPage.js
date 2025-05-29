@@ -70,11 +70,11 @@ export const SizeOptions = styled.div`
 
 export const SizeOption = styled.div`
   padding: 0.5rem 1rem;
-  border: 1px solid ${props => props.active ? '#2a6496' : '#ddd'};
+  border: 1px solid ${props => props.active ? '#6f4e37;' : '#ddd'};
   border-radius: 4px;
   cursor: pointer;
-  background-color: ${props => props.active ? '#f0f7ff' : 'white'};
-  color: ${props => props.active ? '#2a6496' : '#333'};
+  background-color: ${props => props.active ? '#c6946f' : 'white'};
+  color: ${props => props.active ? '#6f4e37;' : '#333'};
   font-weight: ${props => props.active ? 'bold' : 'normal'};
 
   &:hover {
@@ -127,6 +127,23 @@ export const AddToCartButton = styled.button`
 
   &:hover {
     background-color: #493628;
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+`;
+export const AddToWishlistButton = styled.button`
+  color: white;
+  border: none;
+  border-color: transparent;
+  cursor: pointer;
+  color: #6f4e37;
+  background-color: transparent;
+  font-size: 2.1rem;
+  &:hover {
+    color: red;
+  }
 
   &:disabled {
     background-color: #cccccc;

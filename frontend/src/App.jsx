@@ -9,7 +9,7 @@ import BooksPage from "./pages/BooksPage/index.jsx";
 import CoffeePage from "./pages/CoffeePage/index.jsx";
 import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
 import WishList from "./pages/WishlistPage.jsx";
-import ExplorePage from "./pages/ExplorePage/index.jsx";
+import ExplorePage from "./pages/ExplorePage/ExplorePage.jsx";
 import Cart from "./pages/CartPage/CartPage.jsx";
 import AboutPage from "./pages/AboutPage/AboutPage.jsx";
 import {

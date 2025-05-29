@@ -1,57 +1,106 @@
+const API_BASE_URL = "http://localhost:8080";
+
 export async function fetchUserIsLoggedIn() {
-  const response = await fetch("http://localhost:8080/api/users/me", {
-    credentials: "include",
+  const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
+
   if (response.ok) {
     const user = await response.json();
-    console.log("User is logged in");
     return { isLoggedIn: true, user };
   } else {
-    console.log("User isn't logged in");
     return { isLoggedIn: false };
   }
 }
 
 export async function fetchRegister(enteredUserDetails) {
-  const response = await fetch("http://localhost:8080/api/auth/register", {
+  const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(enteredUserDetails),
+    credentials: 'include',
   });
+
   const registerStatus = await response.text();
 
   if (!response.ok) {
-    throw new Error(
-      registerStatus.message || "Failed to register, please try again"
-    );
+    throw new Error(registerStatus || "Failed to register, please try again");
   }
 
-  console.log("Acc registered");
   return registerStatus;
 }
 
 export async function fetchLogIn(enteredEmail, enteredPassword) {
-  const params = new URLSearchParams();
-  params.append("username", enteredEmail); // lub enteredUsername
-  params.append("password", enteredPassword);
+  const loginData = {
+    email: enteredEmail,
+    password: enteredPassword,
+  };
 
-  const response = await fetch("http://localhost:8080/api/auth/login", {
+  const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/json",
     },
-    body: params.toString(),
-    credentials: "include",
+    body: JSON.stringify(loginData),
+   credentials: 'include',
   });
-  //Backend returns String not JSON -- thats why using response.text()
-  const resData = await response.text();
 
   if (!response.ok) {
-    throw new Error(resData || "Failed to log in");
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to log in");
   }
 
-  console.log("Successfully logged in!!!!");
-  return resData;
+  const resData = await response.json();
+  if(resData.email) {
+    loginData.email = resData.email;
+  }
+  if(resData.password) {
+    loginData.password = resData.password;
+  }
+  if (resData.token) {
+    localStorage.setItem("token", resData.token);
+  } else {
+    throw new Error("No token received from server");
+  }
+
+  return loginData;
+}
+
+
+export async function fetchLogOut() {
+  const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+    method: "POST",
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to log out");
+  }
+}
+export async function fetchProducts(filters = {}) {
+  const params = new URLSearchParams();
+
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      params.append(key, value);
+    }
+  });
+
+  const response = await fetch(`${API_BASE_URL}/api/products/all?${params.toString()}`, {
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch products");
+  }
+
+  return response.json();
 }

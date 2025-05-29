@@ -1,9 +1,9 @@
 
 import ShopFilters from "../../components/ShopFilters/BooksFilters";
 import BookCard from "../../components/BookCard/BookCard";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
-
+import { fetchProducts } from "../../http";
 const BooksPageContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
@@ -33,11 +33,27 @@ const PageTitle = styled.h1`
 `;
 
 export default function BooksPage() {
-  const [filteredBooks, setFilteredBooks] = useState(sampleBooks);
+    const [bookProducts, setBookProducts] = useState([]);
+  
+  const [filteredBooks, setFilteredBooks] = useState([]);
+    useEffect(() => {
+      async function loadProducts() {
+        try {
+          //fetching products from database
+          const data = await fetchProducts({type: "book"});
+          setBookProducts(data.content);
+          setFilteredBooks(data.content);
+        } catch (err) {
+          console.error("Błąd przy pobieraniu produktów:", err);
+        }
+      }
+  
+      loadProducts();
+    }, []);
 
   return (
     <BooksPageContainer>
-      <ShopFilters items={sampleBooks} onFilteredItems={setFilteredBooks} />
+      <ShopFilters items={bookProducts} onFilteredItems={setFilteredBooks} />
       
       <BooksGrid>
         {filteredBooks.map(book => (

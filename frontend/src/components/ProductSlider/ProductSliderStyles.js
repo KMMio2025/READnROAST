@@ -1,14 +1,24 @@
 import { styled } from "styled-components";
 
 export const SliderContainer = styled.div`
-  width: 100vw;
+  width: 100%;
+  max-width: 1200px;
   overflow: hidden;
   padding: 2rem 0;
+  margin: 0 auto;
+
+  .slick-slider {
+    margin: 0 -1rem;
+  }
+
+  .slick-list {
+    overflow: visible;
+  }
 
   .slick-slide > div {
-    padding: 1rem;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   .slick-dots {
@@ -23,35 +33,12 @@ export const SliderContainer = styled.div`
   .slick-dots li.slick-active button:before {
     color: #333;
   }
-`;
 
-export const SlideWrapper = styled.div`
-  box-sizing: border-box;
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  height: 360px;
-
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.02);
+  /* Always apply brown glow to center card */
+  .slick-center > div > * {
+    box-shadow: 0 0 24px 0 #6f4e37, 0 8px 32px 0 rgba(111, 78, 55, 0.25);
+    border-bottom: 6px solid #6f4e37;
+    transition: box-shadow 0.3s, border-bottom 0.3s;
+    z-index: 2;
   }
-`;
-
-export const Image = styled.img`
-  max-height: 300px;
-  width: auto;
-  object-fit: contain;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;

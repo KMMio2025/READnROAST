@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext.jsx";
+import { fetchLogIn } from "../../http.js";
 import InputBox from "../../components/InputBox/InputBox.jsx";
 import HeaderLogo from "../../assets/img/headerLogo.png";
-import { useState, useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext.jsx";
 import {
   ButtonsContainer,
   TextButton,
   HeaderLogoImg,
   FullButton,
 } from "./LoginStyles.js";
-import { fetchLogIn } from "../../http.js";
-import { useNavigate } from "react-router-dom";
 
 export default function LogInPage() {
-  //Only two input fields so separate states for each one
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
   const [error, setError] = useState();
@@ -26,10 +24,10 @@ export default function LogInPage() {
         setError({ message: "Email or password incorrect, please try again" });
         return;
       }
-      const message = await fetchLogIn(enteredEmail, enteredPassword);
-
+      const userData = await fetchLogIn(enteredEmail, enteredPassword);
+      logIn(userData);
+      console.log("user logged in");
       navigate("/");
-      logIn();
     } catch (error) {
       setError({
         message: error.message || "Failed to log in, please try again.",
@@ -44,24 +42,26 @@ export default function LogInPage() {
   function handleChangeEmail(event) {
     setEnteredEmail(event.target.value);
   }
+
   function handleChangePassword(event) {
     setEnteredPassword(event.target.value);
   }
 
   function isValidEmail(email) {
-    // add more complex validation....
-    return email.includes("@");
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   }
+
   function isValidPassword(password) {
     return password.length >= 8;
   }
 
   return (
     <>
-      {isLoggedIn && <p>U are already logged in</p>}
+      {isLoggedIn && <p>You are already logged in</p>}
       {error && <p className="errorMsg">{error.message}</p>}
       <div>
-        <HeaderLogoImg src={HeaderLogo} alt="Logo with text 'readnroast' " />
+        <HeaderLogoImg src={HeaderLogo} alt="Logo with text 'readnroast'" />
         <div>
           <div id="inputs">
             <div>
@@ -93,6 +93,3 @@ export default function LogInPage() {
     </>
   );
 }
-
-//TO-DO :
-// 2. conditionally output error message

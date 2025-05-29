@@ -52,8 +52,7 @@ export default function RegisterPage() {
         return;
       }
       const response = await fetchRegister(enteredUserDetails);
-      navigate("/");
-      logIn();
+      navigate("/login");
     } catch (error) {
       setError(error.message || "Failed to register, please try again");
     }

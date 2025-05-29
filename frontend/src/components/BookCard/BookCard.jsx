@@ -5,6 +5,7 @@ import Read from '../../assets/img/read.png';
 
 const Card = styled.div`
   width: 300px;
+  height: 420px;
   background-color: #fff;
   border-radius: 20px;
   border-color: #6f4e37;
@@ -13,11 +14,22 @@ const Card = styled.div`
   margin: 16px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
-  
+  display: flex;
+  flex-direction: column;
+
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
+`;
+
+const ImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 220px;
+  width: 100%;
+  background: #f7f4ef;
 `;
 
 const Image = styled.img`
@@ -30,7 +42,11 @@ const Image = styled.img`
 `;
 
 const Details = styled.div`
+  flex: 1;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
 
 const Title = styled.h3`
@@ -69,20 +85,19 @@ export default function BookCard({ book }) {
 
   return (
     <Card onClick={handleClick}>
-      {book.images?.length > 0 ? (
-        <Image 
-          src={book.images[0].url} 
-          alt={book.name}
-          onError={(e) => {
-            e.target.src = 'https://via.placeholder.com/300x450?text=Brak+obrazka';
-          }}
-        />
-      ) : (
-        <Image 
-          src={Read}
-          alt="Placeholder"
-        />
-      )}
+      <ImageWrapper>
+        {book.images?.length > 0 ? (
+          <Image 
+            src={book.images[0].url} 
+            alt={book.name}
+          />
+        ) : (
+          <Image 
+            src={Read}
+            alt="Placeholder"
+          />
+        )}
+      </ImageWrapper>
       <Details>
         <Title>{book.name}</Title>
         <Author>{book.author}</Author>
