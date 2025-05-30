@@ -115,7 +115,6 @@ export default function ProductPage() {
     const token = localStorage.getItem('token');
     if (!token) {
       console.log("JWT token not found in localStorage, redirecting to login.");
-      // This case should ideally be caught by isLoggedIn check if AuthContext is robust
       navigate('/login');
       return;
     }
@@ -194,7 +193,11 @@ export default function ProductPage() {
     setSuccess('');
 
     try {
-      const itemToAdd = { itemId: product.id }; // Assuming wishlist also expects itemId
+      const itemToAdd = {
+        id: null, // Backend może sam ustawić ID, jeśli to nowy wpis
+        itemId: product.id,
+        itemName: product.name,
+      };
       console.log("Sending to wishlist backend:", itemToAdd);
       console.log("Using token:", token.substring(0, 30) + "...");
 
