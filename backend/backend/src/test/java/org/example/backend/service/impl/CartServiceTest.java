@@ -55,7 +55,7 @@ class CartServiceTest {
         when(cartItemRepository.findByCartAndItem(cart, item)).thenReturn(Optional.empty());
 
         // Act
-        cartService.addItem(email, itemId, quantity);
+        cartService.addItem(email, itemId, quantity, 0.0);
 
         // Assert
         ArgumentCaptor<CartItem> captor = ArgumentCaptor.forClass(CartItem.class);

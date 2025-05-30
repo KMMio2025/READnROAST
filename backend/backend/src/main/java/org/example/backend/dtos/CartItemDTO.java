@@ -9,6 +9,7 @@ public class CartItemDTO {
     private Long itemId;
     private String itemName;
     private int quantity;
+    private double price;
 
     public static CartItemDTO fromEntity(CartItem item) {
         CartItemDTO dto = new CartItemDTO();
@@ -16,6 +17,7 @@ public class CartItemDTO {
         dto.setItemId(item.getItem().getId());
         dto.setItemName(item.getItem().getName());
         dto.setQuantity(item.getQuantity());
+        dto.setPrice(item.getPrice());
         return dto;
     }
 }

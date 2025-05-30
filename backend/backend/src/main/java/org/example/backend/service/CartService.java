@@ -30,13 +30,12 @@ public class CartService {
     }
 
     @Transactional
-    public void addItem(String email, Long itemId, int quantity) {
+    public void addItem(String email, Long itemId, int quantity, double price) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika o podanym emailu"));
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono itemu"));
         Cart cart = user.getCart();
-
         CartItem cartItem = cartItemRepository.findByCartAndItem(cart, item).orElse(null);
         if (cartItem == null) {
             cartItem = new CartItem();
@@ -46,6 +45,7 @@ public class CartService {
         } else {
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
         }
+        cartItem.setPrice(price);
         cartItemRepository.save(cartItem);
     }
 

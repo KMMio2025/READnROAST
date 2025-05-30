@@ -6,4 +6,5 @@ import lombok.Data;
 public class AddCartItemDTO {
     private Long itemId;
     private int quantity;
+    private double price;
 }

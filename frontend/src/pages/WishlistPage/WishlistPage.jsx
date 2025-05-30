@@ -1,18 +1,18 @@
-// src/pages/CartPage/CartPage.jsx
+// src/pages/wishlistPage/wishlistPage.jsx
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext.jsx';
 
 // Import styled components
 import {
-  CartContainer,
-  CartTitle,
+  wishlistContainer,
+  wishlistTitle,
   Message,
   LoginRedirectButton,
-  EmptyCartMessage,
-  CartContent,
-  CartItemsList,
-  CartItem,
+  EmptywishlistMessage,
+  wishlistContent,
+  wishlistItemsList,
+  wishlistItem,
   ItemDetails,
   ItemName,
   ItemPricePerUnit, // Adjusted for consistent price
@@ -21,31 +21,31 @@ import {
   QuantityInput,
   ItemTotalPrice,
   RemoveItemButton,
-  CartSummary,
+  wishlistSummary,
   SummaryTitle,
   SummaryRow,
   TotalPrice,
-  ClearCartButton,
+  ClearwishlistButton,
   CheckoutButton
-} from './CartPage.js'; 
+} from './wishlistPage.js'; 
 
-export default function CartPage() {
-  const [cart, setCart] = useState(null);
+export default function wishlistPage() {
+  const [wishlist, setwishlist] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
   const { isLoggedIn, logOut } = useContext(AuthContext);
 
-  const CART_API_URL = 'http://localhost:8080/api/cart';
+  const wishlist_API_URL = 'http://localhost:8080/api/wishlist';
 
   useEffect(() => {
     if (!isLoggedIn) {
-      setError('You need to be logged in to view your cart.');
+      setError('You need to be logged in to view your wishlist.');
       setLoading(false);
       return;
     }
-    fetchCart();
+    fetchwishlist();
   }, [isLoggedIn]);
 
   const makeAuthenticatedRequest = async (url, method = 'GET', body = null) => {
@@ -101,14 +101,14 @@ export default function CartPage() {
     }
   };
 
-  const fetchCart = async () => {
-    console.log("Fetching cart...");
-    const data = await makeAuthenticatedRequest(CART_API_URL, 'GET');
+  const fetchwishlist = async () => {
+    console.log("Fetching wishlist...");
+    const data = await makeAuthenticatedRequest(wishlist_API_URL, 'GET');
     if (data) {
-      setCart(data);
-      console.log("Cart fetched:", data);
+      setwishlist(data);
+      console.log("wishlist fetched:", data);
     } else {
-      setCart(null);
+      setwishlist(null);
     }
   };
 
@@ -120,13 +120,13 @@ export default function CartPage() {
 
     console.log(`Updating item ${itemId} to quantity ${newQuantity}`);
     const result = await makeAuthenticatedRequest(
-      `${CART_API_URL}/update`,
+      `${wishlist_API_URL}/update`,
       'POST',
       { itemId, quantity: newQuantity }
     );
     if (result) {
       setSuccess('Item quantity updated!');
-      fetchCart();
+      fetchwishlist();
       setTimeout(() => setSuccess(''), 3000);
     }
   };
@@ -134,129 +134,86 @@ export default function CartPage() {
   const handleRemoveItem = async (itemId) => {
     console.log(`Removing item ${itemId}`);
     const result = await makeAuthenticatedRequest(
-      `${CART_API_URL}/remove`,
+      `${wishlist_API_URL}/remove`,
       'POST',
       { itemId }
     );
     if (result) {
-      setSuccess('Item removed from cart!');
-      fetchCart();
+      setSuccess('Item removed from wishlist!');
+      fetchwishlist();
       setTimeout(() => setSuccess(''), 3000);
     }
   };
 
-  const handleClearCart = async () => {
-    console.log("Clearing cart...");
+  const handleClearwishlist = async () => {
+    console.log("Clearing wishlist...");
     const result = await makeAuthenticatedRequest(
-      `${CART_API_URL}/clear`,
+      `${wishlist_API_URL}/clear`,
       'POST'
     );
     if (result) {
-      setSuccess('Cart cleared successfully!');
-      fetchCart();
+      setSuccess('wishlist cleared successfully!');
+      fetchwishlist();
       setTimeout(() => setSuccess(''), 3000);
     }
   };
 
   if (!isLoggedIn) {
       return (
-          <CartContainer>
-              <CartTitle>Shopping Cart</CartTitle>
+          <wishlistContainer>
+              <wishlistTitle>Shopping wishlist</wishlistTitle>
               <Message type="error">
-                  {error || 'You must be logged in to view your cart.'}
+                  {error || 'You must be logged in to view your wishlist.'}
                   <LoginRedirectButton onClick={() => navigate('/login')}>Go to Login</LoginRedirectButton>
               </Message>
-          </CartContainer>
+          </wishlistContainer>
       );
   }
 
-  if (loading && !cart) {
+  if (loading && !wishlist) {
     return (
-      <CartContainer>
-        <CartTitle>Shopping Cart</CartTitle>
-        <Message type="info">Loading cart...</Message>
-      </CartContainer>
+      <wishlistContainer>
+        <wishlistTitle>wishlist</wishlistTitle>
+        <Message type="info">Loading wishlist...</Message>
+      </wishlistContainer>
     );
   }
 
   return (
-    <CartContainer>
-      <CartTitle>Shopping Cart</CartTitle>
+    <wishlistContainer>
+      <wishlistTitle>wishlist</wishlistTitle>
 
       {error && <Message type="error">{error}</Message>}
       {success && <Message type="success">{success}</Message>}
 
-      {!cart || !cart.items || cart.items.length === 0 ? (
-        <EmptyCartMessage>Your cart is empty.</EmptyCartMessage>
+      {!wishlist || !wishlist.items || wishlist.items.length === 0 ? (
+        <EmptywishlistMessage>Your wishlist is empty.</EmptywishlistMessage>
       ) : (
-        <CartContent>
-          <CartItemsList>
-            {cart.items.map(cartItem => (
-              <CartItem key={cartItem.itemId}> 
+        <wishlistContent>
+          <wishlistItemsList>
+            {wishlist.items.map(wishlistItem => (
+              <wishlistItem key={wishlistItem.itemId}> 
               <ItemDetails>
-                <ItemName>{cartItem.itemName}</ItemName> 
-                <ItemPricePerUnit>${(cartItem.price || 0)} / unit</ItemPricePerUnit> 
+                <ItemName>{wishlistItem.itemName}</ItemName> 
+                <ItemPricePerUnit>${(wishlistItem.price || 0)} / unit</ItemPricePerUnit> 
               </ItemDetails>
                 <ItemControls>
-                  <QuantityButton
-                    onClick={() => handleUpdateQuantity(cartItem.itemId, cartItem.quantity - 1)}
-                    disabled={loading || cartItem.quantity <= 1}
-                  >
-                    -
-                  </QuantityButton>
-                  <QuantityInput
-                    type="number"
-                    value={cartItem.quantity}
-                    min="1"
-                    onChange={(e) => handleUpdateQuantity(cartItem.itemId, parseInt(e.target.value) || 1)}
-                    disabled={loading}
-                  />
-                  <QuantityButton
-                    onClick={() => handleUpdateQuantity(cartItem.itemId, cartItem.quantity + 1)}
-                    disabled={loading}
-                  >
-                    +
-                  </QuantityButton>
-                  {/* Calculate total per item: (price from ItemDTO) * (quantity) */}
-                  <ItemTotalPrice>${((cartItem.price || 0) * cartItem.quantity)}</ItemTotalPrice>
+                  
+                  <ItemTotalPrice>${(wishlistItem.price)}</ItemTotalPrice>
                   <RemoveItemButton
-                    onClick={() => handleRemoveItem(cartItem.itemId)}
+                    onClick={() => handleRemoveItem(wishlistItem.itemId)}
                     disabled={loading}
                   >
                     Remove
                   </RemoveItemButton>
                 </ItemControls>
-              </CartItem>
+              </wishlistItem>
             ))}
-          </CartItemsList>
+          </wishlistItemsList>
 
-          <CartSummary>
-            <SummaryTitle>Cart Summary</SummaryTitle>
-            <SummaryRow>
-              <span>Total Items:</span>
-              <span>{cart.items.reduce((acc, item) => acc + item.quantity, 0)}</span>
-            </SummaryRow>
-            <SummaryRow>
-              <span>Total Price:</span>
-              <TotalPrice>${(cart.totalPrice || 0)}</TotalPrice>
-            </SummaryRow>
-            <ClearCartButton
-              onClick={handleClearCart}
-              disabled={loading || cart.items.length === 0}
-              mt="15px"
-            >
-              Clear Cart
-            </ClearCartButton>
-            <CheckoutButton
-              onClick={() => alert('Proceeding to checkout (not implemented)')}
-              disabled={loading || cart.items.length === 0}
-              mt="10px"
-            >
-              Proceed to Checkout
-            </CheckoutButton>
-          </CartSummary>
-        </CartContent>
+          
+        </wishlistContent>
       )}
-    </CartContainer>
+    </wishlistContainer>
   );
 }

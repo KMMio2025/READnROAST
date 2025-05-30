@@ -128,7 +128,7 @@ export default function ProductPage() {
       const itemToAdd = {
         itemId: product.id,
         quantity: quantity,
-        price: product.type == 'coffee' ?  product.prices[selectedSizeIndex] :product.prices
+        price: product.type == 'coffee' ?  product.prices[selectedSizeIndex] :product.price
       };
       console.log("Sending to cart backend:", itemToAdd);
       console.log("Using token:", token.substring(0, 30) + "..."); // Log partial token for privacy
