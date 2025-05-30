@@ -34,6 +34,7 @@ export default function CartPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [cartTotal, setCartTotal] = useState(0);
   const navigate = useNavigate();
   const { isLoggedIn, logOut } = useContext(AuthContext);
 
@@ -73,7 +74,7 @@ export default function CartPage() {
       };
 
       const response = await fetch(url, options);
-
+      
       if (response.status === 403) {
         console.error('API Error: 403 Forbidden - Session expired or invalid token.');
         setError('Session expired. Please log in again.');
@@ -82,14 +83,14 @@ export default function CartPage() {
         navigate('/login');
         return null;
       }
-
+      
       if (!response.ok) {
         const errorData = await response.json();
         console.error(`API Error: ${response.status} -`, errorData);
         // Display a more user-friendly message if the backend sends one
         throw new Error(errorData.message || `API request failed with status: ${response.status}`);
       }
-
+      
       const text = await response.text();
       return text ? JSON.parse(text) : {};
     } catch (err) {
@@ -100,12 +101,21 @@ export default function CartPage() {
       setLoading(false);
     }
   };
-
+  const calculateTotalPrice = (items) => {
+    let totalPrice = 0;
+    if (!items || items.length === 0) return 0;
+    items.forEach(item => {
+      totalPrice += (item.price) * item.quantity;
+    });
+    return totalPrice; 
+  }
+  
   const fetchCart = async () => {
     console.log("Fetching cart...");
     const data = await makeAuthenticatedRequest(CART_API_URL, 'GET');
     if (data) {
       setCart(data);
+      setCartTotal(calculateTotalPrice(data.items));
       console.log("Cart fetched:", data);
     } else {
       setCart(null);
@@ -117,7 +127,7 @@ export default function CartPage() {
       handleRemoveItem(itemId);
       return;
     }
-
+    
     console.log(`Updating item ${itemId} to quantity ${newQuantity}`);
     const result = await makeAuthenticatedRequest(
       `${CART_API_URL}/update`,
@@ -130,7 +140,6 @@ export default function CartPage() {
       setTimeout(() => setSuccess(''), 3000);
     }
   };
-
   const handleRemoveItem = async (itemId) => {
     console.log(`Removing item ${itemId}`);
     const result = await makeAuthenticatedRequest(
@@ -178,6 +187,7 @@ export default function CartPage() {
       </CartContainer>
     );
   }
+
 
   return (
     <CartContainer>
@@ -238,7 +248,7 @@ export default function CartPage() {
             </SummaryRow>
             <SummaryRow>
               <span>Total Price:</span>
-              <TotalPrice>${(cart.totalPrice || 0)}</TotalPrice>
+              <TotalPrice>${cartTotal}</TotalPrice>
             </SummaryRow>
             <ClearCartButton
               onClick={handleClearCart}

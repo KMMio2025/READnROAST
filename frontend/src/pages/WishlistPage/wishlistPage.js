@@ -1,7 +1,7 @@
-// src/pages/wishlistPage/wishlistPage.js
+// src/pages/WIshlistPage/WIshlistPage.js
 import styled from 'styled-components';
 
-export const wishlistContainer = styled.div`
+export const WishlistContainer = styled.div`
   max-width: 900px;
   margin: 30px auto;
   padding: 25px;
@@ -10,7 +10,7 @@ export const wishlistContainer = styled.div`
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 `;
 
-export const wishlistTitle = styled.h1`
+export const WishlistTitle = styled.h1`
   text-align: center;
   color: #333;
   margin-bottom: 30px;
@@ -62,7 +62,7 @@ export const LoginRedirectButton = styled.button`
   }
 `;
 
-export const EmptywishlistMessage = styled.div`
+export const EmptyWishlistMessage = styled.div`
   text-align: center;
   padding: 50px;
   font-size: 1.2em;
@@ -72,20 +72,20 @@ export const EmptywishlistMessage = styled.div`
   border: 1px dashed #ddd;
 `;
 
-export const wishlistContent = styled.div`
+export const WishlistContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 25px;
 `;
 
-export const wishlistItemsList = styled.div`
+export const WishlistItemsList = styled.div`
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
   background-color: #fcfcfc;
 `;
 
-export const wishlistItem = styled.div`
+export const WishlistItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -206,7 +206,7 @@ export const RemoveItemButton = styled.button`
   }
 `;
 
-export const wishlistSummary = styled.div`
+export const WishlistSummary = styled.div`
   background-color: #f9f9f9;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -245,7 +245,7 @@ export const TotalPrice = styled.span`
   color:  #6f4e37;
 `;
 
-export const wishlistActionButton = styled.button`
+export const WishlistActionButton = styled.button`
   padding: 12px 20px;
   border: none;
   border-radius: 8px;
@@ -267,12 +267,12 @@ export const wishlistActionButton = styled.button`
   }
 `;
 
-export const ClearwishlistButton = styled(wishlistActionButton)`
+export const ClearWishlistButton = styled(WishlistActionButton)`
   background-color: #c6946f;
   color: #333;
 `;
 
-export const CheckoutButton = styled(wishlistActionButton)`
+export const CheckoutButton = styled(WishlistActionButton)`
   background-color: #6f4e37;
   color: white;
 `;

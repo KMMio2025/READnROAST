@@ -1,51 +1,39 @@
-// src/pages/wishlistPage/wishlistPage.jsx
+// src/pages/WishlistPage/WishlistPage.jsx
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext.jsx';
 
-// Import styled components
 import {
-  wishlistContainer,
-  wishlistTitle,
+  WishlistContainer,
+  WishlistTitle,
   Message,
   LoginRedirectButton,
-  EmptywishlistMessage,
-  wishlistContent,
-  wishlistItemsList,
-  wishlistItem,
+  EmptyWishlistMessage,
+  WishlistContent,
+  WishlistItemsList,
   ItemDetails,
   ItemName,
-  ItemPricePerUnit, // Adjusted for consistent price
   ItemControls,
-  QuantityButton,
-  QuantityInput,
-  ItemTotalPrice,
   RemoveItemButton,
-  wishlistSummary,
-  SummaryTitle,
-  SummaryRow,
-  TotalPrice,
-  ClearwishlistButton,
-  CheckoutButton
-} from './wishlistPage.js'; 
+} from './WishlistPage.js'; 
 
-export default function wishlistPage() {
-  const [wishlist, setwishlist] = useState(null);
+export default function WishlistPage() {
+  const [Wishlist, setWishlist] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
   const { isLoggedIn, logOut } = useContext(AuthContext);
 
-  const wishlist_API_URL = 'http://localhost:8080/api/wishlist';
+  const Wishlist_API_URL = 'http://localhost:8080/api/wishlist';
 
   useEffect(() => {
     if (!isLoggedIn) {
-      setError('You need to be logged in to view your wishlist.');
+      setError('You need to be logged in to view your Wishlist.');
       setLoading(false);
       return;
     }
-    fetchwishlist();
+    fetchWishlist();
   }, [isLoggedIn]);
 
   const makeAuthenticatedRequest = async (url, method = 'GET', body = null) => {
@@ -101,119 +89,105 @@ export default function wishlistPage() {
     }
   };
 
-  const fetchwishlist = async () => {
-    console.log("Fetching wishlist...");
-    const data = await makeAuthenticatedRequest(wishlist_API_URL, 'GET');
+  const fetchWishlist = async () => {
+    console.log("Fetching Wishlist...");
+    const data = await makeAuthenticatedRequest(Wishlist_API_URL, 'GET');
     if (data) {
-      setwishlist(data);
-      console.log("wishlist fetched:", data);
+      setWishlist(data);
+      console.log("Wishlist fetched:", data);
     } else {
-      setwishlist(null);
+      setWishlist(null);
     }
   };
 
-  const handleUpdateQuantity = async (itemId, newQuantity) => {
-    if (newQuantity < 1) {
-      handleRemoveItem(itemId);
-      return;
-    }
-
-    console.log(`Updating item ${itemId} to quantity ${newQuantity}`);
-    const result = await makeAuthenticatedRequest(
-      `${wishlist_API_URL}/update`,
-      'POST',
-      { itemId, quantity: newQuantity }
-    );
-    if (result) {
-      setSuccess('Item quantity updated!');
-      fetchwishlist();
-      setTimeout(() => setSuccess(''), 3000);
-    }
-  };
-
+ 
   const handleRemoveItem = async (itemId) => {
     console.log(`Removing item ${itemId}`);
     const result = await makeAuthenticatedRequest(
-      `${wishlist_API_URL}/remove`,
+      `${Wishlist_API_URL}/remove`,
       'POST',
       { itemId }
     );
     if (result) {
-      setSuccess('Item removed from wishlist!');
-      fetchwishlist();
+      setSuccess('Item removed from Wishlist!');
+      fetchWishlist();
       setTimeout(() => setSuccess(''), 3000);
     }
   };
 
-  const handleClearwishlist = async () => {
-    console.log("Clearing wishlist...");
+  const handleClearWishlist = async () => {
+    console.log("Clearing Wishlist...");
     const result = await makeAuthenticatedRequest(
-      `${wishlist_API_URL}/clear`,
+      `${Wishlist_API_URL}/clear`,
       'POST'
     );
     if (result) {
-      setSuccess('wishlist cleared successfully!');
-      fetchwishlist();
+      setSuccess('Wishlist cleared successfully!');
+      fetchWishlist();
       setTimeout(() => setSuccess(''), 3000);
     }
   };
 
   if (!isLoggedIn) {
       return (
-          <wishlistContainer>
-              <wishlistTitle>Shopping wishlist</wishlistTitle>
+          <WishlistContainer>
+              <WishlistTitle>Shopping Wishlist</WishlistTitle>
               <Message type="error">
-                  {error || 'You must be logged in to view your wishlist.'}
+                  {error || 'You must be logged in to view your Wishlist.'}
                   <LoginRedirectButton onClick={() => navigate('/login')}>Go to Login</LoginRedirectButton>
               </Message>
-          </wishlistContainer>
+          </WishlistContainer>
       );
   }
 
-  if (loading && !wishlist) {
+  if (loading && !Wishlist) {
     return (
-      <wishlistContainer>
-        <wishlistTitle>wishlist</wishlistTitle>
-        <Message type="info">Loading wishlist...</Message>
-      </wishlistContainer>
+      <WishlistContainer>
+        <WishlistTitle>Shopping Wishlist</WishlistTitle>
+        <Message type="info">Loading Wishlist...</Message>
+      </WishlistContainer>
     );
   }
 
   return (
-    <wishlistContainer>
-      <wishlistTitle>wishlist</wishlistTitle>
+    <WishlistContainer>
+      <WishlistTitle>Shopping Wishlist</WishlistTitle>
 
       {error && <Message type="error">{error}</Message>}
       {success && <Message type="success">{success}</Message>}
 
-      {!wishlist || !wishlist.items || wishlist.items.length === 0 ? (
-        <EmptywishlistMessage>Your wishlist is empty.</EmptywishlistMessage>
+      {!Wishlist || !Wishlist.items || Wishlist.items.length === 0 ? (
+        <EmptyWishlistMessage>Your Wishlist is empty.</EmptyWishlistMessage>
       ) : (
-        <wishlistContent>
-          <wishlistItemsList>
-            {wishlist.items.map(wishlistItem => (
-              <wishlistItem key={wishlistItem.itemId}> 
+        <WishlistContent>
+          <WishlistItemsList>
+            {Wishlist.items.map(WishlistItem => (
+              <WishlistItem key={WishlistItem.itemId}> 
               <ItemDetails>
-                <ItemName>{wishlistItem.itemName}</ItemName> 
-                <ItemPricePerUnit>${(wishlistItem.price || 0)} / unit</ItemPricePerUnit> 
+                <ItemName>{WishlistItem.itemName}</ItemName> 
               </ItemDetails>
                 <ItemControls>
-                  
-                  <ItemTotalPrice>${(wishlistItem.price)}</ItemTotalPrice>
-                  <RemoveItemButton
-                    onClick={() => handleRemoveItem(wishlistItem.itemId)}
+                   <RemoveItemButton
+                    onClick={() => handleRemoveItem(WishlistItem.itemId)}
                     disabled={loading}
                   >
                     Remove
                   </RemoveItemButton>
                 </ItemControls>
-              </wishlistItem>
+                 <ClearWishlistButton
+                              onClick={handleClearWishlist}
+                              disabled={loading || Wishlist.items.length === 0}
+                              mt="15px"
+                            >
+                              Clear Wishlist
+                            </ClearWishlistButton>
+              </WishlistItem>
             ))}
-          </wishlistItemsList>
+          </WishlistItemsList>
 
           
-        </wishlistContent>
+        </WishlistContent>
       )}
-    </wishlistContainer>
+    </WishlistContainer>
   );
 }
