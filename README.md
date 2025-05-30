@@ -27,13 +27,12 @@ Explore our carefully curated collection of books across various genres. Whether
 
 Pair your reading experience with the perfect cup of coffee. Choose from a variety of premium coffee beans and blends sourced from the best roasters.
 
-### ☕ Join the Forum
-
-Connect with fellow book lovers and coffee enthusiasts in our interactive forum. Share reviews, discuss your favorite books, exchange coffee brewing tips, and be part of a passionate community.
-
-### ☕ Sell Pre-Loved Items 
-
-We believe in sustainability! List your old books, coffee accessories, and other related items for auction. Give them a new home and contribute to reducing waste while supporting the sharing culture.
+  <p align="center">
+  <img src="img/categoriesPage.png"  />
+</p>
+  <p align="center">
+  <img src="img/homePage.png"  />
+</p>
 
 <p align="center">
   <img src="img/KMM-logo.png" width=50  />
@@ -43,13 +42,28 @@ We believe in sustainability! List your old books, coffee accessories, and other
 
 # Get Started
 
-* Sign Up – Create your account to start shopping, chatting, and selling.
+<b>Sign Up – Create your account to start shopping, chatting, and selling.</b>
 
-* Browse & Buy – Explore our extensive collection of books and coffee.
+  <p align="center">
+  <img src="img/registerPage.png"  />
+</p>
 
-* Engage with the Community – Join discussions and share your thoughts.
+<b>Browse & Buy – Explore our extensive collection of books and coffee.</b>
 
-* Sell & Share – List your old books and coffee-related items for sale.
+  <p align="center">
+  <img src="img/explorePage.png"  />
+</p>
+<b>Modify your cart.</b>
+
+  <p align="center">
+  <img src="img/cartPage.png"  />
+</p>
+<b>Change your data in profile page</b>
+
+  <p align="center">
+  <img src="img/profilePage.png"  />
+</p>
+
 
 Join us today and be part of a movement that celebrates literature, coffee, and sustainability!
 
