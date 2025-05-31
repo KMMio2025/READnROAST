@@ -344,7 +344,88 @@
 
 ---
 
+# <img src="img/KMM-logo.png" width="22" /> 7. Wyszukiwanie produktów.
 
+## Happy Path
+
+### TC7.1 <img src="img/KMM-logo.png" width="18" /> Wyszukiwanie produktów.
+
+- **Stan początkowy:**  
+  Klient ma internet.
+- **Kroki testowe:**
+  1. Klient wchodzi na stronę sklepu (nie musi być zalogowany).
+  2. Korzysta z paska wyszukiwania na pasku nawigacji.
+  3. Wyszukuje słowo kluczowe(lub jego prefiks) zawierające się w nazwie, opisie lub autorze pozycji, którą chce zakupic.
+  4. Poszukiwany produkt wyświetla się na ekranie.
+- **Oczekiwany rezultat:**  
+  Klient jest zadowolony, ponieważ w łatwy i szybki sposób odnalazł to, czego szukał.
+- **Rzeczywisty rezultat:** _(do uzupełnienia)_
+- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Stan końcowy:**  
+  Poszukiwany produkt wyświetla się na ekranie.
+
+---
+
+## Scenariusze alternatywne
+
+### TC7.2 <img src="img/KMM-logo.png" width="18" /> Wyszukiwanie niedostępnych produktów.
+
+- **Stan początkowy:**  
+  Klient ma internet.
+- **Kroki testowe:**
+  1. Klient wchodzi na stronę sklepu (nie musi być zalogowany).
+  2. Korzysta z paska wyszukiwania na pasku nawigacji.
+  3. Wyszukuje słowo kluczowe(lub jego prefiks) zawierające się w nazwie, opisie lub autorze pozycji, którą chce zakupic.
+  4. Poszukiwanej pozycji nie ma w asortymencie sklepu, rezultaty wyszukiwania są puste.
+- **Oczekiwany rezultat:**  
+  Klient jest niezadowolony z braku porządanej pozycji, może wrócić do przeglądania innych możliwości.
+- **Rzeczywisty rezultat:** _(do uzupełnienia)_
+- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Stan końcowy:**  
+  Na ekranie wyświetla się odpowiednio; nic lub inne produkty, zawierające w swojej nazwie, autorze lub opisie wyszukiwaną frazę(o ile takie istnieją).
+
+---
+
+### TC7.3 <img src="img/KMM-logo.png" width="18" /> Popełnienie błędu podczas wpisywania wyszukiwanej frazy.
+
+- **Stan początkowy:**  
+  Klient ma internet.
+- **Kroki testowe:**
+  1. Klient wchodzi na stronę sklepu (nie musi być zalogowany).
+  2. Korzysta z paska wyszukiwania na pasku nawigacji.
+  3. Wyszukuje słowo kluczowe(lub jego prefiks) zawierające się w nazwie, opisie lub autorze pozycji, którą chce zakupic.
+  4. Poszukiwanej pozycji nie wyświetla się, ponieważ wprowadzone zapytanie zawiera błąd.
+- **Oczekiwany rezultat:**  
+  Klient zauważa błąd, może poprawić wyszukiwaną frazę.
+- **Rzeczywisty rezultat:** _(do uzupełnienia)_
+- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Stan końcowy:**  
+  Na ekranie wyświetla się odpowiednio; nic lub inne produkty, zawierające w swojej nazwie, autorze lub opisie wyszukiwaną frazę(o ile takie istnieją).
+
+---
+# <img src="img/KMM-logo.png" width="22" /> 8. Kontakt z autorami strony.
+
+## Happy Path
+
+### TC8.1 <img src="img/KMM-logo.png" width="18" /> SKontakt z autorami strony.
+
+- **Stan początkowy:**  
+  Klient ma internet.
+- **Kroki testowe:**
+  1. Klient wchodzi na strone sklepu.
+  2. Jest zachwycony jej funkcjonalnościami oraz designem.
+  3. Chce poznać autorów tego wybitnego sklepu.
+  4. Wybiera zakładkę "about us"
+  5. Na stronie wyświetlają się linki do kont na LinkedIn autorów strony.
+- **Oczekiwany rezultat:**  
+  Klient jest zadowolony i nawiązuje kontakt:DD
+- **Rzeczywisty rezultat:** _(do uzupełnienia)_
+- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Stan końcowy:**  
+  Linki wyświetlane na stronie przekierowują klienta na profile LinkedIn twórców.
+
+
+---
 
 <p align="center">
   <img src="img/KMM-logo.png" width=50 />
