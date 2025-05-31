@@ -229,7 +229,7 @@
 
 ---
 
-# <img src="img/KMM-logo.png" width="22" /> 9. Edycja konta
+# <img src="img/KMM-logo.png" width="22" /> 5. Edycja konta
 
 ## Happy Path
 
@@ -283,6 +283,68 @@
   Konto niezmienione, edycja anulowana.
 
 ---
+
+
+# <img src="img/KMM-logo.png" width="22" /> 6. Sortowanie produktów.
+
+## Happy Path
+
+### TC6.1 <img src="img/KMM-logo.png" width="18" /> Sortowanie produktów
+
+- **Stan początkowy:**  
+  Klient ma internet.
+- **Kroki testowe:**
+  1. Klient wchodzi na strone produktów (nie musi być zalogowany).
+  2. Wybiera odpowiednie dla siebie filtry.
+  3. Szuka czegoś na prezent, lecz ma ograniczony budżet- wybiera sortowanie ceny od najniższej.
+  4. Wyświetlają mu się najtańsze produkty, mieszczące się w jego budżecie.
+- **Oczekiwany rezultat:**  
+  Klient jest zadowolony z sortowania (widzi te produkty, które chce)
+- **Rzeczywisty rezultat:** _(do uzupełnienia)_
+- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Stan końcowy:**  
+  Odpowiednie, posortowane produkty wyświetlają się na ekranie.
+
+---
+
+## Scenariusze alternatywne
+
+### TC6.2 <img src="img/KMM-logo.png" width="18" /> Sortowanie kawy.
+
+- **Stan początkowy:**  
+  Klient ma internet.
+- **Kroki testowe:**
+  1. Klient wchodzi na strone z kawami (nie musi być zalogowany).
+  2. Wybiera odpowiednie dla siebie filtry.
+  3. Pamięta, że pił dobrą kawę na literę A, wybiera sortowanie alfabetyczne.
+  4. Wyświetlają mu się posortowane produkty, rozpoczynając od litery A alfabetu.
+- **Oczekiwany rezultat:**  
+  Klient jest zadowolony z sortowania (widzi te produkty, które chce- odnajduje swoją kawę)
+- **Rzeczywisty rezultat:** _(do uzupełnienia)_
+- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Stan końcowy:**  
+  Odpowiednie, posortowane produkty wyświetlają się na ekranie.
+
+---
+
+### TC6.3 <img src="img/KMM-logo.png" width="18" /> Sortowanie książek.
+
+- **Stan początkowy:**  
+  Klient ma internet.
+- **Kroki testowe:**
+  1. Klient wchodzi na strone z książkami (nie musi być zalogowany).
+  2. Wybiera odpowiednie dla siebie filtry.
+  3. Wyświetlają mu się posortowane produkty, rozpoczynając od litery A alfabetu.
+- **Oczekiwany rezultat:**  
+  Klient jest zadowolony z sortowania (widzi te produkty, które chce)
+- **Rzeczywisty rezultat:** _(do uzupełnienia)_
+- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Stan końcowy:**  
+  Odpowiednie, posortowane produkty wyświetlają się na ekranie.
+
+---
+
+
 
 <p align="center">
   <img src="img/KMM-logo.png" width=50 />
