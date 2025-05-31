@@ -9,7 +9,7 @@
 
 ## Happy Path
 
-### TC1.1 <img src="img/KMM-logo.png" width="18" /> Udany zakup produktu
+### TC1.1 <img src="img/KMM-logo.png" width="18" /> Udany wybór produktu i dodanie do koszyka
 
 - **Stan początkowy:**  
   Klient ma dostęp do internetu, jest na stronie sklepu, produkty są dostępne, płatności działają.
@@ -18,50 +18,50 @@
   2. Loguje się lub rejestruje konto.
   3. Przegląda ofertę książek lub kaw.
   4. Dodaje wybrany produkt do koszyka.
-  5. Przechodzi do koszyka i klika „Przejdź do płatności”.
-  6. Podaje dane do wysyłki.
-  7. Wybiera metodę dostawy.
-  8. Wybiera metodę płatności, dokonuje transakcji.
+  5. Przechodzi do koszyka i przegląda wybrane produkty.
 - **Oczekiwany rezultat:**  
-  System potwierdza transakcję, klient otrzymuje potwierdzenie zamówienia.
+  System posiada zaktualizowany koszyk.
 - **Rzeczywisty rezultat:** _(do uzupełnienia)_
 - **Rezultat testu:** _(zaliczony/niezaliczony)_
 - **Stan końcowy:**  
-  Klient otrzymał potwierdzenie zakupu, zamówienie jest w realizacji.
+  Klient posiada wymarzone produkty w koszyku.
 
 ---
 
 ## Scenariusze alternatywne
 
-### TC1.2 <img src="img/KMM-logo.png" width="18" /> Porzucenie koszyka
+### TC1.2 <img src="img/KMM-logo.png" width="18" /> Usunięcie produktu z koszyka
 
 - **Stan początkowy:**  
   Klient dodał produkt do koszyka.
 - **Kroki testowe:**
-  1. Dodanie produktu do koszyka.
-  2. Przejście do koszyka, zamknięcie strony przed płatnością.
+  1. Przejście do koszyka, przejrzenie i wybór niechcianych produktów.
+  2. Kliknięcie ikony od usuwania produktu z koszyka.
+  3. Produkt zostaje usunięty z koszyka.
 - **Oczekiwany rezultat:**  
-  Zamówienie nie zostaje złożone, płatność nie jest pobrana.
+  Koszyk zostaje zaktualizowany
 - **Rzeczywisty rezultat:** _(do uzupełnienia)_
 - **Rezultat testu:** _(zaliczony/niezaliczony)_
 - **Stan końcowy:**  
-  Brak nowego zamówienia, koszyk może być pusty lub zachowany.
+  Koszyk posiada aktualną zawartość.
 
 ---
 
-### TC1.3 <img src="img/KMM-logo.png" width="18" /> Odrzucona płatność
+### TC1.3 <img src="img/KMM-logo.png" width="18" /> Klient wylogowuje się po dodaniu produktów do koszyka
 
 - **Stan początkowy:**  
-  Klient jest na etapie płatności.
+  Klient ma produkty w koszyku.
 - **Kroki testowe:**
-  1. Dodanie produktu do koszyka, przejście do płatności.
-  2. Wprowadzenie błędnych danych lub wybór niedziałającej metody płatności.
+  1. Wylogowanie się ze swojego konta.
+  2. Ponowne zalogowanie na to samo konto.
+  3. Przejście do swojego koszyka.
+  4. Elementy nie powinny zostać usunięte.
 - **Oczekiwany rezultat:**  
-  System informuje o błędzie płatności, umożliwia ponowną próbę.
+  System wyświetla informacje o zawartości koszyka przypisanej do danego konta.
 - **Rzeczywisty rezultat:** _(do uzupełnienia)_
 - **Rezultat testu:** _(zaliczony/niezaliczony)_
 - **Stan końcowy:**  
-  Zamówienie nie jest zrealizowane, klient może ponowić płatność.
+  Koszyk ma tę samą zawartość.
 
 ---
 
@@ -173,225 +173,12 @@
 
 ---
 
-# <img src="img/KMM-logo.png" width="22" /> 4. Dodanie posta o przeczytanej książce
+
+# <img src="img/KMM-logo.png" width="22" /> 4. Zakładanie konta
 
 ## Happy Path
 
-### TC4.1 <img src="img/KMM-logo.png" width="18" /> Publiczny post
-
-- **Stan początkowy:**  
-  Klient zalogowany.
-- **Kroki testowe:**
-  1. Kliknięcie pola dodawania posta.
-  2. Wpisanie treści, wybranie widoczności „publiczne”.
-  3. Publikacja posta.
-- **Oczekiwany rezultat:**  
-  Post pojawia się na profilu i w głównym feedzie.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Post widoczny publicznie.
-
----
-
-## Scenariusze alternatywne
-
-### TC4.2 <img src="img/KMM-logo.png" width="18" /> Niecenzuralna treść posta
-
-- **Stan początkowy:**  
-  Klient tworzy post z nieodpowiednią treścią.
-- **Kroki testowe:**
-  1. Stworzenie posta z niecenzuralną treścią.
-  2. Publikacja.
-- **Oczekiwany rezultat:**  
-  Post zostaje usunięty przez admina, ewentualnie blokada konta.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Post zniknął, klient został powiadomiony.
-
----
-
-### TC4.3 <img src="img/KMM-logo.png" width="18" /> Post widoczny tylko dla znajomych
-
-- **Stan początkowy:**  
-  Klient zalogowany, posiada znajomych.
-- **Kroki testowe:**
-  1. Stworzenie posta, wybór widoczności „tylko znajomi”.
-  2. Publikacja.
-- **Oczekiwany rezultat:**  
-  Post widoczny tylko dla znajomych.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Post wyświetlany w feedzie znajomych.
-
----
-
-# <img src="img/KMM-logo.png" width="22" /> 5. Wystawianie i promocja produktów
-
-## Happy Path
-
-### TC5.1 <img src="img/KMM-logo.png" width="18" /> Wystawienie produktu
-
-- **Stan początkowy:**  
-  Sprzedawca zalogowany, podane wymagane dane.
-- **Kroki testowe:**
-  1. Zakładka wystawiania produktów.
-  2. Uzupełnienie informacji, dodanie zdjęć.
-  3. Publikacja.
-- **Oczekiwany rezultat:**  
-  Produkt widoczny w katalogu.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Produkt dostępny dla klientów.
-
----
-
-## Scenariusze alternatywne
-
-### TC5.2 <img src="img/KMM-logo.png" width="18" /> Brak wymaganych danych
-
-- **Stan początkowy:**  
-  Sprzedawca pomija wymagane dane.
-- **Kroki testowe:**
-  1. Brak wymaganych pól (np. numer konta).
-  2. Próba publikacji.
-- **Oczekiwany rezultat:**  
-  System informuje o brakujących danych, produkt nie zostaje wystawiony.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Produkt nie wystawiony.
-
----
-
-### TC5.3 <img src="img/KMM-logo.png" width="18" /> Promocja produktu
-
-- **Stan początkowy:**  
-  Sprzedawca ma wystawione produkty.
-- **Kroki testowe:**
-  1. Wybór opcji promocji produktu.
-  2. Wykupienie płatnej promocji na stronie głównej.
-- **Oczekiwany rezultat:**  
-  Produkt wyróżniony na stronie głównej.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Produkt promowany, większa widoczność.
-
----
-
-# <img src="img/KMM-logo.png" width="22" /> 6. Komunikacja autora z fanami
-
-## Happy Path
-
-### TC6.1 <img src="img/KMM-logo.png" width="18" /> Post autora dla fanów
-
-- **Stan początkowy:**  
-  Autor zalogowany.
-- **Kroki testowe:**
-  1. Zakładka dodania posta, wpisanie treści.
-  2. Publikacja.
-- **Oczekiwany rezultat:**  
-  Post widoczny na profilu i w feedzie fanów.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Fan może zobaczyć post i zareagować.
-
----
-
-## Scenariusze alternatywne
-
-### TC6.2 <img src="img/KMM-logo.png" width="18" /> Odpowiedź na pytanie fana
-
-- **Stan początkowy:**  
-  Autor otrzymał pytanie od fana.
-- **Kroki testowe:**
-  1. Odpowiedź w komentarzu lub nowym poście.
-- **Oczekiwany rezultat:**  
-  Fani otrzymują odpowiedź, relacja się zacieśnia.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Większe zaangażowanie fanów.
-
----
-
-### TC6.3 <img src="img/KMM-logo.png" width="18" /> Przeglądanie opinii i ocen
-
-- **Stan początkowy:**  
-  Autor ma wydane książki, są opinie.
-- **Kroki testowe:**
-  1. Przejście do opinii o swoich książkach.
-- **Oczekiwany rezultat:**  
-  Autor widzi recenzje i oceny, może analizować feedback.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Autor zna odbiór swoich książek.
-
----
-
-# <img src="img/KMM-logo.png" width="22" /> 7. Eventy w kawiarniach
-
-## Happy Path
-
-### TC7.1 <img src="img/KMM-logo.png" width="18" /> Dodanie posta o evencie
-
-- **Stan początkowy:**  
-  Kawiarnia zalogowana.
-- **Kroki testowe:**
-  1. Dodanie posta z datą i tematem wydarzenia.
-  2. Publikacja.
-- **Oczekiwany rezultat:**  
-  Post widoczny na profilu kawiarni i w feedzie obserwujących.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Informacja o evencie dociera do klientów.
-
----
-
-## Scenariusze alternatywne
-
-### TC7.2 <img src="img/KMM-logo.png" width="18" /> Promocja wydarzenia
-
-- **Stan początkowy:**  
-  Kawiarnia ma utworzony event.
-- **Kroki testowe:**
-  1. Wykupienie płatnej promocji wydarzenia.
-- **Oczekiwany rezultat:**  
-  Wydarzenie na stronie głównej.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Event ma większy zasięg.
-
----
-
-### TC7.3 <img src="img/KMM-logo.png" width="18" /> Przeglądanie opinii o eventach
-
-- **Stan początkowy:**  
-  Event się odbył, klienci mogą oceniać.
-- **Kroki testowe:**
-  1. Przeglądanie opinii o wydarzeniu.
-- **Oczekiwany rezultat:**  
-  Właściciel widzi oceny i komentarze.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
-- **Stan końcowy:**  
-  Możliwość poprawy kolejnych wydarzeń.
-
----
-
-# <img src="img/KMM-logo.png" width="22" /> 8. Zakładanie konta
-
-## Happy Path
-
-### TC8.1 <img src="img/KMM-logo.png" width="18" /> Nowe konto
+### TC4.1 <img src="img/KMM-logo.png" width="18" /> Nowe konto
 
 - **Stan początkowy:**  
   Klient ma internet i email.
@@ -410,7 +197,7 @@
 
 ## Scenariusze alternatywne
 
-### TC8.2 <img src="img/KMM-logo.png" width="18" /> Próba rejestracji na istniejący email
+### TC4.2 <img src="img/KMM-logo.png" width="18" /> Próba rejestracji na istniejący email
 
 - **Stan początkowy:**  
   Klient ma internet i email.
@@ -426,7 +213,7 @@
 
 ---
 
-### TC8.3 <img src="img/KMM-logo.png" width="18" /> Błędny format danych (np. email)
+### TC4.3 <img src="img/KMM-logo.png" width="18" /> Błędny format danych (np. email)
 
 - **Stan początkowy:**  
   Klient ma internet i email.
@@ -446,7 +233,7 @@
 
 ## Happy Path
 
-### TC9.1 <img src="img/KMM-logo.png" width="18" /> Edycja konta
+### TC5.1 <img src="img/KMM-logo.png" width="18" /> Edycja konta
 
 - **Stan początkowy:**  
   Klient ma konto.
@@ -465,7 +252,7 @@
 
 ## Scenariusze alternatywne
 
-### TC9.2 <img src="img/KMM-logo.png" width="18" /> Błędne dane przy edycji
+### TC5.2 <img src="img/KMM-logo.png" width="18" /> Błędne dane przy edycji
 
 - **Stan początkowy:**  
   Klient ma konto.
@@ -481,7 +268,7 @@
 
 ---
 
-### TC9.3 <img src="img/KMM-logo.png" width="18" /> Przerwanie edycji profilu
+### TC5.3 <img src="img/KMM-logo.png" width="18" /> Przerwanie edycji profilu
 
 - **Stan początkowy:**  
   Klient ma konto.
