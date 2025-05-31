@@ -29,7 +29,7 @@ public class WishListController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         wishListService.addItem(email, dto.getItemId());
         return ResponseEntity.ok(new AuthResponse(Code.SUCCESS));
-    }
+    }//
 
     @PostMapping("/remove")
     public ResponseEntity<AuthResponse> removeItem(@RequestBody WishListItemDTO dto) {

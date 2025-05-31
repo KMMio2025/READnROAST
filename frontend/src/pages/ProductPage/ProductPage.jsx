@@ -39,7 +39,7 @@ export default function ProductPage() {
   // Base URL for fetching product details (e.g., from /api/items/{id})
   const PRODUCTS_API_BASE_URL = 'http://localhost:8080/api/items'; // Adjust if your endpoint is different
   const CART_API_BASE_URL = 'http://localhost:8080/api/cart';
-  const WISHLIST_API_BASE_URL = 'http://localhost:8080/api/wishlist'; // Assuming this exists
+  const WISHLIST_API_BASE_URL = 'http://localhost:8080/api/wishlist'; 
 
   // Effect to load product data if not provided via navigation state
   useEffect(() => {
@@ -193,13 +193,8 @@ export default function ProductPage() {
     setSuccess('');
 
     try {
-      const itemToAdd = {
-        id: null, // Backend może sam ustawić ID, jeśli to nowy wpis
-        itemId: product.id,
-        itemName: product.name,
-      };
+      const itemToAdd = {itemId: product.id };
       console.log("Sending to wishlist backend:", itemToAdd);
-      console.log("Using token:", token.substring(0, 30) + "...");
 
       const response = await fetch(`${WISHLIST_API_BASE_URL}/add`, {
         method: 'POST',

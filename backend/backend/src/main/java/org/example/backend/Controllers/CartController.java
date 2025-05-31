@@ -27,7 +27,7 @@ public class CartController {
     @PostMapping("/add")
     public ResponseEntity<AuthResponse> addItem(@RequestBody AddCartItemDTO dto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        cartService.addItem(email, dto.getItemId(), dto.getQuantity(),dto.getPrice());
+        cartService.addItem(email, dto.getItemId(), dto.getQuantity(), dto.getPrice());
         return ResponseEntity.ok(new AuthResponse(Code.SUCCESS));
     }
 
@@ -36,7 +36,7 @@ public class CartController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         cartService.removeItem(email, dto.getItemId());
         return ResponseEntity.ok(new AuthResponse(Code.SUCCESS));
-    }
+    }//
 
     @PostMapping("/update")
     public ResponseEntity<AuthResponse> updateItem(@RequestBody AddCartItemDTO dto) {

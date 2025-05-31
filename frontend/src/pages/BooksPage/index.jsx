@@ -4,6 +4,7 @@ import BookCard from "../../components/BookCard/BookCard";
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import { fetchProducts } from "../../http";
+import bookturtle from "../../assets/bookturtle.png";
 const BooksPageContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
@@ -53,6 +54,7 @@ export default function BooksPage() {
 
   return (
     <BooksPageContainer>
+      <img src={bookturtle} alt="bookturtle" style={{ width: "100px", marginTop: "20px" }} />
       <ShopFilters items={bookProducts} onFilteredItems={setFilteredBooks} />
       
       <BooksGrid>

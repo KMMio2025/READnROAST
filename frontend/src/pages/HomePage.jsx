@@ -27,7 +27,7 @@ export default function HomePage() {
       </div>
       <header>
         <StyledH1>
-          Your Ultimate Destination for Books, Coffee, and Community
+          Your Ultimate Destination for Books, Coffee and Community
         </StyledH1>
       </header>
 
@@ -47,8 +47,7 @@ export default function HomePage() {
       </section>
       <footer>
         <CreditsParagraph>
-          Mateusz Jędrkowiak, Karolina Kulas & Mateusz Markiewicz,Jagiellonian
-          University, 2025
+          Karolina Kulas & Mateusz Markiewicz, Jagiellonian University, 2025
         </CreditsParagraph>
       </footer>
     </>

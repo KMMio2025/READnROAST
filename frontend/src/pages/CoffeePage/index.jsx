@@ -3,7 +3,7 @@ import CoffeeCard from "../../components/CoffeeCard/CoffeeCard";
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import { fetchProducts } from "../../http.js";
-
+import nevertoomuch from "../../assets/nevertoomuch.png";
 const CoffeePageContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
@@ -50,7 +50,10 @@ export default function CoffeePage() {
       loadProducts();
     }, []);
   return (
+    
     <CoffeePageContainer>
+      <img src={nevertoomuch} alt="nevertoomuch" style={{ width: "100px", marginTop: "20px" }} />
+              
       <ShopFilters items={coffeeProducts} onFilteredItems={setFilteredCoffeeProducts} />
       
       <CoffeeGrid>

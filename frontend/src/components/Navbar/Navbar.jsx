@@ -46,6 +46,8 @@ export default function Navbar() {
         <StyledNavLink to="/categories">Categories</StyledNavLink>
         <i className="bx bxs-coffee-bean bean"></i>
         <StyledNavLink to="/explore">Explore</StyledNavLink>
+        <i className="bx bxs-coffee-bean bean"></i>
+        <StyledNavLink to="/aboutus">About Us</StyledNavLink>
       </NavbarLeftSideContainer>
       
       <SearchbarContainer onSubmit={handleSearch}>

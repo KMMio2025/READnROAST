@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
-
+import turtle from "../../assets/turtle.png";
 export default function ProfilePage() {
   const [user, setUser] = useState(null);
   const [form, setForm] = useState({
@@ -163,6 +163,7 @@ export default function ProfilePage() {
       <div className="profile-loading">
         <div className="spinner"></div>
         <p>Loading your profile...</p>
+        <img src={turtle} alt="Loading turtle" style={{ width: "100px", marginTop: "20px" }} />
         <style jsx>{`
           .profile-loading {
             display: flex;
