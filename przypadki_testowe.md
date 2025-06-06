@@ -21,8 +21,8 @@
   5. Przechodzi do koszyka i przegląda wybrane produkty.
 - **Oczekiwany rezultat:**  
   System posiada zaktualizowany koszyk.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _System posiada zaktualizowany koszyk_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Klient posiada wymarzone produkty w koszyku.
 
@@ -40,8 +40,8 @@
   3. Produkt zostaje usunięty z koszyka.
 - **Oczekiwany rezultat:**  
   Koszyk zostaje zaktualizowany
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Koszyk zostaje zaktualizowany)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Koszyk posiada aktualną zawartość.
 
@@ -58,8 +58,8 @@
   4. Elementy nie powinny zostać usunięte.
 - **Oczekiwany rezultat:**  
   System wyświetla informacje o zawartości koszyka przypisanej do danego konta.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(System wyświetla informacje o zawartości koszyka przypisanej do danego konta)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Koszyk ma tę samą zawartość.
 
@@ -80,8 +80,8 @@
   4. Oglądanie szczegółów produktu.
 - **Oczekiwany rezultat:**  
   System pokazuje szczegóły produktu (zdjęcia, opis, specyfikacja).
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(System pokazuje szczegóły produktu (zdjęcia, opis, specyfikacja)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Klient może kontynuować zakupy lub opuścić stronę.
 
@@ -97,8 +97,8 @@
   1. Ustawienie bardzo szczegółowych filtrów.
 - **Oczekiwany rezultat:**  
   System wyświetla brak wyników.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(System wyświetla brak wyników)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Brak produktów, użytkownik musi zmienić filtry.
 
@@ -113,8 +113,8 @@
   2. Przegląd wyników po sortowaniu.
 - **Oczekiwany rezultat:**  
   System poprawnie prezentuje wyniki według wybranego filtru.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(System poprawnie prezentuje wyniki według wybranego filtru)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Klient widzi odpowiednio przefiltrowane produkty.
 
@@ -133,8 +133,8 @@
   2. Kliknięcie „Dodaj do ulubionych”.
 - **Oczekiwany rezultat:**  
   Produkt trafia na listę ulubionych, pojawia się potwierdzenie.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Produkt trafia na listę ulubionych, pojawia się potwierdzenie)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Produkt widoczny na liście ulubionych.
 
@@ -150,8 +150,8 @@
   1. Przejście do zakładki ulubionych.
 - **Oczekiwany rezultat:**  
   Wyświetlenie ulubionych produktów klienta.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Wyświetlenie ulubionych produktów klienta)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Klient przegląda swoje ulubione produkty.
 
@@ -166,8 +166,8 @@
   2. Usunięcie produktu.
 - **Oczekiwany rezultat:**  
   Produkt znika z listy ulubionych.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Produkt znika z listy ulubionych)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Produkt usunięty z ulubionych.
 
@@ -188,8 +188,8 @@
   3. Komunikat o utworzeniu konta.
 - **Oczekiwany rezultat:**  
   Możliwość zalogowania na nowe konto.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Możliwość zalogowania na nowe konto)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Konto utworzone.
 
@@ -206,8 +206,8 @@
   2. Komunikat o błędzie.
 - **Oczekiwany rezultat:**  
   Możliwość rejestracji na inny email.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Możliwość rejestracji na inny email)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Konto nie zostało utworzone, baza danych spójna.
 
@@ -222,8 +222,8 @@
   2. Formularz podkreśla błąd, komunikat.
 - **Oczekiwany rezultat:**  
   Klient może poprawić dane.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Klient może poprawić dane)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Konto nie powstało, dane poprawne.
 
@@ -243,8 +243,8 @@
   3. Zmiana danych.
 - **Oczekiwany rezultat:**  
   Dane konta zaktualizowane.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Dane konta zaktualizowane)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Konto aktualne.
 
@@ -261,8 +261,8 @@
   2. Strona blokuje zapis i wskazuje błąd.
 - **Oczekiwany rezultat:**  
   Możliwość poprawy i dokończenia edycji.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Możliwość poprawy i dokończenia edycji)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Konto ma poprawne dane.
 
@@ -277,8 +277,8 @@
   2. Zamknięcie strony lub przejście do innej zakładki bez zapisu.
 - **Oczekiwany rezultat:**  
   Zmiany nie zostają zapisane.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Zmiany nie zostają zapisane)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Konto niezmienione, edycja anulowana.
 
@@ -300,8 +300,8 @@
   4. Wyświetlają mu się najtańsze produkty, mieszczące się w jego budżecie.
 - **Oczekiwany rezultat:**  
   Klient jest zadowolony z sortowania (widzi te produkty, które chce)
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _( Klient jest zadowolony z sortowania (widzi te produkty, które chce))_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Odpowiednie, posortowane produkty wyświetlają się na ekranie.
 
@@ -320,8 +320,8 @@
   4. Wyświetlają mu się posortowane produkty, rozpoczynając od litery A alfabetu.
 - **Oczekiwany rezultat:**  
   Klient jest zadowolony z sortowania (widzi te produkty, które chce- odnajduje swoją kawę)
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Klient jest zadowolony z sortowania (widzi te produkty, które chce- odnajduje swoją kawę))_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Odpowiednie, posortowane produkty wyświetlają się na ekranie.
 
@@ -337,8 +337,8 @@
   3. Wyświetlają mu się posortowane produkty, rozpoczynając od litery A alfabetu.
 - **Oczekiwany rezultat:**  
   Klient jest zadowolony z sortowania (widzi te produkty, które chce)
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Klient jest zadowolony z sortowania (widzi te produkty, które chce))_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Odpowiednie, posortowane produkty wyświetlają się na ekranie.
 
@@ -359,8 +359,8 @@
   4. Poszukiwany produkt wyświetla się na ekranie.
 - **Oczekiwany rezultat:**  
   Klient jest zadowolony, ponieważ w łatwy i szybki sposób odnalazł to, czego szukał.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Klient jest zadowolony, ponieważ w łatwy i szybki sposób odnalazł to, czego szukał.)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Poszukiwany produkt wyświetla się na ekranie.
 
@@ -379,8 +379,8 @@
   4. Poszukiwanej pozycji nie ma w asortymencie sklepu, rezultaty wyszukiwania są puste.
 - **Oczekiwany rezultat:**  
   Klient jest niezadowolony z braku porządanej pozycji, może wrócić do przeglądania innych możliwości.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Klient jest niezadowolony z braku porządanej pozycji, może wrócić do przeglądania innych możliwości.)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Na ekranie wyświetla się odpowiednio; nic lub inne produkty, zawierające w swojej nazwie, autorze lub opisie wyszukiwaną frazę(o ile takie istnieją).
 
@@ -397,8 +397,8 @@
   4. Poszukiwanej pozycji nie wyświetla się, ponieważ wprowadzone zapytanie zawiera błąd.
 - **Oczekiwany rezultat:**  
   Klient zauważa błąd, może poprawić wyszukiwaną frazę.
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Klient zauważa błąd, może poprawić wyszukiwaną frazę)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Na ekranie wyświetla się odpowiednio; nic lub inne produkty, zawierające w swojej nazwie, autorze lub opisie wyszukiwaną frazę(o ile takie istnieją).
 
@@ -419,8 +419,8 @@
   5. Na stronie wyświetlają się linki do kont na LinkedIn autorów strony.
 - **Oczekiwany rezultat:**  
   Klient jest zadowolony i nawiązuje kontakt:DD
-- **Rzeczywisty rezultat:** _(do uzupełnienia)_
-- **Rezultat testu:** _(zaliczony/niezaliczony)_
+- **Rzeczywisty rezultat:** _(Klient jest zadowolony i nawiązuje kontakt:DD)_
+- **Rezultat testu:** _(zaliczony)_
 - **Stan końcowy:**  
   Linki wyświetlane na stronie przekierowują klienta na profile LinkedIn twórców.
 
