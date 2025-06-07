@@ -38,6 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String username = jwtService.extractUsername(token); // Dodaj metodę extractUsername w JwtService
+        System.out.println("JWT username: " + username);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (userDetails == null) {
             throw new UsernameNotFoundException("User not found");

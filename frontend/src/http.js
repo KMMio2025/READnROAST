@@ -2,9 +2,9 @@ const API_BASE_URL = "http://localhost:8080";
 
 export async function fetchUserIsLoggedIn() {
   const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
-    credentials: 'include',
+    credentials: "include",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
 
@@ -23,7 +23,7 @@ export async function fetchRegister(enteredUserDetails) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(enteredUserDetails),
-    credentials: 'include',
+    credentials: "include",
   });
 
   const registerStatus = await response.text();
@@ -47,7 +47,7 @@ export async function fetchLogIn(enteredEmail, enteredPassword) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(loginData),
-   credentials: 'include',
+    credentials: "include",
   });
 
   if (!response.ok) {
@@ -56,10 +56,10 @@ export async function fetchLogIn(enteredEmail, enteredPassword) {
   }
 
   const resData = await response.json();
-  if(resData.email) {
+  if (resData.email) {
     loginData.email = resData.email;
   }
-  if(resData.password) {
+  if (resData.password) {
     loginData.password = resData.password;
   }
   if (resData.token) {
@@ -71,11 +71,10 @@ export async function fetchLogIn(enteredEmail, enteredPassword) {
   return loginData;
 }
 
-
 export async function fetchLogOut() {
   const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
     method: "POST",
-    credentials: 'include',
+    credentials: "include",
   });
 
   if (!response.ok) {
@@ -91,12 +90,15 @@ export async function fetchProducts(filters = {}) {
     }
   });
 
-  const response = await fetch(`${API_BASE_URL}/api/products/all?${params.toString()}`, {
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  const response = await fetch(
+    `${API_BASE_URL}/api/products/all?${params.toString()}`,
+    {
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   if (!response.ok) {
     throw new Error("Failed to fetch products");

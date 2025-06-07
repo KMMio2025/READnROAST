@@ -46,6 +46,8 @@ public class WishListService {
             WishListItem wishListItem = new WishListItem();
             wishListItem.setWishList(wishList);
             wishListItem.setItem(item);
+            wishListItem.setQuantity(1);
+
             wishList.getItems().add(wishListItem); // dodaj do kolekcji!
             // orphanRemoval zadba o prawidłowe relacje
             wishListItemRepository.save(wishListItem);
