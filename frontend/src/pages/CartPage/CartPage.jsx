@@ -1,9 +1,8 @@
-// src/pages/CartPage/CartPage.jsx
+
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext.jsx';
 
-// Import styled components
 import {
   CartContainer,
   CartTitle,
@@ -15,7 +14,7 @@ import {
   CartItem,
   ItemDetails,
   ItemName,
-  ItemPricePerUnit, // Adjusted for consistent price
+  ItemPricePerUnit, 
   ItemControls,
   QuantityButton,
   QuantityInput,
@@ -101,14 +100,15 @@ export default function CartPage() {
       setLoading(false);
     }
   };
+
   const calculateTotalPrice = (items) => {
     let totalPrice = 0;
     if (!items || items.length === 0) return 0;
     items.forEach(item => {
       totalPrice += (item.price) * item.quantity;
     });
-    return totalPrice; 
-  }
+    return parseFloat(totalPrice.toFixed(2));
+  };
   
   const fetchCart = async () => {
     console.log("Fetching cart...");
@@ -140,6 +140,7 @@ export default function CartPage() {
       setTimeout(() => setSuccess(''), 3000);
     }
   };
+
   const handleRemoveItem = async (itemId) => {
     console.log(`Removing item ${itemId}`);
     const result = await makeAuthenticatedRequest(
@@ -188,7 +189,6 @@ export default function CartPage() {
     );
   }
 
-
   return (
     <CartContainer>
       <CartTitle>Shopping Cart</CartTitle>
@@ -203,10 +203,10 @@ export default function CartPage() {
           <CartItemsList>
             {cart.items.map(cartItem => (
               <CartItem key={cartItem.itemId}> 
-              <ItemDetails>
-                <ItemName>{cartItem.itemName}</ItemName> 
-                <ItemPricePerUnit>${(cartItem.price || 0)} / unit</ItemPricePerUnit> 
-              </ItemDetails>
+                <ItemDetails>
+                  <ItemName>{cartItem.itemName}</ItemName> 
+                  <ItemPricePerUnit>${(cartItem.price || 0).toFixed(2)} / unit</ItemPricePerUnit> 
+                </ItemDetails>
                 <ItemControls>
                   <QuantityButton
                     onClick={() => handleUpdateQuantity(cartItem.itemId, cartItem.quantity - 1)}
@@ -227,8 +227,7 @@ export default function CartPage() {
                   >
                     +
                   </QuantityButton>
-                  {/* Calculate total per item: (price from ItemDTO) * (quantity) */}
-                  <ItemTotalPrice>${((cartItem.price || 0) * cartItem.quantity)}</ItemTotalPrice>
+                  <ItemTotalPrice>${((cartItem.price || 0) * cartItem.quantity).toFixed(2)}</ItemTotalPrice>
                   <RemoveItemButton
                     onClick={() => handleRemoveItem(cartItem.itemId)}
                     disabled={loading}
@@ -248,7 +247,7 @@ export default function CartPage() {
             </SummaryRow>
             <SummaryRow>
               <span>Total Price:</span>
-              <TotalPrice>${cartTotal}</TotalPrice>
+              <TotalPrice>${cartTotal.toFixed(2)}</TotalPrice>
             </SummaryRow>
             <ClearCartButton
               onClick={handleClearCart}
