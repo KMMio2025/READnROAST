@@ -17,7 +17,7 @@ import {
   RemoveItemButton,
   ClearWishlistButton,
   WishlistItem,
-} from "./WishlistPage.js";
+} from "./wishlistPage.js";
 
 export default function WishlistPage() {
   const [Wishlist, setWishlist] = useState(null);
