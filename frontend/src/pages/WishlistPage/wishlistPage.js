@@ -16,8 +16,7 @@ export const WishlistTitle = styled.h1`
   margin-bottom: 30px;
   font-size: 2.5em;
   font-weight: 600;
-`;
-
+` ;
 export const Message = styled.div`
   padding: 12px 20px;
   margin-bottom: 20px;
