@@ -108,8 +108,7 @@ public class UserConfiguration {
                 configuration.setAllowedOrigins(Arrays.asList( // Using Arrays.asList for multiple origins
                                 "http://localhost:5173", // Don't forget localhost for dev
                                 "https://readnroast.vercel.app", // Removed trailing slash for consistency
-                                "https://readnroast-git-demo-kvlaskarolines-projects.vercel.app",
-                                "https://readnroast-ebv51j2h5-kvlaskarolinas-projects.vercel.app"
+                                "https://*.vercel.app" // Wildcard for Vercel subdomains
 
                 // Add this if it's
                 // your current
