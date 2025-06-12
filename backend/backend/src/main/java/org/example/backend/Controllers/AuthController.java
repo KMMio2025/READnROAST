@@ -15,7 +15,9 @@ import org.example.backend.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,6 +26,11 @@ public class AuthController {
 
     private final UserService userService;
     private final JwtService jwtService;
+
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public String requestMethodName(@RequestParam String param) {
+        return "OK";
+    }
 
     @RequestMapping(path = "/register", method = RequestMethod.POST)
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterUserDTO registerUserDTO) {
