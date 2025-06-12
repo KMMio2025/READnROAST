@@ -106,7 +106,7 @@ export default function CoffeeCard({ coffee }) {
         <Price>
           {coffee.sizes[coffee.sizes.length - 1]} g - {coffee.prices?.length > 0
   ? Number(coffee.prices[coffee.prices.length - 1]).toFixed(2)
-  : "Brak ceny"} zł
+  : "Brak ceny"} $
         </Price>
         <Origin>{coffee.origin}</Origin>
         <Flavor>{coffee.flavour}</Flavor>
