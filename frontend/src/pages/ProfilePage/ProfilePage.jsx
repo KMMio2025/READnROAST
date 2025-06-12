@@ -22,7 +22,7 @@ export default function ProfilePage() {
   const { isLoggedIn, logOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const PROFILE_ENDPOINT = "http://localhost:8080/api/auth/me";
+  const PROFILE_ENDPOINT = "https://readnroast-production.up.railway.app/api/auth/me";
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -138,7 +138,7 @@ export default function ProfilePage() {
     setError("");
     
     try {
-      const response = await fetch("http://localhost:8080/api/auth/logout", {
+      const response = await fetch("https://readnroast-production.up.railway.app/api/auth/logout", {
         method: "POST",
         credentials: "include",
         headers: {

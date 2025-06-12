@@ -37,7 +37,7 @@ export default function CartPage() {
   const navigate = useNavigate();
   const { isLoggedIn, logOut } = useContext(AuthContext);
 
-  const CART_API_URL = 'http://localhost:8080/api/cart';
+  const CART_API_URL = 'https://readnroast-production.up.railway.app/api/cart';
 
   useEffect(() => {
     if (!isLoggedIn) {

@@ -37,9 +37,9 @@ export default function ProductPage() {
   const [success, setSuccess] = useState("");
 
   // Base URL for fetching product details (e.g., from /api/items/{id})
-  const PRODUCTS_API_BASE_URL = "http://localhost:8080/api/items"; // Adjust if your endpoint is different
-  const CART_API_BASE_URL = "http://localhost:8080/api/cart";
-  const WISHLIST_API_BASE_URL = "http://localhost:8080/api/wishlist";
+  const PRODUCTS_API_BASE_URL = "https://readnroast-production.up.railway.app/api/items"; // Adjust if your endpoint is different
+  const CART_API_BASE_URL = "https://readnroast-production.up.railway.app/api/cart";
+  const WISHLIST_API_BASE_URL = "https://readnroast-production.up.railway.app/api/wishlist";
 
   // Effect to load product data if not provided via navigation state
   useEffect(() => {

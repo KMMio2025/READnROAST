@@ -1082,7 +1082,7 @@ function createMemoryHistory(options = {}) {
     },
     createHref: createHref2,
     createURL(to) {
-      return new URL(createHref2(to), "http://localhost");
+      return new URL(createHref2(to), "https://readnroast-production.up.railway.app");
     },
     encodeLocation(to) {
       let path = typeof to === "string" ? parsePath(to) : to;
@@ -10010,7 +10010,7 @@ function createHref(to) {
 function encodeLocation(to) {
   let href2 = typeof to === "string" ? to : createPath(to);
   href2 = href2.replace(/ $/, "%20");
-  let encoded = ABSOLUTE_URL_REGEX3.test(href2) ? new URL(href2) : new URL(href2, "http://localhost");
+  let encoded = ABSOLUTE_URL_REGEX3.test(href2) ? new URL(href2) : new URL(href2, "https://readnroast-production.up.railway.app");
   return {
     pathname: encoded.pathname,
     search: encoded.search,

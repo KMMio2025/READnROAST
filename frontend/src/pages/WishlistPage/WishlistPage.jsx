@@ -27,7 +27,7 @@ export default function WishlistPage() {
   const navigate = useNavigate();
   const { isLoggedIn, logOut } = useContext(AuthContext);
 
-  const Wishlist_API_URL = "http://localhost:8080/api/wishlist";
+  const Wishlist_API_URL = "https://readnroast-production.up.railway.app/api/wishlist";
 
   useEffect(() => {
     if (!isLoggedIn) {
