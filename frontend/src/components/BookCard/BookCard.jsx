@@ -101,7 +101,7 @@ export default function BookCard({ book }) {
       <Details>
         <Title>{book.name}</Title>
         <Author>{book.author}</Author>
-        <Price>{book.price.toFixed(2)} zł</Price>
+        <Price>{book.price.toFixed(2)} $</Price>
         <Genre>{book.genre}</Genre>
       </Details>
     </Card>
