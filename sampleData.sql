@@ -31,7 +31,7 @@ INSERT INTO book (id, author, genre, language, price) VALUES
   (6, 'Stephen King', 'HORROR', 'ENGLISH', 16.80),
   (7, 'Markus Zusak', 'HISTORICAL_FICTION', 'ENGLISH', 14.90),
   (8, 'Walter Isaacson', 'BIOGRAPHY', 'ENGLISH', 24.99),
-  (9, 'Fyodor Dostoevsky', 'CLASSICS', 'RUSSIAN', 18.40),
+  (9, 'Fyodor Dostoevsky', 'CLASSICS', 'ENGLISH', 18.40),
   (10, 'R.L. Stevenson', 'ACTIONnADVENTURE', 'ENGLISH', 15.60);
 
 INSERT INTO coffee (id, origin, roast, flavour, aroma, acidity, number_of_sizes, mix) VALUES
@@ -43,7 +43,7 @@ INSERT INTO coffee (id, origin, roast, flavour, aroma, acidity, number_of_sizes,
   (16, 'Colombia', 'MEDIUM', 'FRUITY', 'SWEET', 'MEDIUM', 2, 'ARABICA'),
   (17, 'Sumatra', 'DARK', 'SPICY', 'SPICY', 'LOW', 1, 'ROBUSTA'),
   (18, 'India', 'MEDIUM', 'NUTTY', 'SWEET', 'LOW', 2, 'ARABICA'),
-  (19, 'Honduras', 'LIGHT', 'SWEET', 'FLORAL', 'MEDIUM', 2, 'ARABICA'),
+  (19, 'Honduras', 'LIGHT', 'CHOCOLATE', 'FLORAL', 'MEDIUM', 2, 'ARABICA'),
   (20, 'Tanzania', 'LIGHT', 'FRUITY', 'FLORAL', 'HIGH', 3, 'ARABICA');
 
 INSERT INTO coffee_sizes (coffee_id, sizes) VALUES
