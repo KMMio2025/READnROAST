@@ -17,6 +17,10 @@ Welcome to an online store that brings together book lovers and coffee enthusias
   <img src="img/KMM-logo.png" width=50  />
 </p>
 
+# How to Run (locally)
+
+check howToRun.md for clear instuctions.
+
 # Features
 
 ### ☕ Buy Books
@@ -38,9 +42,6 @@ Pair your reading experience with the perfect cup of coffee. Choose from a varie
   <img src="img/KMM-logo.png" width=50  />
 </p>
 
-# How to Run (locally)
-
-check howToRun.md for clear instuctions.
 
 # Get Started
 
